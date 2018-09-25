@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<head>
+    
+</head>
+<body>
+    <h1>Activities</h1>
+    <div class="activity_controller">
+        <div class="container">
+            <% if @acts.blank? %>
+                <H2>There are no stored activities!</H2>
+            <% else %>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Duration (minutes)</th>
+                            <th>Person Who Done It</th>
+                            <th>Entry Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @acts.each do |act| %>
+                            <tr class="activity">
+                                <td><p class="name"><%= act.name %></p></td>
+                                <td><p class="duration"><%= act.duration %></p></td>
+                                <td><p class="user"><%= act.user %></p></td>
+                                <td><p class="timestamp"><%= act.created_at %></p></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% end %>
+            <p class="Link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
+        </div>
+    </div>
+</body>
