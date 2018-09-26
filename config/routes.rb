@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'activity/new'
   get 'activity/index'
   get 'activity/delete'
-  get 'activity/create'
+  post 'activity/create'
   root 'activity#index'
   
   
