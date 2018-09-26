@@ -12,6 +12,7 @@
                 <table border="1">
                     <thead>
                         <tr>
+                            <th>   </th>
                             <th>Name</th>
                             <th>Duration (minutes)</th>
                             <th>Person Who Done It</th>
@@ -21,6 +22,7 @@
                     <tbody>
                         <% @acts.each do |act| %>
                             <tr class="activity">
+                                <td><p class="id"><%= act.id %></p></td>
                                 <td><p class="name"><%= act.name %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
                                 <td><p class="user"><%= act.user %></p></td>

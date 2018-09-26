@@ -9,10 +9,13 @@ class ActivityController < ApplicationController
         @act_types = ActivityType.all
     end
     
+    def show
+        @act = Activity.find(params[:id])
+    end
+    
     def act_params
         params.require(:activities).permit("name","duration","user")
     end
-    
     def create
         @act = Activity.create(act_params)
         
@@ -21,6 +24,10 @@ class ActivityController < ApplicationController
         else
             redirect_to :action => 'new'
         end
+    end
+    
+    def edit
+        @act = Activity.find(params[:id])
     end
     
     
