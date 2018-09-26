@@ -1,22 +1,16 @@
-<!DOCTYPE HTML>
-<head>
-    <title>Activity View</title>
-</head>
-<body>
-    <h1>Activities</h1>
-    <div class="activity_controller">
-        <div class="container">
-            <h1><%= @act.id %>-<%= @act.name %></h1>
-            <p>Duration: <%= @act.duration %></p>
-            <br>
-            <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
-            <br>
-            <p class="delete">
-                <%= link_to "Delete Entry", 
-                    {:action => 'delete', :id => @act.id},
-                    data: {:confirm => "Are you sure you want to delete #{@act.name}?"} %>
-            </p>
-            <p class="link"><%= link_to "Back", {:action => 'index'}%></p>
-        </div>
+<h1>Activities</h1>
+<div class="activity_controller">
+    <div class="container">
+        <h1><%= @act.id %>-<%= @act.name %></h1>
+        <p>Duration: <%= @act.duration %></p>
+        <br>
+        <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
+        <br>
+        <p class="delete">
+            <%= link_to "Delete Entry", 
+                {:action => 'delete', :id => @act.id},
+                data: {:confirm => "Are you sure you want to delete #{@act.name}?"} %>
+        </p>
+        <p class="link"><%= link_to "Back", {:action => 'index'}%></p>
     </div>
-</body>
+</div>

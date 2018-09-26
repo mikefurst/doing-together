@@ -1,22 +1,16 @@
-<!DOCTYPE HTML>
-<head>
-    
-</head>
-<body>
-    <h1>Log a New Activity</h1>
-    <div class="activity_controller">
-        <div class="container">
-        <%= form_tag :action => 'create' do %>
-        <p><label for = "activity_type">Select Activity Type: </label></p>
-        <%= collection_select(:activities, :name, @act_types.all, :name, :name) %>
-        <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
-        <%= number_field 'activities', 'duration' %>
-        <p><label for = "activity_user">Enter Name of Person who Performed the Action: </label></p>
-        <%= text_field 'activities', 'user' %>
-        <br>
-        <%= submit_tag 'Log Data' %>
-        <% end -%>
-        </div>
-        <p class="Back"><%= link_to "Back", {:action => 'index'}%></p>
+<h1>Log a New Activity</h1>
+<div class="activity_controller">
+    <div class="container">
+    <%= form_tag :action => 'create' do %>
+    <p><label for = "activity_type">Select Activity Type: </label></p>
+    <%= collection_select(:activities, :name, @act_types.all, :name, :name) %>
+    <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
+    <%= number_field 'activities', 'duration' %>
+    <p><label for = "activity_user">Enter Name of Person who Performed the Action: </label></p>
+    <%= text_field 'activities', 'user' %>
+    <br>
+    <%= submit_tag 'Log Data' %>
+    <% end -%>
     </div>
-</body>
+    <p class="Back"><%= link_to "Back", {:action => 'index'}%></p>
+</div>
