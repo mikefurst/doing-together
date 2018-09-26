@@ -30,5 +30,10 @@ class ActivityController < ApplicationController
         @act = Activity.find(params[:id])
     end
     
+    def delete
+        @act = Activity.find(params[:id]).destroy
+        redirect_to :action => 'index'
+    end
+    
     
 end
