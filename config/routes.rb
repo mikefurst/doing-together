@@ -2,10 +2,7 @@ Rails.application.routes.draw do
   
   resources :activity
   root :to => redirect('/activity')
-  get 'activity/index'
-  get 'activity/new'
-  get 'activity/create'
-  
+
   
   
   

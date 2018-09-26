@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<head>
+    
+</head>
+<body>
+    <h1>Activities</h1>
+    <div class="activity_controller">
+        <div class="container">
+            <h1><%= @act.id %>-<%= @act.name %></h1>
+            <p>Duration: <%= @act.duration %></p>
+            <br>
+            <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
+            <p class="Link"><%= link_to "Back", {:action => 'index'}%></p>
+        </div>
+    </div>
+</body>
