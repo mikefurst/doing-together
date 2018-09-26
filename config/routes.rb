@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   
-  resources :activity
-  root :to => redirect('/activity')
-
-  
+  #root :to => redirect('/activity/index')
+  get 'activity/show'
+  get 'activity/new'
+  get 'activity/index'
+  get 'activity/delete'
+  get 'activity/create'
+  root 'activity#index'
   
   
   # The priority is based upon order of creation: first created -> highest priority.

@@ -31,7 +31,7 @@ class ActivityController < ApplicationController
     end
     
     def delete
-        @act = Activity.find(params[:id]).destroy
+        Activity.find(params[:id]).destroy
         redirect_to :action => 'index'
     end
     

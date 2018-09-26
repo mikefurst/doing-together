@@ -32,59 +32,10 @@ activity_list = [
         :name => "Jogging",
         :duration => 5,
         :user => "James Terrio"
-    },
-    {
-        :name => "Jamesing",
-        :duration => 40,
-        :user => "James Terrio"
-    },
-    {
-        :name => "Fornicating",
-        :duration => 100,
-        :user => "How bout dat girl"
     }
     ]
     
 #add all the db
 activity_list.each do |act|
     Activity.create!(act)
-end
-
-activity_types = [
-    {
-        :name => "Walking",
-        :score => 1
-    },
-    {
-        :name => "Jogging",
-        :score => 1.5
-    },
-    {
-        :name => "Jumping Jacks",
-        :score => 1.2
-    },
-    {
-        :name => "Running",
-        :score => 2.0
-    },
-    {
-        :name => "Swimming",
-        :score => 2.0
-    },
-    {
-        :name => "Fornicating",
-        :score => 1.33
-    },
-    {
-        :name => "Jamesing",
-        :score => -5.0
-    },
-    {
-        :name => "Cycling",
-        :score => 3.0
-    }
-    ]
-    
-activity_types.each do |act|
-    ActivityType.create!(act)
 end

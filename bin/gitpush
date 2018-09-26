@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rake routes
+
 git add .
 git commit
 git push
