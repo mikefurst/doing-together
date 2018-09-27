@@ -31,6 +31,10 @@ a {
     display: flex;
 }
 
+.title {
+    color: black !important;
+    text-decoration: none;
+}
 .pagetitle {
     text-align: center;
 }
