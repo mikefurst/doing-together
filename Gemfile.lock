@@ -55,7 +55,7 @@ GEM
     debug_inspector (0.0.3)
     erubis (2.7.0)
     execjs (2.7.0)
-    ffi (1.9.18)
+    ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.1.0)
@@ -167,6 +167,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
+  ffi (>= 1.9.24)
   jbuilder (~> 2.0)
   jquery-rails
   pg
@@ -181,4 +182,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.17.0.pre.1
+   1.15.4

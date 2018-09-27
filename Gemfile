@@ -48,6 +48,7 @@ group :development do
 end
 
 group :production do
+  #heroku doesn't like sqlite3 so use pg instead
   gem 'pg'
   gem 'rails_12factor'
 end
