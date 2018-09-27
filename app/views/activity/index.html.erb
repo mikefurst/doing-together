@@ -31,7 +31,7 @@
                                 <td><p class="timestamp"><%= act.created_at %></p></td>
                                 <td><p>
                                     <%= link_to "Delete", 
-                                    {:action => 'delete', :id => act.id},
+                                    {:action => 'delete', :id => act.id,}, :method => 'delete',
                                     data: {:confirm => "Are you sure you want to delete #{@actTypes.name}?"},
                                     :class => 'delitem' %>
                                 </p></td>
