@@ -1,38 +1,42 @@
-<h1>Activities</h1>
 <div class="activity_controller">
+    <h1 class="pagetitle">Activities</h1>
+    <br>
     <div class="container">
         <% if @acts.blank? %>
             <H2 class="emptyerror">There are no stored activities!</H2>
         <% else %>
-            <table class="activitytable">
-                <thead>
-                    <tr>
-                        <th>   </th>
-                        <th>Name</th>
-                        <th>Duration (minutes)</th>
-                        <th>Person Who Done It</th>
-                        <th>Entry Time</th>
-                        <th>Delete Entry</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% @acts.each do |act| %>
-                        <tr class="activity">
-                            <td><p class="id"><%= act.id %></p></td>
-                            <td><p class="name"><%= link_to act.name, {:action => 'show', :id => act.id} %></p></td>
-                            <td><p class="duration"><%= act.duration %></p></td>
-                            <td><p class="user"><%= act.user %></p></td>
-                            <td><p class="timestamp"><%= act.created_at %></p></td>
-                            <td><p class="delete">
-                                <%= link_to "Delete", 
-                                {:action => 'delete', :id => act.id},
-                                data: {:confirm => "Are you sure you want to delete #{act.name}?"} %>
-                            </p></td>
+            <center>
+                <table class="activitytable">
+                    <thead>
+                        <tr>
+                            <th>   </th>
+                            <th>Name</th>
+                            <th>Duration (minutes)</th>
+                            <th>Person Who Done It</th>
+                            <th>Entry Time</th>
+                            <th>Delete Entry</th>
                         </tr>
-                    <% end %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% @acts.each do |act| %>
+                            <tr class="activity">
+                                <td><p class="id"><%= act.id %></p></td>
+                                <td><p class="name"><%= link_to act.name, {:action => 'show', :id => act.id} %></p></td>
+                                <td><p class="duration"><%= act.duration %></p></td>
+                                <td><p class="user"><%= act.user %></p></td>
+                                <td><p class="timestamp"><%= act.created_at %></p></td>
+                                <td><p>
+                                    <%= link_to "Delete", 
+                                    {:action => 'delete', :id => act.id},
+                                    data: {:confirm => "Are you sure you want to delete #{act.name}?"},
+                                    :class => 'delitem' %>
+                                </p></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </center>
         <% end %>
-        <p class="Link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
+        <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
     </div>
 </div>

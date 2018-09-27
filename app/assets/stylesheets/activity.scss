@@ -6,7 +6,15 @@ table, th, td {
     border: 1px solid #002054;
 }
 
-.del {
+a {
+    color: #6dc2ff;
+}
+
+#activitycontainer {
+    padding: 25px;
+}
+
+.delitem {
     color: red !important;
 }
 .activitytable {
@@ -15,4 +23,12 @@ table, th, td {
 }
 .emptyerror {
     color: red !important;
+    text-align: center;
+}
+.infotitle {
+    text-align: center;
+    color: #88bbe0;
+}
+.pagetitle {
+    text-align: center;
 }
