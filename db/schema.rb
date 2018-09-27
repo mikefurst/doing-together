@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20180925205435) do
 
   create_table "activities", force: :cascade do |t|
-    t.string   "name"
+    t.integer  "actid"
     t.float    "duration"
     t.string   "user"
     t.datetime "created_at", null: false

@@ -3,7 +3,7 @@ class CreateActivities < ActiveRecord::Migration
     #create activites table
     create_table :activities do |t|
       #name spot
-      t.string :name
+      t.integer :actid
       #duration spot
       t.float :duration
       #username

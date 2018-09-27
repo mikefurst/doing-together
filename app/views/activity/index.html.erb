@@ -25,14 +25,14 @@
                         <% @acts.each do |act| %>
                             <tr class="activity">
                                 <td><p class="id"><%= act.id %></p></td>
-                                <td><p class="name"><%= link_to act.name, {:action => 'show', :id => act.id} %></p></td>
+                                <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
                                 <td><p class="user"><%= act.user %></p></td>
                                 <td><p class="timestamp"><%= act.created_at %></p></td>
                                 <td><p>
                                     <%= link_to "Delete", 
                                     {:action => 'delete', :id => act.id},
-                                    data: {:confirm => "Are you sure you want to delete #{act.name}?"},
+                                    data: {:confirm => "Are you sure you want to delete #{@actTypes.name}?"},
                                     :class => 'delitem' %>
                                 </p></td>
                             </tr>

@@ -1,16 +1,20 @@
 <div class="activity_controller">
     <h1 class='pagetitle'>Activities</h1>
     <div class="container">
-        <h2 class='infotitle'><%= @act.id %>-<%= @act.name %></h2>
+        <h2 class='infotitle'><%= @act.id %>-<%= @actType.name %></h2>
         <div class='activitycontainer'>
             <p>Duration: <%= @act.duration %></p>
             <br>
-            <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
+            <% if @updated %>
+                <p>Updated at <%= @act.updated_at %> by <%= @act.user %></p>
+            <% else %>
+                <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
+            <% end %>
             <br>
             <p class="delete">
                 <%= link_to "Delete Entry", 
                     {:action => 'delete', :id => @act.id},
-                    data: {:confirm => "Are you sure you want to delete #{@act.name}?"},
+                    data: {:confirm => "Are you sure you want to delete #{@actType.name}?"},
                     :class => 'delitem' %>
             </p>
             <br>

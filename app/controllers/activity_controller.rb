@@ -2,6 +2,7 @@
 class ActivityController < ApplicationController
     def index
         @acts=Activity.all
+        @actTypes = ActivityType.all
     end
     
     def new
@@ -11,10 +12,12 @@ class ActivityController < ApplicationController
     
     def show
         @act = Activity.find(params[:id])
+        @actType = ActivityType.find(@act.actid)
+        @updated = @act.created_at < @act.updated_at
     end
     
     def act_params
-        params.require(:activities).permit("name","duration","user")
+        params.require(:activities).permit("actid","duration","user")
     end
     def create
         @act = Activity.create(act_params)
@@ -28,6 +31,7 @@ class ActivityController < ApplicationController
     
     def edit
         @act = Activity.find(params[:id])
+        @actType = ActivityType.find(@act.actid)
     end
     
     def delete
