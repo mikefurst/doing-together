@@ -21,6 +21,7 @@
 header {
     display: block;
     background-color: #8da0d3;
+    color: black;
 }
 a {
     color: #6dc2ff;

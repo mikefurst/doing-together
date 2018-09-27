@@ -13,7 +13,8 @@
                     data: {:confirm => "Are you sure you want to delete #{@act.name}?"},
                     :class => 'delitem' %>
             </p>
-            <p class="link"><%= link_to "Back", {:action => 'index'}%></p>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>
