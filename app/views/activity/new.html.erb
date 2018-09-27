@@ -7,11 +7,11 @@
                 <p><label for = "activity_type">Select Activity Type: </label></p>
                 <%= collection_select(:activities, :actid, @act_types, :id, :name) %>
                 <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
-                <%= number_field 'activities', 'duration' %>
+                <%= number_field 'activities', 'duration', :required => true, :step=>'any' %>
                 <p><label for = "activity_user">Enter Name of Person who Performed the Action: </label></p>
-                <%= text_field 'activities', 'user' %>
+                <%= text_field 'activities', 'user', :required => true%>
                 <br>
-                <%= submit_tag 'Log Data' %>
+                <%= submit_tag 'Log Data', :class => 'submitbutton' %>
             <% end%>
         </div>
         <br>

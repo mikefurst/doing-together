@@ -11,6 +11,8 @@
                 <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
             <% end %>
             <br>
+            <%= link_to 'Edit Entry', {:action => 'edit', :id => @act.id} %>
+            <br>
             <p class="delete">
                 <%= link_to "Delete Entry", 
                     {:action => 'delete', :id => @act.id},

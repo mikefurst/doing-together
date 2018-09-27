@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'activity/new'
   get 'activity/index'
   get 'activity/delete'
+  get 'activity/edit'
+  patch 'activity/update'
   post 'activity/create'
   get 'activity_type/new'
   get 'activity_type/index'

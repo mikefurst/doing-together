@@ -1,0 +1,19 @@
+<div class="activity_controller">
+    <H1 class='pagetitle'>Edit an Activity</H1>
+    <br>
+    <div class="container">
+        <div class='activitytypecontainer'>
+            <H2 class='pagetitle'>Edit Activity</H2>
+            <br>
+            <%= form_for @act, :url => {:action => 'update', :id => @act.id} do |a| %>
+                <p><label for = "activity_type">Select Activity Type: </label></p>
+                <%= collection_select(:activity, :actid, @actTypes, :id, :name, :selected => @actType.id) %>
+                <p>Activity Duration: <%= a.number_field 'duration', :value => @act.duration, :step => 'any' %></p>
+                <p>Activity Performed By: <%= a.text_field 'user', :value => @act.user %></p>
+                <%= a.submit "Save Changes", :class => 'submitbutton' %>
+            <% end %>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>
