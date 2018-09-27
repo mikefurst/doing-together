@@ -4,13 +4,17 @@
     <div class="container">
         <% if @acts.blank? %>
             <H2 class="emptyerror">There are no stored activities!</H2>
+            <br>
+            <br>
+            <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
+            <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
         <% else %>
             <center>
                 <table class="activitytable">
                     <thead>
                         <tr>
                             <th>   </th>
-                            <th>Name</th>
+                            <th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th>
                             <th>Duration (minutes)</th>
                             <th>Person Who Done It</th>
                             <th>Entry Time</th>
@@ -36,7 +40,8 @@
                     </tbody>
                 </table>
             </center>
+            <br>
+            <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
         <% end %>
-        <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
     </div>
 </div>

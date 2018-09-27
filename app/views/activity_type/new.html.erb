@@ -1,0 +1,38 @@
+<div class="activity_controller">
+    <H1 class='pagetitle'>Register a New Activity Type</H1>
+    <br>
+    <div class="container">
+        <div class='activitytypecontainer'>
+            <H2 class='pagetitle'>Existing Activities</H2>
+            <center>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @actTypes.each do |actt| %>
+                            <tr>
+                                <td><%= actt.name %></td>
+                                <td><%= actt.score %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </center>
+            <br>
+            <%= form_tag :action => 'create' do %>
+            <p><label for = "activity_type_name">Enter Name of the Activity Type: </label></p>
+            <%= text_field 'activitytypes', 'name'%>
+            <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
+            <%= number_field 'activitytypes', 'score', :step => 'any' %>
+            <br>
+            <%= submit_tag 'Create New Activity Type' %>
+            <% end %>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>

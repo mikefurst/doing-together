@@ -1,0 +1,17 @@
+<div class="activity_controller">
+    <H1 class='pagetitle'>Register a New Activity Type</H1>
+    <br>
+    <div class="container">
+        <div class='activitytypecontainer'>
+            <H2 class='pagetitle'>Edit Activity</H2>
+            <br>
+            <%= form_for @actType, :url => {:action => 'update', :id => @actType.id} do |a| %>
+                <p>Activity Type Name: <%= a.text_field 'name', :value => @actType.name %></p>
+                <p>Activity Type Score: <%= a.number_field 'score', :value => @actType.score, :step => 'any' %></p>
+                <%= a.submit "Save Changes" %>
+            <% end %>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>

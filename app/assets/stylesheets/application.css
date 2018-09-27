@@ -31,6 +31,9 @@ a {
     display: flex;
 }
 
+.pagetitle {
+    text-align: center;
+}
 .headerchild {
     padding: 5px;
     flex: 1;

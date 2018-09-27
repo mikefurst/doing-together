@@ -1,0 +1,30 @@
+<div class="activity_controller">
+    <H1 class='pagetitle'>Activity Types</H1>
+    <br>
+    <div class="container">
+        <div class='activitytypecontainer'>
+            <H2 class='pagetitle'>Existing Activities</H2>
+            <center>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @actTypes.each do |actt| %>
+                            <tr>
+                                <td><%= link_to actt.name, {:action => 'edit', :id => actt.id} %></td>
+                                <td><%= actt.score %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </center>
+            <br>
+            <p class="link"><%= link_to "Register New Activity Type", {:action => 'new', :controller => 'activity_type'}%></p>
+            <p class="link"><%= link_to 'View Activity Log', {:action => 'index', :controller => 'activity'}%></p>
+        </div>
+    </div>
+</div>
