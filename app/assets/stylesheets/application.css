@@ -23,8 +23,14 @@ header {
     background-color: #8da0d3;
     color: black;
 }
+
 a {
+    
+    display: block;
     color: #6dc2ff;
+    font-size: 20px;
+    padding: 16px 8px;
+    border-radius: 12px;
 }
 
 #headercontainer {
