@@ -5,7 +5,7 @@
         <div class='activitycontainer'>
             <%= form_tag :action => 'create' do %>
             <p><label for = "activity_type">Select Activity Type: </label></p>
-            <%= collection_select(:activities, :name, @act_types.all, :name, :name) %>
+            <%= collection_select(:activities, :name, @act_types, :name, :name) %>
             <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
             <%= number_field 'activities', 'duration' %>
             <p><label for = "activity_user">Enter Name of Person who Performed the Action: </label></p>

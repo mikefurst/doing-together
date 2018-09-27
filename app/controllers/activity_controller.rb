@@ -6,7 +6,7 @@ class ActivityController < ApplicationController
     
     def new
         @act = Activity.new
-        @act_types = ActivityType.all
+        @act_types = ActivityType.all.sort{ |a,b| a[:name]<=>b[:name] }
     end
     
     def show
