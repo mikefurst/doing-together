@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Use version of FFI that does not have known security vulnerabilities.
 gem 'ffi', '>=1.9.24'
 
 # Use jquery as the JavaScript library
