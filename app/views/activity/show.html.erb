@@ -15,8 +15,8 @@
             <br>
             <p class="delete">
                 <%= link_to "Delete", 
-                    {:action => 'delete', :id => @act.id,}, :method => 'delete',
-                    data: {:confirm => "Are you sure you want to delete #{@actType.name}?"},
+                    {:action => 'delete', :id => act.id,}, :method => 'delete',
+                    data: {:confirm => "Are you sure you want to delete #{@actTypes.name}?"},
                     :class => 'delitem' %>
             </p>
             <br>
