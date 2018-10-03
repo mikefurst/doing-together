@@ -7,7 +7,7 @@ class CreateActivities < ActiveRecord::Migration
       #duration spot
       t.float :duration
       #username
-      t.string :user
+      t.integer :userid
       #timestamp spot
       t.timestamps null: false
     end
