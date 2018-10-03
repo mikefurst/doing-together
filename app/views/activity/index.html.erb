@@ -7,6 +7,7 @@
             <br>
             <br>
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
+            <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
         <% else %>
             <center>
@@ -27,7 +28,7 @@
                                 <td><p class="id"><%= act.id %></p></td>
                                 <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
-                                <td><p class="user"><%= act.user %></p></td>
+                                <td><p class="user"><%= @users[act.userid] %></p></td>
                                 <td><p class="timestamp"><%= act.created_at %></p></td>
                                 <td><p>
                                     <%= link_to "Delete", 
@@ -42,6 +43,7 @@
             </center>
             <br>
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
+            <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
         <% end %>
     </div>
