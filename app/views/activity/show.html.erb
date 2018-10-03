@@ -6,9 +6,9 @@
             <p>Duration: <%= @act.duration %></p>
             <br>
             <% if @updated %>
-                <p>Updated at <%= @act.updated_at %> by <%= @user_name %></p>
+                <p>Updated at <%= @act.updated_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %A, %B %d, %Y - %Z") %> by <%= @user_name %></p>
             <% else %>
-                <p>Registered at <%= @act.created_at %> by <%= @user_name %></p>
+                <p>Registered at <%= @act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %A, %B %d, %Y - %Z") %> by <%= @user_name %></p>
             <% end %>
             <br>
             <% if current_user.id == @act.userid %>

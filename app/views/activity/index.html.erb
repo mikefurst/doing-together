@@ -19,6 +19,7 @@
                             <th>Duration (minutes)</th>
                             <th>Person Who Done It</th>
                             <th>Entry Time</th>
+                            <th>Entry Date</th>
                             <th>Delete Entry</th>
                         </tr>
                     </thead>
@@ -29,7 +30,8 @@
                                 <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
                                 <td><p class="user"><%= @users[act.userid] %></p></td>
-                                <td><p class="timestamp"><%= act.created_at %></p></td>
+                                <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %></p></td>
+                                <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
                                 <td><p>
                                     <%= link_to "Delete", 
                                     {:action => 'delete', :id => act.id,}, :method => 'delete',
