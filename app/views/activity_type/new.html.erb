@@ -29,7 +29,7 @@
             <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
             <%= number_field 'activitytypes', 'score', :step => 'any' %>
             <br>
-            <%= submit_tag 'Create New Activity Type' :class => 'submitbutton'%>
+            <%= submit_tag 'Create New Activity Type', :class => 'submitbutton'%>
             <% end %>
             <br>
             <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
