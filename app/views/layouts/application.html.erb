@@ -8,13 +8,22 @@
 </head>
 <body>
   <header>
-    <center><H2><%= link_to 'Doing Together', {:action => 'index', :controller => 'activity'}, :class => 'title'%></H2></center>
+    <center><H2><%= link_to 'Doing Together', '/activity/index', :class => 'title'%></H2></center>
     <div id="headercontainer">
         <div class="headerchild"><H4 class="lalign">A place to do things <i>together</i>.</H2></div>
-        <div class="headerchild"><H4 class="ralign"></H4></div>
+        <% if user_signed_in? %>
+          <div class="headerchild"><H4 class="ralign">
+            <%= link_to('Sign Out', destroy_user_session_path, method: :delete) %>        
+          </H4></div>
+        <% else %>
+          <div class="headerchild"><H4 class="ralign">
+            <%= link_to('Sign In', new_user_session_path) %> or <%= link_to('Sign Up', new_user_registration_path) %>
+          </H4></div>
+        <% end %>
     </div>
   </header>
-  
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
 <%= yield %>
 
 </body>

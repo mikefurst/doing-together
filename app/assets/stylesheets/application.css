@@ -25,8 +25,6 @@ header {
 }
 
 a {
-    
-    display: block;
     color: #6dc2ff;
     font-size: 20px;
     padding: 16px 8px;
@@ -51,6 +49,7 @@ select {
 
 #headercontainer {
     display: flex;
+    overflow: hidden;
 }
 
 .title {
@@ -69,4 +68,22 @@ select {
 }
 .ralign {
     text-align: right;
+}
+
+.devisecontainer {
+    padding: 25px;
+}
+
+.notice {
+    color: red;
+}
+.alert {
+    color: red;
+}
+
+.userlink {
+    padding: 0px!important;
+    color: #6dc2ff;
+    font-size: 12px!important;
+    border-radius: 0px!important;
 }

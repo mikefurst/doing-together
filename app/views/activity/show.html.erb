@@ -6,20 +6,22 @@
             <p>Duration: <%= @act.duration %></p>
             <br>
             <% if @updated %>
-                <p>Updated at <%= @act.updated_at %> by <%= @act.user %></p>
+                <p>Updated at <%= @act.updated_at %> by <%= @user_name %></p>
             <% else %>
-                <p>Registered at <%= @act.created_at %> by <%= @act.user %></p>
+                <p>Registered at <%= @act.created_at %> by <%= @user_name %></p>
             <% end %>
             <br>
-            <%= link_to 'Edit Entry', {:action => 'edit', :id => @act.id} %>
-            <br>
-            <p class="delete">
-                <%= link_to "Delete", 
-                    {:action => 'delete', :id => act.id,}, :method => 'delete',
-                    data: {:confirm => "Are you sure you want to delete #{@actTypes.name}?"},
-                    :class => 'delitem' %>
-            </p>
-            <br>
+            <% if current_user.id == @act.userid %>
+                <%= link_to 'Edit Entry', {:action => 'edit', :id => @act.id} %>
+                <br>
+                <p class="delete">
+                    <%= link_to "Delete", 
+                        {:action => 'delete', :id => @act.id,}, :method => 'delete',
+                        data: {:confirm => "Are you sure you want to delete #{@actType.name}?"},
+                        :class => 'delitem' %>
+                </p>
+                <br>
+            <% end %>
             <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>

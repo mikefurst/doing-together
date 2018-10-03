@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180925205435) do
+ActiveRecord::Schema.define(version: 20181003163946) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
     t.float    "duration"
-    t.string   "user"
+    t.integer  "userid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 20180925205435) do
   create_table "activity_types", force: :cascade do |t|
     t.string "name"
     t.float  "score"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

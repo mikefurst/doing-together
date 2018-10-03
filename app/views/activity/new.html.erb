@@ -8,8 +8,10 @@
                 <%= collection_select(:activities, :actid, @act_types, :id, :name) %>
                 <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
                 <%= number_field 'activities', 'duration', :required => true, :step=>'any' %>
-                <p><label for = "activity_user">Enter Name of Person who Performed the Action: </label></p>
-                <%= text_field 'activities', 'user', :required => true%>
+                <br>
+                <br>
+                <p><label for = "activity_user">Activity will be recorder under the name of <%= current_user.first_name %> <%= current_user.last_name %></label></p>
+                <%= hidden_field :activities, :userid, :value => current_user.id %>
                 <br>
                 <%= submit_tag 'Log Data', :class => 'submitbutton' %>
             <% end%>
