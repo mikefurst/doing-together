@@ -10,6 +10,11 @@ class ActivityController < ApplicationController
             end
         }
         @actTypes = ActivityType.all
+        if current_user.groupid==nil
+            @group=nil
+        else
+            @group = Group.find(current_user.groupid)
+        end
         @users = {}
         User.all.each { |u|
             @users[u.id]=u.first_name << ' ' << u.last_name

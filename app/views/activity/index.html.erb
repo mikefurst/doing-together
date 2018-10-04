@@ -1,5 +1,9 @@
 <div class="activity_controller">
-    <h1 class="pagetitle">Activities</h1>
+    <%if current_user.groupid == nil %>
+        <h1 class="pagetitle">Your Activities</h1>
+    <% else %>
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+    <% end %>
     <br>
     <div class="activitycontainer">
         <% if @acts.blank? %>
