@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181004174943) do
+ActiveRecord::Schema.define(version: 20181004180156) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 20181004174943) do
   create_table "activity_types", force: :cascade do |t|
     t.string "name"
     t.float  "score"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "password_hash"
   end
 
   create_table "users", force: :cascade do |t|

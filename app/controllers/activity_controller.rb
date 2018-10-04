@@ -2,7 +2,13 @@
 class ActivityController < ApplicationController
     before_action :authenticate_user!
     def index
-        @acts=Activity.all
+        @acts=Activity.select { |a| 
+            if current_user.groupid == nil
+                a.userid == current_user.id
+            else
+                User.find(a.userid).groupid == current_user.groupid
+            end
+        }
         @actTypes = ActivityType.all
         @users = {}
         User.all.each { |u|

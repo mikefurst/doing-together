@@ -1,0 +1,26 @@
+<div class="group_controller">
+    <H1 class='pagetitle'>Edit This Group</H1>
+    <br>
+    <div class="container">
+        <div class='groupcontainer'>
+            <H2 class='pagetitle'>Edit Group</H2>
+            <br>
+            <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
+                <p>Group Name: <%= g.text_field 'name', :value => @group.name, :autofocus => true  %></p>
+                <p>Group Description: <%= g.text_field 'description', :value => @group.description %></p>
+                <p>Group Password (Leave blank if you do not wish to change): <%= g.password_field 'password'%></p>
+                <br>
+                <%= g.submit "Save Changes", :class => 'submitbutton' %>
+            <% end %>
+            <br>
+            <p class='delete'>
+                <%= link_to "Delete this group.", 
+                        {:action => 'delete', :id => @group.id,}, :method => 'delete',
+                        data: {:confirm => "Are you sure you want to delete #{@group.name}?"},
+                        :class => 'delitem' %>
+            </p>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>

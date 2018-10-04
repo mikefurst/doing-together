@@ -5,10 +5,18 @@
         <% if @acts.blank? %>
             <H2 class="emptyerror">There are no stored activities!</H2>
             <br>
+            <%if current_user.groupid == nil %>
+                <H3>Add an activity or join a group to see activities here.</H3>
+            <%else%>
+                <H3>Activities will appear here when you or someone in your group adds one.</H3>
+            <%end%>
+            <br>
             <br>
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
             <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+            <br>
+            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
         <% else %>
             <center>
                 <table class="activitytable">
@@ -40,6 +48,8 @@
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
             <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+            <br>
+            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
         <% end %>
     </div>
 </div>

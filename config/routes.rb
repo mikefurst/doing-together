@@ -15,6 +15,14 @@ Rails.application.routes.draw do
   get 'activity_type/edit'
   post 'activity_type/create'
   patch 'activity_type/update'
+  get 'group/index'
+  get 'group/new'
+  post 'group/create'
+  get 'group/edit'
+  patch 'group/update'
+  delete 'group/delete'
+  get 'group/show'
+  patch 'group/join'
   
   devise_for :users
   

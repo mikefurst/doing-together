@@ -1,0 +1,20 @@
+<div class="group_controller">
+    <H1 class='pagetitle'>Create a New Group</H1>
+    <br>
+    <div class="container">
+        <div class='groupcontainer'>
+            <%= form_tag :action => 'create' do %>
+            <p><label for = "group_name">Enter Group Name: </label></p>
+            <%= text_field 'group', 'name'%>
+            <p><label for = "group_description">Enter Group Description: </label></p>
+            <%= text_field 'group', 'description'%>
+            <p><label for = "group_description">Enter Group Password</label></p>
+            <%= password_field 'group', 'password'%>
+            <br>
+            <%= submit_tag 'Create New Group', :class => 'submitbutton'%>
+            <% end %>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>
