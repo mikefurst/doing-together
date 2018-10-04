@@ -47,7 +47,8 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  # actually lets use warn instead of debug to prevent passwords or reset tokens from being readable.
+  config.log_level = :warn
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -77,4 +78,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: 'dotgthr.herokuapp.com', port:'' }
+  config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
+  config.action_mailer.smtp_settings = {
+     :address              => "smtp.gmail.com",
+     :port                 => 587,
+     :domain               => 'gmail.com',
+     :user_name            => 'dotgthr@gmail.com',
+     :password             => 'Z339idaszaszd',
+     :authentication       => :plain,
+     :enable_starttls_auto => true  }
 end
