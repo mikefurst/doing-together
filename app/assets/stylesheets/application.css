@@ -41,8 +41,32 @@ select {
 }
 
 
-.buttonpanel{
+
+.container{
+    width:100%;
+    height: 100px;
+    display;flex;
+}
+
+
+.activitypanel{
+    width: 50%;
+    heght: 200px;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.activity_feature{
+    /*width: 100%;*/
+    /*margin-left:45%;*/
+    text-align: center;
+    font-size: x-large;
+    padding: 25px;
     
+}
+
+
+.buttonpanel{
     width: 100%;
     height: 35px;
     display: flex;
@@ -100,4 +124,10 @@ select {
     color: #6dc2ff;
     font-size: 12px!important;
     border-radius: 0px!important;
+}
+
+.backitem{
+    position:absolute;
+    bottom:0;
+    left:0;
 }
