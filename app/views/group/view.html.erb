@@ -5,27 +5,29 @@
         <div class='groupcontainer'>
             <H2 class='pagetitle'>View Group</H2>
             <br>
-            <table>
-                <thead>
-                    <th>Member Name</th>
-                    <th>Member Score</th>
-                </thead>
-                <tbody>
-                    <% @users.each do |user| %>
-                        <% if user.id == current_user.id %>
-                            <tr class="curgroup">
-                                <td><%= user.full_name %></td>
-                                <td><%= @scores[user.id] %></td>
-                            </tr>
-                        <% else %>
-                            <tr>
-                                <td><%= user.full_name %></td>
-                                <td><%= @scores[user.id] %></td>
-                            </tr>
+            <center>
+                <table>
+                    <thead>
+                        <th>Member Name</th>
+                        <th>Member Score</th>
+                    </thead>
+                    <tbody>
+                        <% @users.each do |user| %>
+                            <% if user.id == current_user.id %>
+                                <tr class="curgroup">
+                                    <td><%= user.full_name %></td>
+                                    <td><%= @scores[user.id] %></td>
+                                </tr>
+                            <% else %>
+                                <tr>
+                                    <td><%= user.full_name %></td>
+                                    <td><%= @scores[user.id] %></td>
+                                </tr>
+                            <% end %>
                         <% end %>
-                    <% end %>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </center>
             <br>
             <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
         </div>
