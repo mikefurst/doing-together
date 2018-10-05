@@ -50,15 +50,7 @@ class GroupController < ApplicationController
         }
         @scores = {}
         @users.each { |u| 
-            Activity.all.each { |act|
-                if act.userid == u.id
-                    if @scores[u.id]==nil
-                        @scores[u.id] = act.duration * ActivityType.find(act.actid).score
-                    else
-                        @scores[u.id] += act.duration * ActivityType.find(act.actid).score
-                    end
-                end
-            }
+            @scores[u.id] = u.score
         }
     end
     def group_param
