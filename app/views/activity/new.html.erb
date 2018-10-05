@@ -20,7 +20,9 @@
                 <p><label for = "activity_user">Activity will be recorder under the name of <%= current_user.first_name %> <%= current_user.last_name %></label></p>
                 <%= hidden_field :activities, :userid, :value => current_user.id %>
                 <br>
+                <div class="buttonpanel">
                 <%= submit_tag 'Log Data', :class => 'submitbutton' %>
+                </div>
             <% end%>
         </div>
         <br>

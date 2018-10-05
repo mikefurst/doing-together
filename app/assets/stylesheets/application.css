@@ -40,11 +40,25 @@ select {
     border: 3px solid #66ccff;
 }
 
+
+.buttonpanel{
+    
+    width: 100%;
+    height: 35px;
+    display: flex;
+    
+}
+
 .submitbutton {
     border-radius: 5px !important;
     border: 1px solid #77ccff !important;
-    background: #77ccff;
-    margin-top: 15px;
+    background: lightgray;
+    width: 20%;
+    height: 100%;
+    /*margin-top: 15px; */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
 }
 
 #headercontainer {
