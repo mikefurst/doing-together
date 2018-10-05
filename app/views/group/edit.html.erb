@@ -5,6 +5,40 @@
         <div class='groupcontainer'>
             <H2 class='pagetitle'>Edit Group</H2>
             <br>
+            <table>
+                <thead>
+                    <th>Member Name</th>
+                    <th>Member Score</th>
+                    <th>            </th>
+                    <th>            </th>
+                </thead>
+                <tbody>
+                    <% @users.each do |user| %>
+                        <% if user.id == current_user.id %>
+                            <tr class="curgroup">
+                                <td><%= user.full_name %></td>
+                                <td><%= @scores[user.id] %></td>
+                                <td>You are already the group admin</td>
+                                <td></td>
+                            </tr>
+                        <% else %>
+                            <tr>
+                                <td><%= user.full_name %></td>
+                                <td><%= @scores[user.id] %></td>
+                                <td><%= link_to "Make group admin", 
+                                    {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch',
+                                    data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"},
+                                    :class => 'delitem' %></td>
+                                <td><%= link_to "Kick", 
+                                    {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch',
+                                    data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."},
+                                    :class => 'delitem' %></td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+            <br>
             <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
                 <p>Group Name: <%= g.text_field 'name', :value => @group.name, :autofocus => true  %></p>
                 <p>Group Description: <%= g.text_field 'description', :value => @group.description %></p>
@@ -15,7 +49,7 @@
             <br>
             <p class='delete'>
                 <%= link_to "Delete this group.", 
-                        {:action => 'delete', :id => @group.id,}, :method => 'delete',
+                        {:action => 'delete', :id => @group.id}, :method => 'delete',
                         data: {:confirm => "Are you sure you want to delete #{@group.name}?"},
                         :class => 'delitem' %>
             </p>

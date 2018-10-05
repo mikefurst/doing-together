@@ -22,7 +22,11 @@ Rails.application.routes.draw do
   patch 'group/update'
   delete 'group/delete'
   get 'group/show'
+  get 'group/view'
   patch 'group/join'
+  patch 'group/leave'
+  patch 'group/kick'
+  patch 'group/makeadmin'
   
   devise_for :users
   
