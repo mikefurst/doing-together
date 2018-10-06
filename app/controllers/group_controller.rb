@@ -83,6 +83,11 @@ class GroupController < ApplicationController
                     u.save!
                 end
             }
+            ActivityType.all.each {|act|
+                if act.groupid==@group.id
+                    act.destroy
+                end
+            }
             @group.destroy
             redirect_to :action => 'index'
         end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181005023540) do
+ActiveRecord::Schema.define(version: 20181006151916) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20181005023540) do
     t.float   "score"
     t.integer "groupid"
     t.integer "userid"
+    t.boolean "verified"
   end
 
   create_table "groups", force: :cascade do |t|

@@ -3,6 +3,13 @@
     <br>
     <div class="container">
         <div class='activitycontainer'>
+            <% if current_user.groupid == nil %>
+                <p class="warn">
+                    You are currently not a member of any group. Activities that you 
+                    log now will not be available to you once you join a group.
+                </p>
+                <br>
+            <% end %>
             <%= form_tag :action => 'create' do %>
                 <p><label for = "activity_type">Select Activity Type: </label></p>
                 <%= collection_select(:activities, :actid, @act_types, :id, :name) %>
