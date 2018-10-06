@@ -5,6 +5,13 @@
         <div class='activitytypecontainer'>
             <H2 class='pagetitle'>Edit Activity</H2>
             <br>
+            <% unless @actType.verified %>
+                <p>
+                    This activity type is awaiting approval. By submitting this form
+                    you will approve the activity type for your group. 
+                </p>
+            <% end %>
+            <br>
             <%= form_for @actType, :url => {:action => 'update', :id => @actType.id} do |a| %>
                 <p>Activity Type Name: <%= a.text_field 'name', :value => @actType.name %></p>
                 <p>Activity Type Score: <%= a.number_field 'score', :value => @actType.score, :step => 'any' %></p>

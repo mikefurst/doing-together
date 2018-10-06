@@ -6,7 +6,7 @@ class ActivityController < ApplicationController
             if current_user.groupid == nil
                 a.userid == current_user.id
             else
-                User.find(a.userid).groupid == current_user.groupid
+                User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
             end
         }
         @actTypes = ActivityType.all
@@ -23,7 +23,17 @@ class ActivityController < ApplicationController
     
     def new
         @act = Activity.new
-        @act_types = ActivityType.all.sort{ |a,b| a[:name]<=>b[:name] }
+        @act_types = ActivityType.select { |a| 
+            if current_user.groupid == nil
+                a.userid == current_user.id
+            else
+                a.groupid == current_user.groupid and a.verified
+            end
+        }
+        if @act_types.blank?
+            flash[:alert] = "There are no available activity types. Please create one first."
+            redirect_to :action => 'index'
+        end
     end
     
     def show
