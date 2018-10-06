@@ -6,6 +6,18 @@ table, th, td {
     border: 1px solid #002054;
 }
 
+p{
+    text-align: center;
+    font-size: x-large;
+}
+
 .activitytypecontainer {
     padding: 25px;
+}
+
+
+#activitytypes_name, #activitytypes_score{
+    text-align: center;
+    font-size: large;
+    
 }

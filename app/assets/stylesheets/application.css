@@ -96,6 +96,7 @@ select {
 }
 .pagetitle {
     text-align: center;
+    padding-bottom: 30px;
 }
 .headerchild {
     padding: 5px;
@@ -130,4 +131,15 @@ select {
     position:absolute;
     bottom:0;
     left:0;
+    font-size: x-large;
+}
+
+.link, h3{
+    text-align: center;
+    font-size: x-large;
+}
+
+#activities_actid, #activities_duration{
+    font-size: large;
+    
 }
