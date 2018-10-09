@@ -53,11 +53,15 @@
                 <% end %>
             <% end %>
             <br>
-            <%= form_tag :action => 'create' do %>
-            <p><label for = "activity_type_name">Enter Name of the Activity Type: </label></p>
-            <%= text_field 'activitytypes', 'name'%>
-            <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
-            <%= number_field 'activitytypes', 'score', :step => 'any' %>
+            <div class="form">
+                <%= form_tag :action => 'create' do %>
+                <p><label for = "activity_type_name">Enter Name of the Activity Type: </label></p>
+                <%= text_field 'activitytypes', 'name'%>
+            </div>
+            <div class="form">
+                <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
+                <%= number_field 'activitytypes', 'score', :step => 'any' %>
+            </div>
             <br>
             <%= submit_tag 'Create New Activity Type', :class => 'submitbutton'%>
             <% end %>

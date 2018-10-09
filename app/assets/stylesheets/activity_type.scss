@@ -17,7 +17,11 @@ p{
 
 
 #activitytypes_name, #activitytypes_score{
-    text-align: center;
+    padding: 3px;
     font-size: large;
     
+}
+
+.form, .submitbutton{
+    text-align: center;
 }
