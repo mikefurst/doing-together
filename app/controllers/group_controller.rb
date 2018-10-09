@@ -94,12 +94,24 @@ class GroupController < ApplicationController
     end
     def show
         @group = Group.find(params[:id])
+        if @group.password == nil 
+            redirect_to :access => 'join', :id => params[:id], :password => nil
+        elsif @group.password==''
+            redirect_to :action => 'join', :id => params[:id], :password => ''
+        end
     end
     def join_params
         params.require(:group).permit("password")
     end
     def join
         @group = Group.find(params[:id])
+        unless current_user.groupid==nil
+            @curGroup = Group.find(current_user.groupid)
+            if @curGroup.adminid==current_user.id
+                flash[:alert]="You cannot join another group while you are still the admin of " << @curGroup.name << "."
+                redirect_to :action => 'index'
+            end
+        end
         if @group.password == join_params[:password]
             current_user.groupid = @group.id
             if current_user.save!

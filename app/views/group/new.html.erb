@@ -6,11 +6,11 @@
             <%= form_tag :action => 'create' do %>
             <div class="groupelement">
                 <p><label for = "group_name">Enter Group Name: </label></p>
-                <%= text_field 'group', 'name'%>
+                <%= text_field 'group', 'name', :max_length => 25 %>
             </div>
             <div class="groupelement">
                 <p><label for = "group_description">Enter Group Description: </label></p>
-                <%= text_field 'group', 'description'%>
+                <%= text_field 'group', 'description', :max_length => 150%>
             </div>
             <div class="groupelement">
                 <p><label for = "group_description">Enter Group Password</label></p>
