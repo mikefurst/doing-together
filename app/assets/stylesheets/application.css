@@ -65,6 +65,10 @@ select {
     
 }
 
+#activities_actid, #activities_duration{
+    padding: 3px;
+}
+
 
 .buttonpanel{
     width: 100%;

@@ -63,8 +63,10 @@
                 <%= number_field 'activitytypes', 'score', :step => 'any' %>
             </div>
             <br>
-            <%= submit_tag 'Create New Activity Type', :class => 'submitbutton'%>
-            <% end %>
+            <div class="buttonpanel">
+                <%= submit_tag 'Create New Activity Type', :class => 'submitbutton'%>
+                <% end %>
+            </div>
             <br>
             <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
         </div>
