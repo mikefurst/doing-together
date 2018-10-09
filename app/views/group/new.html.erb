@@ -4,12 +4,18 @@
     <div class="container">
         <div class='groupcontainer'>
             <%= form_tag :action => 'create' do %>
-            <p><label for = "group_name">Enter Group Name: </label></p>
-            <%= text_field 'group', 'name'%>
-            <p><label for = "group_description">Enter Group Description: </label></p>
-            <%= text_field 'group', 'description'%>
-            <p><label for = "group_description">Enter Group Password</label></p>
-            <%= password_field 'group', 'password'%>
+            <div class="groupelement">
+                <p><label for = "group_name">Enter Group Name: </label></p>
+                <%= text_field 'group', 'name'%>
+            </div>
+            <div class="groupelement">
+                <p><label for = "group_description">Enter Group Description: </label></p>
+                <%= text_field 'group', 'description'%>
+            </div>
+            <div class="groupelement">
+                <p><label for = "group_description">Enter Group Password</label></p>
+                <%= password_field 'group', 'password'%>
+            </div>
             <br>
             <%= submit_tag 'Create New Group', :class => 'submitbutton'%>
             <% end %>
