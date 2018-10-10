@@ -14,15 +14,16 @@
  *= require_self
  
  
+
   ADDING COMMIT HERE TO MAKE FOR COMMIT CAUSE ERRORS WERE COMMITED ELSEWHERE
- 
+
  
  */
  
  
 * {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 header {
@@ -40,6 +41,7 @@ a {
 input {
     border-radius: 10px;
     border: 3px solid #66ccff;
+    
 }
 
 select {
@@ -97,8 +99,8 @@ select {
 }
 
 #headercontainer {
-    display: flex;
     overflow: hidden;
+    display: flex;
 }
 
 .title {
@@ -107,11 +109,14 @@ select {
 }
 .pagetitle {
     text-align: center;
-    padding-bottom: 30px;
+    font-size: 30px;
+    padding-top: 50px;
 }
 .headerchild {
     padding: 5px;
     flex: 1;
+    color: yellow;
+    
 }
 .lalign {
     text-align: left;
