@@ -12,6 +12,13 @@
  *
  *= require_tree .
  *= require_self
+ 
+ 
+ noooowwwwwwwww
+ new
+ changes
+ again
+ 
  */
 * {
     margin: 0px;
@@ -33,6 +40,7 @@ a {
 input {
     border-radius: 10px;
     border: 3px solid #66ccff;
+    
 }
 
 select {
@@ -100,11 +108,14 @@ select {
 }
 .pagetitle {
     text-align: center;
-    padding-bottom: 30px;
+    font-size: 30px;
+    padding-top: 50px;
 }
 .headerchild {
     padding: 5px;
     flex: 1;
+    color: yellow;
+    
 }
 .lalign {
     text-align: left;
