@@ -36,7 +36,11 @@
                     </thead>
                     <tbody>
                         <% @acts.each do |act| %>
-                            <tr class="activity">
+                            <% if act.userid == current_user.id %>
+                                <tr class = "curgroup">
+                            <% else %>
+                                <tr class="activity">
+                            <% end %>
                                 <td><p class="id"><%= act.id %></p></td>
                                 <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>

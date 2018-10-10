@@ -12,10 +12,17 @@
  *
  *= require_tree .
  *= require_self
+ 
+ 
+ noooowwwwwwwww
+ new
+ changes
+ again
+ 
  */
 * {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 header {
@@ -33,6 +40,7 @@ a {
 input {
     border-radius: 10px;
     border: 3px solid #66ccff;
+    
 }
 
 select {
@@ -40,16 +48,58 @@ select {
     border: 3px solid #66ccff;
 }
 
+
+
+.container{
+    width:100%;
+    height: 100px;
+    display: flex;
+}
+
+
+.activitypanel{
+    width: 50%;
+    heght: 200px;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.activity_feature{
+    /*width: 100%;*/
+    /*margin-left:45%;*/
+    text-align: center;
+    font-size: x-large;
+    padding: 25px;
+    
+}
+
+#activities_actid, #activities_duration{
+    padding: 3px;
+}
+
+
+.buttonpanel{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    
+}
+
 .submitbutton {
     border-radius: 5px !important;
     border: 1px solid #77ccff !important;
-    background: #77ccff;
-    margin-top: 15px;
+    background: lightgray;
+    width: 20%;
+    height: 100%;
+    /*margin-top: 15px; */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
 }
 
 #headercontainer {
-    display: flex;
     overflow: hidden;
+    display: flex;
 }
 
 .title {
@@ -58,10 +108,14 @@ select {
 }
 .pagetitle {
     text-align: center;
+    font-size: 30px;
+    padding-top: 50px;
 }
 .headerchild {
     padding: 5px;
     flex: 1;
+    color: yellow;
+    
 }
 .lalign {
     text-align: left;
@@ -86,4 +140,21 @@ select {
     color: #6dc2ff;
     font-size: 12px!important;
     border-radius: 0px!important;
+}
+
+.backitem{
+    position:absolute;
+    bottom:0;
+    left:0;
+    font-size: x-large;
+}
+
+.link, h3{
+    text-align: center;
+    font-size: x-large;
+}
+
+#activities_actid, #activities_duration{
+    font-size: large;
+    
 }
