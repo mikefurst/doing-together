@@ -1,0 +1,62 @@
+<div class="group_controller">
+    <H1 class='pagetitle'>Groups</H1>
+    <br>
+    <div class="container">
+        <div class='groupcontainer'>
+            <H2 class='pagetitle'>Available Groups</H2>
+            <center>
+                <% if @groups.blank? %>
+                    <H3>There are currently no groups.</H3>
+                <% else %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Group ID</th>
+                                <th>Group Name</th>
+                                <th>Group Description</th>
+                                <th>          </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @groups.each do |group| %>
+                                <% if group.id == current_user.groupid %>
+                                    <tr class="curgroup">
+                                        <td><%= group.id %></td>
+                                        <% if group.adminid == current_user.id %>
+                                            <td><%= link_to group.name, {:action => 'edit', :id => group.id} %></td>
+                                            <td><%= group.description %></td>
+                                            <td>
+                                                <%= link_to "Delete", 
+                                                    {:action => 'delete', :id => group.id,}, :method => 'delete',
+                                                    data: {:confirm => "Are you sure you want to delete #{group.name}?"},
+                                                    :class => 'delitem' %>
+                                            </td>
+                                        <% else %>
+                                            <td><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
+                                            <td><%= group.description %></td>
+                                            <td>
+                                                <%= link_to "Leave", {:action => 'leave'}, :method => 'patch',
+                                                    data: {:confirm => "Are you sure you want to leave #{group.name}?"}%>
+                                            </td>
+                                        <% end %>
+                                    </tr>
+                                <% else %>
+                                    <tr>
+                                        <td><%= group.id %></td>
+                                        <td><%= link_to group.name, {:action => 'show', :id => group.id} %></td>
+                                        <td><%= group.description %></td>
+                                        <td><%= link_to "Join", {:action => 'show', :id => group.id} %></td>
+                                    </tr>
+                                <%end%>
+                            <% end %>
+                        </tbody>
+                    </table>
+                <% end %>
+            </center>
+            <br>
+            <p class="link"><%= link_to "Create a New Group", {:action => 'new', :controller => 'group'}%></p>
+            <br>
+            <p class="link"><%= link_to 'View Activity Log', {:action => 'index', :controller => 'activity'}%></p>
+        </div>
+    </div>
+</div>

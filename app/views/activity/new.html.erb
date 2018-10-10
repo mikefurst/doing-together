@@ -3,17 +3,34 @@
     <br>
     <div class="container">
         <div class='activitycontainer'>
+            <% if current_user.groupid == nil %>
+                <p class="warn">
+                    You are currently not a member of any group. Activities that you 
+                    log now will not be available to you once you join a group.
+                </p>
+                <br>
+            <% end %>
             <%= form_tag :action => 'create' do %>
-                <p><label for = "activity_type">Select Activity Type: </label></p>
-                <%= collection_select(:activities, :actid, @act_types, :id, :name) %>
-                <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
-                <%= number_field 'activities', 'duration', :required => true, :step=>'any' %>
-                <br>
-                <br>
-                <p><label for = "activity_user">Activity will be recorder under the name of <%= current_user.first_name %> <%= current_user.last_name %></label></p>
-                <%= hidden_field :activities, :userid, :value => current_user.id %>
-                <br>
-                <%= submit_tag 'Log Data', :class => 'submitbutton' %>
+                <div class='activitypanel'>
+                    <div class="activity_feature">
+                        <p><label for = "activity_type">Select Activity Type: </label></p>
+                        <%= collection_select(:activities, :actid, @act_types, :id, :name) %>
+                    </div>
+                    <div class="activity_feature">
+                        <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
+                        <%= number_field 'activities', 'duration', :required => true, :step=>'any' %>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="activity_feature">
+                        <p><label for = "activity_user">Activity will be recorded under the name of <%= current_user.first_name %> <%= current_user.last_name %></label></p>
+                        <%= hidden_field :activities, :userid, :value => current_user.id %>
+                    </div>
+                    <br>
+                </div>
+                <div class="buttonpanel">
+                    <%= submit_tag 'Log Data', :class => 'submitbutton' %>
+                </div>
             <% end%>
         </div>
         <br>

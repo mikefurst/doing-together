@@ -6,6 +6,22 @@ table, th, td {
     border: 1px solid #002054;
 }
 
+p{
+    text-align: center;
+    font-size: x-large;
+}
+
 .activitytypecontainer {
     padding: 25px;
+}
+
+
+#activitytypes_name, #activitytypes_score{
+    padding: 3px;
+    font-size: large;
+    
+}
+
+.form, .submitbutton{
+    text-align: center;
 }

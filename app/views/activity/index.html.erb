@@ -1,14 +1,26 @@
 <div class="activity_controller">
-    <h1 class="pagetitle">Activities</h1>
+    <%if current_user.groupid == nil %>
+        <h1 class="pagetitle">Your Activities</h1>
+    <% else %>
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+    <% end %>
     <br>
     <div class="activitycontainer">
         <% if @acts.blank? %>
             <H2 class="emptyerror">There are no stored activities!</H2>
             <br>
+            <%if current_user.groupid == nil %>
+                <H3>Add an activity or join a group to see activities here.</H3>
+            <%else%>
+                <H3>Activities will appear here when you or someone in your group adds one.</H3>
+            <%end%>
+            <br>
             <br>
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
             <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+            <br>
+            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
         <% else %>
             <center>
                 <table class="activitytable">
@@ -24,7 +36,11 @@
                     </thead>
                     <tbody>
                         <% @acts.each do |act| %>
-                            <tr class="activity">
+                            <% if act.userid == current_user.id %>
+                                <tr class = "curgroup">
+                            <% else %>
+                                <tr class="activity">
+                            <% end %>
                                 <td><p class="id"><%= act.id %></p></td>
                                 <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
@@ -40,6 +56,8 @@
             <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
             <br>
             <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+            <br>
+            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
         <% end %>
     </div>
 </div>

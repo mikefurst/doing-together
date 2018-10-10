@@ -1,0 +1,47 @@
+<div class="group_controller">
+    <H1 class='pagetitle'>View This Group</H1>
+    <br>
+    <div class="container">
+        <div class='groupcontainer'>
+            <H2 class='pagetitle'>View Group</H2>
+            <br>
+            <center>
+                <table>
+                    <thead>
+                        <th>Member Name</th>
+                        <th>Member Score</th>
+                    </thead>
+                    <tbody>
+                        <% @users.each do |user| %>
+                            <% if user.id == current_user.id %>
+                                <tr class="curgroup">
+                                    <td><%= user.full_name %></td>
+                                    <% if @scores[user.id]==nil %>
+                                        <td>Has done nothing</td>
+                                    <% elsif @scores[user.id]==0%>
+                                        <td>Has done nothing</td>
+                                    <% else %>
+                                        <td><%= @scores[user.id] %></td>
+                                    <% end %>
+                                </tr>
+                            <% else %>
+                                <tr>
+                                    <td><%= user.full_name %></td>
+                                    <% if @scores[user.id]==nil %>
+                                        <td>Has done nothing</td>
+                                    <% elsif @scores[user.id]==0%>
+                                        <td>Has done nothing</td>
+                                    <% else %>
+                                        <td><%= @scores[user.id] %></td>
+                                    <% end %>
+                                </tr>
+                            <% end %>
+                        <% end %>
+                    </tbody>
+                </table>
+            </center>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>

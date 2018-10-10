@@ -1,0 +1,18 @@
+<div class="group_controller">
+    <H1 class='pagetitle'>Join Group</H1>
+    <br>
+    <div class="container">
+        <div class='groupcontainer'>
+            <H2 class='pagetitle'>Join Group: <%= @group.name %></H2>
+            <br>
+            <H3><%= @group.description %></H3>
+            <%= form_for @group, :url => {:action => 'join', :id => @group.id} do |g| %>
+                <p>Enter Group Password to Join: <%= g.password_field 'password'%></p>
+                <br>
+                <%= g.submit "Join Group", :class => 'submitbutton' %>
+            <% end %>
+            <br>
+            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+        </div>
+    </div>
+</div>

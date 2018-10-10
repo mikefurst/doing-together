@@ -2,8 +2,19 @@
 class ActivityController < ApplicationController
     before_action :authenticate_user!
     def index
-        @acts=Activity.all
+        @acts=Activity.select { |a| 
+            if current_user.groupid == nil
+                a.userid == current_user.id
+            else
+                User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
+            end
+        }
         @actTypes = ActivityType.all
+        if current_user.groupid==nil
+            @group=nil
+        else
+            @group = Group.find(current_user.groupid)
+        end
         @users = {}
         User.all.each { |u|
             @users[u.id]=u.first_name << ' ' << u.last_name
@@ -12,7 +23,17 @@ class ActivityController < ApplicationController
     
     def new
         @act = Activity.new
-        @act_types = ActivityType.all.sort{ |a,b| a[:name]<=>b[:name] }
+        @act_types = ActivityType.select { |a| 
+            if current_user.groupid == nil
+                a.userid == current_user.id
+            else
+                a.groupid == current_user.groupid and a.verified
+            end
+        }.sort{ |a,b| a[:name]<=>b[:name] }
+        if @act_types.blank?
+            flash[:alert] = "There are no available activity types. Please create one first."
+            redirect_to :action => 'index'
+        end
     end
     
     def show
