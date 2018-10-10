@@ -112,6 +112,8 @@ user_list.each do |usr|
     @user.groupid=@group.id
     @user.save!
 end
+@group.adminid=1
+@group.save!
 
 activitytypelist = [
     {
