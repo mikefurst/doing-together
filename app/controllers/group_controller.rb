@@ -20,8 +20,10 @@ class GroupController < ApplicationController
             current_user.groupid = @group.id
             current_user.save!
             redirect_to :action => 'index'
+            return
         else
             redirect_to :action => 'new'
+            return
         end
     end
     def edit
@@ -30,6 +32,7 @@ class GroupController < ApplicationController
             @admin = User.find(@group.adminid)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.full_name << "."
             redirect_to :action => 'index'
+            return
         end
         @users = User.all.select { |u|
             u.groupid == @group.id
@@ -69,6 +72,7 @@ class GroupController < ApplicationController
         end
         @group.save!
         redirect_to :action => 'index'
+        return
     end
     def delete
         @group = Group.find(params[:id])
@@ -76,6 +80,7 @@ class GroupController < ApplicationController
             @admin = User.find(@group.adminid)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.first_name << " " << @admin.last_name << "."
             redirect_to :action => 'index'
+            return
         else
             User.all.each { |u|
                 if u.groupid=@group.id
@@ -90,14 +95,17 @@ class GroupController < ApplicationController
             }
             @group.destroy
             redirect_to :action => 'index'
+            return
         end
     end
     def show
         @group = Group.find(params[:id])
         if @group.password == nil 
             redirect_to :access => 'join', :id => params[:id], :password => nil
+            return
         elsif @group.password==''
             redirect_to :action => 'join', :id => params[:id], :password => ''
+            return
         end
     end
     def join_params
@@ -110,6 +118,7 @@ class GroupController < ApplicationController
             if @curGroup.adminid==current_user.id
                 flash[:alert]="You cannot join another group while you are still the admin of " << @curGroup.name << "."
                 redirect_to :action => 'index'
+                return
             end
         end
         if @group.password == join_params[:password]
@@ -120,9 +129,11 @@ class GroupController < ApplicationController
                 flash[:alert]="Unexpected error when joining the group: " << @group.name << ". Please try again."
             end
             redirect_to :action => 'index'
+            return
         else
             flash[:alert]="You entered an incorrect password for the group."
             redirect_to :action => 'show', :id => params[:id]
+            return
         end
     end
     def leave

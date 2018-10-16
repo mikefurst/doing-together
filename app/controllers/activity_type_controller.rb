@@ -60,9 +60,11 @@ class ActivityTypeController < ApplicationController
                 flash[:alert] = "Activity type has been registered successfully and will be available once your group's administrator has approved it."
             end
             redirect_to :action => 'index'
+            return
         else
             flash[:alert] = "Failed to create the activity type. Please verify what you have entered is valid."
             redirect_to :action => 'new'
+            return
         end
     end
     
@@ -72,17 +74,20 @@ class ActivityTypeController < ApplicationController
             unless @actType.groupid == nil and @actType.userid == current_user.userid
                 flash[:alert] = "You do not have access to this activity type."
                 redirect_to :action => 'index'
+                return
             end
             
         else
             unless Group.find(current_user.groupid).adminid==current_user.id
                 flash[:alert] = "You must be the group's administrator to edit activity types."
                 redirect_to :action => 'index'
+                return
             else
                 @actType = ActivityType.find(params[:id])
                 unless @actType.groupid == current_user.groupid
                     flash[:alert] = "You do not have access to this activity type."
                     redirect_to :action => 'index'
+                    return
                 end
             end
         end
@@ -97,32 +102,38 @@ class ActivityTypeController < ApplicationController
             unless @actType.userid == current_user.id
                 flash[:alert] = "You do not have access to this activity type."
                 redirect_to :action => 'index'
+                return
             end
-            
             if @actType.update_attributes(acttype_param)
                 flash[:alert] = "Activity type was successfully updated."
                 redirect_to :action => 'index'
+                return
             else
                 flash[:alert] = "There was an error editing the entry. Please try again."
                 redirect_to :action => 'edit'
+                return
             end
         elsif not @actType.groupid == nil
             unless Group.find(current_user.groupid).adminid==current_user.id
                 flash[:alert] = "You must be the group's administrator to edit activity types."
                 redirect_to :action => 'index'
+                return
             end
             if @actType.update_attributes(acttype_param)
                 @actType.verified = true
                 @actType.save
                 flash[:alert] = "Activity type was successfully updated."
                 redirect_to :action => 'index'
+                return
             else
                 flash[:alert] = "There was an error editing the entry. Please try again."
                 redirect_to :action => 'edit'
+                return
             end
         else
             flash[:alert] = "Activity type encountered an unknown error when updating."
             redirect_to :action => 'index'
+            return
         end
     end
 end

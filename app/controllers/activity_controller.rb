@@ -33,6 +33,7 @@ class ActivityController < ApplicationController
         if @act_types.blank?
             flash[:alert] = "There are no available activity types. Please create one first."
             redirect_to :action => 'index'
+            return
         end
     end
     
@@ -51,8 +52,10 @@ class ActivityController < ApplicationController
         
         if @act.save
             redirect_to :action => 'index'
+            return
         else
             redirect_to :action => 'new'
+            return
         end
     end
     
@@ -70,8 +73,10 @@ class ActivityController < ApplicationController
         if @act.userid == current_user.id
             if @act.update_attributes(act_param)
                 redirect_to :action => 'index'
+                return
             else
                 redirect_to :action => 'edit'
+                return
             end
         end
     end
@@ -81,6 +86,7 @@ class ActivityController < ApplicationController
             Activity.find(params[:id]).destroy
         end
         redirect_to :action => 'index'
+        return
     end
     
     
