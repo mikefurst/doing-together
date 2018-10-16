@@ -5,6 +5,10 @@ class GroupController < ApplicationController
         @groups = Group.all
     end
     def new
+        @maximumNameLength = 50
+        @minimumNameLength = 10
+        @maximumDescriptionLength = 150
+        @minimumDescriptionLength = 15
     end
     def group_params
         params.require(:group).permit("name","description","password")
@@ -13,6 +17,23 @@ class GroupController < ApplicationController
         @group = Group.create()
         @group.name=group_params[:name]
         @group.description=group_params[:description]
+        if @group.name.length > 50
+            flash[:alert] = "Groups have a maximum name length of 50 characters."
+            redirect_to :action => 'new'
+            return
+        elsif @group.name.length < 10
+            flash[:alert] = "Groups have a minimum name length of 10 characters."
+            redirect_to :action => 'new'
+            return
+        elsif @group.description.length > 150
+            flash[:alert] = "Groups have a maximum description length of 150 characters."
+            redirect_to :action => 'new'
+            return
+        elsif @group.description.length < 15
+            flash[:alert] = "Groups have a minimum description length of 15 characters."
+            redirect_to :action => 'new'
+            return
+        end
         @group.password=group_params[:password]
         @group.adminid = current_user.id
         if @group.save!
@@ -41,6 +62,10 @@ class GroupController < ApplicationController
         @users.each { |u| 
             @scores[u.id] = u.score
         }
+        @maximumNameLength = 50
+        @minimumNameLength = 10
+        @maximumDescriptionLength = 150
+        @minimumDescriptionLength = 15
     end
     def view
         @group = Group.find(params[:id])
