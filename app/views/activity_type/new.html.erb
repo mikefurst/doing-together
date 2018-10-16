@@ -56,11 +56,12 @@
             <%= form_tag :action => 'create' do %>
                 <div class="form">
                     <p><label for = "activity_type_name">Enter Name of the Activity Type: </label></p>
-                    <%= text_field 'activitytypes', 'name'%>
+                    <em>(Must be between 5 and 50 characters)</em>
+                    <%= text_field 'activitytypes', 'name', :maxlength => 50, :minlength => 5, :size => 50, :required => true %>
                 </div>
                 <div class="form">
                     <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
-                    <%= number_field 'activitytypes', 'score', :step => 'any' %>
+                    <%= number_field 'activitytypes', 'score', :step => 'any', :size => 10, :required => true %>
                 </div>
                 <br>
                 <div class="buttonpanel">

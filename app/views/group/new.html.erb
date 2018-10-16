@@ -6,15 +6,17 @@
             <%= form_tag :action => 'create' do %>
             <div class="groupelement">
                 <p><label for = "group_name">Enter Group Name: </label></p>
-                <%= text_field 'group', 'name', :max_length => 25 %>
+                <em>(Must be between <%= @minimumNameLength %> and <%= @maximumNameLength %> characters)</em><br>
+                <%= text_field 'group', 'name', :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %>
             </div>
             <div class="groupelement">
                 <p><label for = "group_description">Enter Group Description: </label></p>
-                <%= text_field 'group', 'description', :max_length => 150%>
+                <em>(Must be between <%= @minimumDescriptionLength %> and <%= @maximumDescriptionLength %> characters)</em><br>
+                <%= text_field 'group', 'description', :maxlength => @maximumDescriptionLength, :minlength => @minimumDescriptionLength, :size => 50, :required => true %>
             </div>
             <div class="groupelement">
                 <p><label for = "group_description">Enter Group Password</label></p>
-                <%= password_field 'group', 'password'%>
+                <%= password_field 'group', 'password', :size =>  @smallerMaximumLength %>
             </div>
             <br>
             <%= submit_tag 'Create New Group', :class => 'submitbutton'%>
