@@ -26,7 +26,6 @@
                 <table class="activitytable">
                     <thead>
                         <tr>
-                            <th>   </th>
                             <th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th>
                             <th>Duration (minutes)</th>
                             <th>Person Who Done It</th>
@@ -41,7 +40,6 @@
                             <% else %>
                                 <tr class="activity">
                             <% end %>
-                                <td><p class="id"><%= act.id %></p></td>
                                 <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                                 <td><p class="duration"><%= act.duration %></p></td>
                                 <td><p class="user"><%= @users[act.userid] %></p></td>
