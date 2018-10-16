@@ -1,6 +1,7 @@
 <div class="activity_controller">
     <%if current_user.groupid == nil %>
         <h1 class="pagetitle">Your Activities</h1>
+
     <% else %>
         <h1 class="pagetitle">Activities for <%=@group.name%></h1>
     <% end %>

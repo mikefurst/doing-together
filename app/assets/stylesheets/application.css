@@ -24,23 +24,29 @@
 * {
     margin: 0px;
     padding: 0px;
+    
+}
+
+body {
+    background-image: url(blue_2.png);
 }
 
 header {
     display: block;
-    background-color: #8da0d3;
+    background-image: url(blue_gradient.jpg);
+    /*background-color: #8da0d3;*/
     color: black;
 }
 
 a {
     color: #6dc2ff;
     font-size: 20px;
-    padding: 16px 8px;
     border-radius: 12px;
 }
 input {
+    /*The border on this will effect log in, password and email*/
     border-radius: 10px;
-    border: 3px solid #66ccff;
+    /*border: 3px solid #66ccff;*/
     
 }
 
