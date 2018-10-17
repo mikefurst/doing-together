@@ -52,11 +52,7 @@
                 </table>
             </center>
             <br>
-            <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
+            <%= render "shared/links" %>
         <% end %>
     </div>
 </div>

@@ -8,25 +8,24 @@
                     <H2 class='pagetitle'>No Existing Activity Types</H2>
                     <p>Join a group or add a new Activity Type to see existing activity types.</p>
                 <% else %>
-                    <H2 class='pagetitle'>Existing Activities</H2>
-                    <center>
-                        <table>
-                            <thead>
+                    <H2 class='pagetitle'>Existing Activity Types</H2>
+                    <br>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @actTypes.each do |actt| %>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Score</th>
+                                    <td><%= link_to actt.name, {:action => 'edit', :id => actt.id} %></td>
+                                    <td><%= actt.score %></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% @actTypes.each do |actt| %>
-                                    <tr>
-                                        <td><%= link_to actt.name, {:action => 'edit', :id => actt.id} %></td>
-                                        <td><%= actt.score %></td>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-                        </table>
-                    </center>
+                            <% end %>
+                        </tbody>
+                    </table>
                 <% end %>
             <% else %>
                 <% if @actTypes.blank? %>
@@ -34,64 +33,60 @@
                     <p>Make some below.</p>
                 <% else %>
                     <% if @groupAdminID == current_user.id %>
-                        <H2 class='pagetitle'>Existing Activities</H2>
-                        <center>
-                            <table>
-                                <thead>
+                        <H2 class='pagetitle'>Existing Activity Types</H2>
+                        <br>
+                        <table class='activitytypetable'>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Activity Type Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @actTypes.each do |actt| %>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Score</th>
-                                        <th>Activity Status</th>
+                                        <td><%= link_to actt.name, {:action => 'edit', :id => actt.id} %></td>
+                                        <td><%= actt.score %></td>
+                                        <% if actt.verified %>
+                                            <td>Approved and Ready For Use</td>
+                                        <% else %>
+                                            <td>Awaiting Approval</td>
+                                        <% end %>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <% @actTypes.each do |actt| %>
-                                        <tr>
-                                            <td><%= link_to actt.name, {:action => 'edit', :id => actt.id} %></td>
-                                            <td><%= actt.score %></td>
-                                            <% if actt.verified %>
-                                                <td>Approved and Ready For Use</td>
-                                            <% else %>
-                                                <td>Awaiting Approval</td>
-                                            <% end %>
-                                        </tr>
-                                    <% end %>
-                                </tbody>
-                            </table>
-                        </center>
+                                <% end %>
+                            </tbody>
+                        </table>
                     <% else %>
-                        <H2 class='pagetitle'>Existing Activities</H2>
-                        <center>
-                            <table>
-                                <thead>
+                        <H2 class='pagetitle'>Existing Activity Types</H2>
+                        <br>
+                        <table class='activitytypetable'>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Activity Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @actTypes.each do |actt| %>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Score</th>
-                                        <th>Activity Status</th>
+                                        <td><%= actt.name %></td>
+                                        <td><%= actt.score %></td>
+                                        <% if actt.verified %>
+                                            <td>Approved and Ready For Use</td>
+                                        <% else %>
+                                            <td>Awaiting Approval</td>
+                                        <% end %>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <% @actTypes.each do |actt| %>
-                                        <tr>
-                                            <td><%= actt.name %></td>
-                                            <td><%= actt.score %></td>
-                                            <% if actt.verified %>
-                                                <td>Approved and Ready For Use</td>
-                                            <% else %>
-                                                <td>Awaiting Approval</td>
-                                            <% end %>
-                                        </tr>
-                                    <% end %>
-                                </tbody>
-                            </table>
-                        </center>
+                                <% end %>
+                            </tbody>
+                        </table>
                     <% end %>
                 <% end %>
             <% end %>
             <br>
-            <p class="link"><%= link_to "Register New Activity Type", {:action => 'new', :controller => 'activity_type'}%></p>
-            <br>
-            <p class="link"><%= link_to 'View Activity Log', {:action => 'index', :controller => 'activity'}%></p>
+            <%= render "shared/links" %>
         </div>
     </div>
 </div>

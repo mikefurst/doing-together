@@ -1,0 +1,12 @@
+<% if controller.controller_name != nil and controller.controller_name != "activity" %>
+  <p class="link"><%= link_to 'View Activity Log', {:action => 'index', :controller => 'activity'}%></p>
+  <br>
+<% end %>
+<% if controller.controller_name != "activity_type" %>
+  <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+  <br>
+<% end %>
+<% if controller.controller_name != "group" %>
+  <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
+<% end %>
+<br>

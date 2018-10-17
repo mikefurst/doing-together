@@ -119,68 +119,32 @@ activitytypelist = [
     {
         :name => "Swimming",
         :score => 2.125,
-        :groupid => @group.id
     },
     {
         :name => "Swashbuckling",
         :score => 1.15,
-        :groupid => @group.id
     },
     {
         :name => "Fencing",
         :score => 1.85,
-        :groupid => @group.id
     },
     {
         :name => "Scrubbing the Deck",
         :score => 1.56,
-        :groupid => @group.id
     },
     {
         :name => "Hoisting the Sails",
         :score => 1.35,
-        :groupid => @group.id
     },
     {
         :name => "Stealing from the Spanish",
         :score => 4.00,
-        :groupid => @group.id
     }
     ]
     
 activitytypelist.each do |atype|
-    ActivityType.create!(atype)
+    @act = ActivityType.create(atype)
+    @act.groupid = @group.id
+    @act.verified = true
+    @act.save!
 end
-
-=begin
-activity_types = [
-      {
-          :name => "Cycling",
-          :score => 3.0
-      },
-      {
-          :name => "Jogging",
-          :score => 1.5
-      },
-      {
-          :name => "Jumping Jacks",
-          :score => 1.2
-      },
-      {
-          :name => "Running",
-          :score => 2.0
-      },
-      {
-          :name => "Swimming",
-          :score => 2.0
-      },
-      {
-          :name => "Walking",
-          :score => 1
-      }
-      
-      ]
-    activity_types.each do |act|
-      ActivityType.create!(act)
-    end
-=end
