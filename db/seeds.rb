@@ -106,11 +106,12 @@ user_list = [
     }
     ]
     
-    
+userids = Array.new
 user_list.each do |usr|
     @user = User.create(usr)
     @user.groupid=@group.id
     @user.save!
+    userids.push(@user.id)
 end
 @group.adminid=1
 @group.save!
@@ -142,9 +143,21 @@ activitytypelist = [
     }
     ]
     
+acttypeids = Array.new
 activitytypelist.each do |atype|
     @act = ActivityType.create(atype)
     @act.groupid = @group.id
     @act.verified = true
     @act.save!
+    acttypeids.push(@act.id)
+end
+
+acttypeids.each do |actid|
+    userids.each do |id|
+        @a = Activity.create()
+        @a.actid = actid
+        @a.duration=(id+1)+(actid+1)*1.75
+        @a.userid = id
+        @a.save!
+    end
 end

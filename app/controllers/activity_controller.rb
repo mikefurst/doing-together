@@ -8,7 +8,7 @@ class ActivityController < ApplicationController
             else
                 User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
             end
-        }
+        }.sort {|a,b| b.created_at <=> a.created_at}
         @actTypes = ActivityType.all
         if current_user.groupid==nil
             @group=nil
