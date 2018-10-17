@@ -1,0 +1,47 @@
+/* line 5, app/assets/stylesheets/activity.scss */
+table, th, td {
+  border: 1px solid #002054;
+}
+
+/* line 9, app/assets/stylesheets/activity.scss */
+.activitycontainer {
+  padding: 25px;
+  margin: auto;
+  align: center;
+}
+
+/* line 15, app/assets/stylesheets/activity.scss */
+.delitem {
+  color: red !important;
+}
+
+/* line 18, app/assets/stylesheets/activity.scss */
+.activitytable {
+  border: 1px solid black;
+  color: #012999;
+  margin: auto;
+  align: center;
+}
+
+/* line 24, app/assets/stylesheets/activity.scss */
+.emptyerror {
+  color: red !important;
+  text-align: center;
+}
+
+/* line 28, app/assets/stylesheets/activity.scss */
+.infotitle {
+  text-align: center;
+  color: #88bbe0;
+}
+
+/* line 32, app/assets/stylesheets/activity.scss */
+.backitem {
+  border: solid 5px transparent;
+  border-left-color: #88bbdd;
+}
+
+/* line 37, app/assets/stylesheets/activity.scss */
+.useract {
+  background-color: lightblue;
+}

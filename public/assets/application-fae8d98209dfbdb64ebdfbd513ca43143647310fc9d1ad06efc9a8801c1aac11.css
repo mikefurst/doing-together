@@ -1,0 +1,261 @@
+/* line 5, app/assets/stylesheets/activity.scss */
+table, th, td {
+  border: 1px solid #002054;
+}
+
+/* line 9, app/assets/stylesheets/activity.scss */
+.activitycontainer {
+  padding: 25px;
+  margin: auto;
+  align: center;
+}
+
+/* line 15, app/assets/stylesheets/activity.scss */
+.delitem {
+  color: red !important;
+}
+
+/* line 18, app/assets/stylesheets/activity.scss */
+.activitytable {
+  border: 1px solid black;
+  color: #012999;
+  margin: auto;
+  align: center;
+}
+
+/* line 24, app/assets/stylesheets/activity.scss */
+.emptyerror {
+  color: red !important;
+  text-align: center;
+}
+
+/* line 28, app/assets/stylesheets/activity.scss */
+.infotitle {
+  text-align: center;
+  color: #88bbe0;
+}
+
+/* line 32, app/assets/stylesheets/activity.scss */
+.backitem {
+  border: solid 5px transparent;
+  border-left-color: #88bbdd;
+}
+
+/* line 37, app/assets/stylesheets/activity.scss */
+.useract {
+  background-color: lightblue;
+}
+/* line 5, app/assets/stylesheets/activity_type.scss */
+table, th, td {
+  border: 1px solid #002054;
+}
+
+/* line 9, app/assets/stylesheets/activity_type.scss */
+p {
+  text-align: center;
+  font-size: x-large;
+}
+
+/* line 14, app/assets/stylesheets/activity_type.scss */
+.activitytypecontainer {
+  padding: 25px;
+  align: center;
+  margin: auto;
+}
+
+/* line 19, app/assets/stylesheets/activity_type.scss */
+.activitytypetable {
+  align: center;
+  margin: auto;
+}
+
+/* line 25, app/assets/stylesheets/activity_type.scss */
+#activitytypes_name, #activitytypes_score {
+  padding: 3px;
+  font-size: large;
+}
+
+/* line 31, app/assets/stylesheets/activity_type.scss */
+.form, .submitbutton {
+  text-align: center;
+}
+/* line 7, app/assets/stylesheets/group.scss */
+.groupcontainer {
+  padding: 20px;
+  text-align: center;
+  align: center;
+  margin: auto;
+}
+
+/* line 18, app/assets/stylesheets/group.scss */
+.grouptable {
+  align: center;
+  margin: auto;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+ 
+ 
+
+  ADDING COMMIT HERE TO MAKE FOR COMMIT CAUSE ERRORS WERE COMMITED ELSEWHERE
+
+ 
+ */
+ 
+ 
+* {
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+body {
+    background-image: url(blue_2.png);
+}
+
+header {
+    display: block;
+    background-image: url(blue_gradient.jpg);
+    /*background-color: #8da0d3;*/
+    color: black;
+}
+
+a {
+    color: #faff00;
+    font-size: 20px;
+    border-radius: 12px;
+}
+input {
+    /*The border on this will effect log in, password and email*/
+    border-radius: 10px;
+    /*border: 3px solid #66ccff;*/
+    
+}
+
+select {
+    border-radius: 10px;
+    border: 3px solid #66ccff;
+}
+
+
+
+.container{
+    width:100%;
+    height: 100px;
+    display: flex;
+}
+
+
+.activitypanel{
+    width: 50%;
+    heght: 200px;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.activity_feature{
+    /*width: 100%;*/
+    /*margin-left:45%;*/
+    text-align: center;
+    font-size: x-large;
+    padding: 25px;
+    
+}
+
+#activities_actid, #activities_duration{
+    padding: 3px;
+}
+
+
+.buttonpanel{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    
+}
+
+.submitbutton {
+    border-radius: 5px !important;
+    border: 1px solid #77ccff !important;
+    background: lightgray;
+    width: 20%;
+    height: 100%;
+    /*margin-top: 15px; */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
+}
+
+#headercontainer {
+    overflow: hidden;
+    display: flex;
+}
+
+.title {
+    color: black !important;
+    text-decoration: none;
+}
+.pagetitle {
+    text-align: center;
+    font-size: 30px;
+    padding-top: 50px;
+}
+.headerchild {
+    padding: 5px;
+    flex: 1;
+    color: yellow;
+    
+}
+.lalign {
+    text-align: left;
+}
+.ralign {
+    text-align: right;
+}
+
+.devisecontainer {
+    padding: 25px;
+}
+
+.notice {
+    color: red;
+}
+.alert {
+    color: red;
+}
+
+.userlink {
+    padding: 0px!important;
+    color: #6dc2ff;
+    font-size: 12px!important;
+    border-radius: 0px!important;
+}
+
+.backitem{
+    position:absolute;
+    bottom:0;
+    left:0;
+    font-size: x-large;
+}
+
+.link, h3{
+    text-align: center;
+    font-size: x-large;
+}
+
+#activities_actid, #activities_duration{
+    font-size: large;
+    
+}

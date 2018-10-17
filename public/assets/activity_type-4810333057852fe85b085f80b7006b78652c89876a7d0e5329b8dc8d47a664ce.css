@@ -1,0 +1,34 @@
+/* line 5, app/assets/stylesheets/activity_type.scss */
+table, th, td {
+  border: 1px solid #002054;
+}
+
+/* line 9, app/assets/stylesheets/activity_type.scss */
+p {
+  text-align: center;
+  font-size: x-large;
+}
+
+/* line 14, app/assets/stylesheets/activity_type.scss */
+.activitytypecontainer {
+  padding: 25px;
+  align: center;
+  margin: auto;
+}
+
+/* line 19, app/assets/stylesheets/activity_type.scss */
+.activitytypetable {
+  align: center;
+  margin: auto;
+}
+
+/* line 25, app/assets/stylesheets/activity_type.scss */
+#activitytypes_name, #activitytypes_score {
+  padding: 3px;
+  font-size: large;
+}
+
+/* line 31, app/assets/stylesheets/activity_type.scss */
+.form, .submitbutton {
+  text-align: center;
+}
