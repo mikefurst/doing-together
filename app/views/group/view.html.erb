@@ -21,7 +21,7 @@
                                     <% elsif @scores[user.id]==0%>
                                         <td>Has done nothing</td>
                                     <% else %>
-                                        <td><%= @scores[user.id] %></td>
+                                        <td><%= @scores[user.id].round(4) %></td>
                                     <% end %>
                                 </tr>
                             <% else %>
