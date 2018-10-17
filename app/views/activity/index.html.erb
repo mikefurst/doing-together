@@ -17,46 +17,36 @@
             <%end%>
             <br>
             <br>
-            <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
+            <%= render "shared/links" %>
         <% else %>
-            <center>
-                <table class="activitytable">
-                    <thead>
-                        <tr>
-                            <th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th>
-                            <th>Duration (minutes)</th>
-                            <th>Person Who Done It</th>
-                            <th>Entry Time</th>
-                            <th>Entry Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @acts.each do |act| %>
-                            <% if act.userid == current_user.id %>
-                                <tr class = "curgroup">
-                            <% else %>
-                                <tr class="activity">
-                            <% end %>
-                                <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
-                                <td><p class="duration"><%= act.duration %></p></td>
-                                <td><p class="user"><%= @users[act.userid] %></p></td>
-                                <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %></p></td>
-                                <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
-                            </tr>
+            <table class="activitytable">
+                <thead>
+                    <tr>
+                        <th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th>
+                        <th>Duration (minutes)</th>
+                        <th>Person Who Done It</th>
+                        <th>Entry Time</th>
+                        <th>Entry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @acts.each do |act| %>
+                        <% if act.userid == current_user.id %>
+                            <tr class = "curgroup">
+                        <% else %>
+                            <tr class="activity">
                         <% end %>
-                    </tbody>
-                </table>
-            </center>
+                            <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
+                            <td><p class="duration"><%= act.duration %></p></td>
+                            <td><p class="user"><%= @users[act.userid] %></p></td>
+                            <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %></p></td>
+                            <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
             <br>
-            <p class="link"><%= link_to "Log New Activity", {:action => 'new'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
-            <br>
-            <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
+            <%= render "shared/links" %>
         <% end %>
     </div>
 </div>
