@@ -12,7 +12,7 @@
             <% else %>
                 <H2 class='pagetitle'>Existing Activity Types</H2>
                 <center>
-                    <table>
+                    <table class='activitytypetable_existing'>
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -65,11 +65,12 @@
                 </div>
                 <br>
                 <div class="buttonpanel">
-                    <%= submit_tag 'Create New Activity Type', :class => 'submitbutton'%>
+                    <%= image_submit_tag "button_create_new_activity_type.png", :class => 'submitbutton'%>
                 </div>
             <% end %>
             <br>
-            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+            <!-- Added a back button png: Jake -->
+            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>
