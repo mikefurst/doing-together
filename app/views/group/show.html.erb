@@ -9,10 +9,10 @@
             <%= form_for @group, :url => {:action => 'join', :id => @group.id} do |g| %>
                 <p>Enter Group Password to Join: <%= g.password_field 'password'%></p>
                 <br>
-                <%= g.submit "Join Group", :class => 'submitbutton' %>
+                <%= image_submit_tag "button_join_group.png", :class => 'submitbutton' %>
             <% end %>
             <br>
-            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>
