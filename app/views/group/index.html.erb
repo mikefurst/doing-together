@@ -34,7 +34,7 @@
                                         <td><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
                                         <td><%= group.description %></td>
                                         <td>
-                                            <%= link_to "Leave", {:action => 'leave'}, :method => 'patch',
+                                            <%= link_to (image_tag('button_leave.png')), {:action => 'leave'}, :method => 'patch',
                                                 data: {:confirm => "Are you sure you want to leave #{group.name}?"}%>
                                         </td>
                                     <% end %>

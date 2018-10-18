@@ -25,11 +25,11 @@
                             <tr>
                                 <td><%= user.full_name %></td>
                                 <td><%= @scores[user.id] %></td>
-                                <td><%= link_to "Make group admin", 
+                                <td><%= link_to (image_tag('button_make_group_admin.png')), 
                                     {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch',
                                     data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"},
                                     :class => 'delitem' %></td>
-                                <td><%= link_to "Kick", 
+                                <td><%= link_to (image_tag('button_kick.png')), 
                                     {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch',
                                     data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."},
                                     :class => 'delitem' %></td>
@@ -44,7 +44,7 @@
                 <p>Group Description: <%= g.text_field 'description', :value => @group.description, :maxlength => @maximumDescriptionLength, :minlength => @minimumDescriptionLength, :size => 50, :required => true %></p>
                 <p>Group Password (Leave blank if you do not wish to change): <%= g.password_field 'password', :size => 50%></p>
                 <br>
-                <%= g.submit "Save Changes", :class => 'submitbutton' %>
+                <%= image_submit_tag "button_save_changes.png", :class => 'submitbutton' %>
             <% end %>
             <br>
             <p class='delete'>
@@ -54,7 +54,7 @@
                         :class => 'delitem' %>
             </p>
             <br>
-            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>
