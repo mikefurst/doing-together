@@ -1,31 +1,32 @@
 <!-- These links are for inside the controller -->
 <% if controller.controller_name == nil or controller.controller_name == 'activity' or controller.controller_name == '' %>
   <!-- Leave links for the activity controller here -->
-  <p class="link"><%= link_to 'Log New Activity', {:action => 'new', :controller => 'activity'} %></p>
+  <p class="link"><%= link_to (image_tag('button_log_new_activity.png')), {:action => 'new', :controller => 'activity'} %></p>
   <br>
 <% end %>
 <% if controller.controller_name == 'activity_type' %>
   <!-- Leave links for the activity type controller -->
-  <p class="link"><%= link_to 'Register New Activity Type', {:action => 'new', :controller => 'activity_type'} %></p>
+  <p class="link"><%= link_to (image_tag('button_register_new_activity_type.png')), {:action => 'new', :controller => 'activity_type'} %></p>
   <br>
 <% end %>
 <% if controller.controller_name == 'group' %>
   <!-- Leave links for the group controller here -->
-  <p class="link"><%= link_to 'Create A New Group', {:action => 'new', :controller => 'group'} %></p>
+  <!-- Made the Create A New Group buttom: Jake -->
+  <p class="link"><%= link_to (image_tag('button_create_new_group.png')), {:action => 'new', :controller => 'group'} %></p>
   <br>
 <% end %>
 
 <!-- These links are to other controllers-->
 <% if controller.controller_name != nil and controller.controller_name != "activity" %>
-  <p class="link"><%= link_to 'View Activity Log', {:action => 'index', :controller => 'activity'}%></p>
+  <p class="link"><%= link_to (image_tag('button_view_activity_log.png')), {:action => 'index', :controller => 'activity'}%></p>
   <br>
 <% end %>
 <% if controller.controller_name != "activity_type" %>
-  <p class='link'><%= link_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}%></p>
+  <p class='link'><%= link_to (image_tag('button_view_activity_types.png')), {:action => 'index', :controller => 'activity_type'}%></p>
   <br>
 <% end %>
 <% if controller.controller_name != "group" %>
-  <p class='link'><%= link_to "View Groups", {:action => 'index', :controller => 'group'}%></p>
+  <p class='link'><%= link_to (image_tag('button_view_groups.png')), {:action => 'index', :controller => 'group'}%></p>
   <br>
 <% end %>
 <br>

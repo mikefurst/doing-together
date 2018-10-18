@@ -22,12 +22,134 @@ p{
 }
 
 
+
+
 #activitytypes_name, #activitytypes_score{
     padding: 3px;
     font-size: large;
     
 }
 
-.form, .submitbutton{
+.form{
     text-align: center;
+}
+.submitbutton{
+    align: center;
+}
+
+table.activitytypetable {
+  border: 1px solid #1C6EA4;
+  background-color: #AED6F1;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.activitytypetable td, table.activitytypetable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.activitytypetable tbody td {
+  font-size: 13px;
+}
+table.activitytypetable tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.activitytypetable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.activitytypetable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+table.activitytypetable thead th:first-child {
+  border-left: none;
+}
+
+table.activitytypetable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+table.activitytypetable tfoot td {
+  font-size: 14px;
+}
+table.activitytypetable tfoot .links {
+  text-align: right;
+}
+table.activitytypetable tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+/* Existing Activites */
+
+table.activitytypetable_existing {
+  border: 1px solid #1C6EA4;
+  background-color: #AED6F1;
+  width: auto;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.activitytypetable_existing td, table.activitytypetable_existing th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.activitytypetable_existing tbody td {
+  font-size: 13px;
+}
+table.activitytypetable_existing tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.activitytypetable_existing thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.activitytypetable_existing thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+table.activitytypetable_existing thead th:first-child {
+  border-left: none;
+}
+
+table.activitytypetable_existing tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+table.activitytypetable_existing tfoot td {
+  font-size: 14px;
+}
+table.activitytypetable_existing tfoot .links {
+  text-align: right;
+}
+table.activitytypetable_existing tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
 }

@@ -15,10 +15,10 @@
             <%= form_for @actType, :url => {:action => 'update', :id => @actType.id} do |a| %>
                 <p>Activity Type Name: <%= a.text_field 'name', :value => @actType.name, :maxlength => 50, :minlength => 5, :required => true %></p>
                 <p>Activity Type Score: <%= a.number_field 'score', :value => @actType.score, :step => 'any', :required => true %></p>
-                <%= a.submit "Save Changes", :class => 'submitbutton' %>
+                <%= image_submit_tag "button_save_changes.png", :class => 'submitbutton' %>
             <% end %>
             <br>
-            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
+            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>
