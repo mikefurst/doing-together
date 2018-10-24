@@ -106,3 +106,34 @@ sortTableByTime = () => {
         }
     }
 }
+
+/* global search */
+search = () => {
+    const input = document.getElementById('activitySearchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('activitytable');
+    let rows = table.rows;
+    for (let i = 1; i < rows.length; i++) {
+        let td = rows[i].getElementsByTagName('td');
+        let found = false;
+        //for (let x = 0; x < td.length; i++) {
+        let p = td[0].getElementsByTagName('p')[0];
+        let val;
+        if (p.className=="name") {
+            val = p.getElementsByTagName('a')[0].innerHTML.toLowerCase();
+        }
+        else {
+            val = p.innerHTML.toLowerCase();
+        }
+        if (val.indexOf(filter) > -1) {
+            rows[i].style.display="";
+            found = true;
+            //break;
+        }
+        //}
+        //if (!found) {
+        else {
+            rows[i].style.display="none";
+        }
+    }
+}

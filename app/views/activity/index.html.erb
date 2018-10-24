@@ -19,6 +19,9 @@
             <br>
             <%= render "shared/links" %>
         <% else %>
+            <center>
+                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="search()" placeholder="Search for an entry..." title="Search here">
+            </center>
             <table id="activitytable" class="activitytable">
                 <thead>
                     <tr>
