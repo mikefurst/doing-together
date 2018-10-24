@@ -1,14 +1,14 @@
-/* global sortTableByColumn */
+/*global sortTableByColumn*/
 sortTableByColumn = (columnid,hasLink = false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
-    let goingUp = table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className == "UP"
+    let goingUp = table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className == "UP";
     if (goingUp) {
-        table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className = "DOWN"
+        table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className = "DOWN";
     }
     else {
-        table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className = "UP"
+        table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className = "UP";
     }
     /*Make a loop that will continue until
     no switching has been done:*/
@@ -23,7 +23,7 @@ sortTableByColumn = (columnid,hasLink = false) => {
             shouldSwitch = false;
             /*Get the two elements you want to compare,
             one from current row and one from the next:*/
-            let x,y
+            let x,y;
             if (hasLink) {
                 x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
                 y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
@@ -55,18 +55,18 @@ sortTableByColumn = (columnid,hasLink = false) => {
             switching = true;
         }
     }
-}
-/* global sortTableByTime */
+};
+/*global sortTableByTime*/
 sortTableByTime = () => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
-    let goingUp = table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className == "UP"
+    let goingUp = table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className == "UP";
     if (goingUp) {
-        table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className = "DOWN"
+        table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className = "DOWN";
     }
     else {
-        table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className = "UP"
+        table.getElementsByTagName("th")[3].getElementsByTagName("a")[0].className = "UP";
     }
     /*Make a loop that will continue until
     no switching has been done:*/
@@ -81,8 +81,8 @@ sortTableByTime = () => {
             shouldSwitch = false;
             /*Get the two elements you want to compare,
             one from current row and one from the next:*/
-            let x = rows[i].getElementsByTagName("td")[3].getElementsByTagName("p")[0].id;
-            let y = rows[i + 1].getElementsByTagName("td")[3].getElementsByTagName("p")[0].id;
+            const x = rows[i].getElementsByTagName("td")[3].getElementsByTagName("p")[0].id;
+            const y = rows[i + 1].getElementsByTagName("td")[3].getElementsByTagName("p")[0].id;
             //check if the two rows should switch place:))
             if (goingUp) {
                 if (x < y) {
@@ -105,4 +105,46 @@ sortTableByTime = () => {
             switching = true;
         }
     }
-}
+};
+
+/*global search*/
+search = () => {
+    const input = document.getElementById('activitySearchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('activitytable');
+    let rows = table.rows;
+    for (let i = 1; i < rows.length; i++) {
+        let td = rows[i].getElementsByTagName('td');
+        let found = false;
+        let x = 0;
+        switch (document.getElementById('activitySearchSelect').value) {
+            case 'Activity Type':
+                x = 0;
+                break;
+            case 'Duration':
+                x=1;
+                break;
+            case 'Person Who Done It':
+                x=2;
+                break;
+            default:
+                x=0;
+                break;
+        }
+        let p = td[x].getElementsByTagName('p')[0];
+        let val;
+        if (p.className=="name") {
+            val = p.getElementsByTagName('a')[0].innerHTML.toLowerCase();
+        }
+        else {
+            val = p.innerHTML.toLowerCase();
+        }
+        if (val.indexOf(filter) > -1) {
+            rows[i].style.display="";
+            found = true;
+        }
+        else {
+            rows[i].style.display="none";
+        }
+    }
+};

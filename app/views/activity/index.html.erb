@@ -19,6 +19,14 @@
             <br>
             <%= render "shared/links" %>
         <% else %>
+            <center>
+                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="search()" placeholder="Search for an entry..." title="Search here">
+                <select id='activitySearchSelect' class='selectBar' onchange="search()">
+                    <option>Activity Type</option>
+                    <option>Duration</option>
+                    <option>Person Who Done It</option>
+                </select>
+            </center>
             <table id="activitytable" class="activitytable">
                 <thead>
                     <tr>
