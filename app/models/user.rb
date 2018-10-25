@@ -35,6 +35,6 @@ class User < ApplicationRecord
         end
       end
     }
-    return @score
+    return @score.round(4)
   end
 end
