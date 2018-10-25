@@ -11,7 +11,7 @@ class GroupController < ApplicationController
         @minimumDescriptionLength = 15
     end
     def group_params
-        params.require(:group).permit("name","description","password")
+        params.require(:group).permit("name","description","password","password_confirmation")
     end
     def create
         @group = Group.create()
@@ -31,6 +31,10 @@ class GroupController < ApplicationController
             return
         elsif @group.description.length < 15
             flash[:alert] = "Groups have a minimum description length of 15 characters."
+            redirect_to :action => 'new'
+            return
+        elsif group_params[:password] != group_params[:password_confirmation]
+            flash[:alert] = "Passwords do not match."
             redirect_to :action => 'new'
             return
         end

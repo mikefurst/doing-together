@@ -74,3 +74,9 @@ table.grouptable tfoot .links a{
   padding: 2px 8px;
   border-radius: 5px;
 }
+
+.AlertMessage {
+  visibility: hidden;
+  color: red;
+  font-size: 10px;
+}
