@@ -158,6 +158,10 @@ class GroupController < ApplicationController
         if @group.password == join_params[:password]
             current_user.groupid = @group.id
             if current_user.save!
+                if @group.adminid == nil
+                    @group.adminid = current_user.id
+                    @group.save!
+                end
                 flash[:alert]="You have now joined the group: " << @group.name << "."
             else
                 flash[:alert]="Unexpected error when joining the group: " << @group.name << ". Please try again."
