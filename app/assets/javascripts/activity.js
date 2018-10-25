@@ -1,5 +1,5 @@
 /*global sortTableByColumn*/
-sortTableByColumn = (columnid,hasLink = false) => {
+sortActivityTableByColumn = (columnid,hasLink = false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -56,8 +56,8 @@ sortTableByColumn = (columnid,hasLink = false) => {
         }
     }
 };
-/*global sortTableByTime*/
-sortTableByTime = () => {
+/*global sortActivityTableByTime*/
+sortActivityTableByTime = () => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -107,8 +107,8 @@ sortTableByTime = () => {
     }
 };
 
-/*global search*/
-search = () => {
+/*global activitySearch*/
+activitySearch = () => {
     const input = document.getElementById('activitySearchInput');
     const filter = input.value.toLowerCase();
     const table = document.getElementById('activitytable');

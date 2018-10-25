@@ -153,3 +153,20 @@ table.activitytypetable_existing tfoot .links a{
   padding: 2px 8px;
   border-radius: 5px;
 }
+.searchBar {
+  background-image: url(searchIcon.png);
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #0ad;
+  margin-bottom: 12px;
+}
+.selectBar {
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 12px 10px 12px 20px;
+  border: 1px solid #0ad;
+  margin-bottom: 12px;
+}

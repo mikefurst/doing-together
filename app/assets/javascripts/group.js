@@ -1,4 +1,3 @@
-/*global verifyNewGroup*/
 verifyNewGroup = () => {
     const password = document.getElementById('group_password').value;
     const password_confirmation = document.getElementById('group_password_confirmation').value;
@@ -29,8 +28,7 @@ verifyNewGroup = () => {
     }
 };
 
-/*global search*/
-search = () => {
+groupSearch = () => {
     const input = document.getElementById('groupSearchInput');
     const filter = input.value.toLowerCase();
     const table = document.getElementById('grouptable');
@@ -70,8 +68,8 @@ search = () => {
         }
     }
 };
-/*global sortTableByColumn*/
-sortTableByColumn = (columnid,hasLink = false) => {
+
+sortGroupTableByColumn = (columnid,hasLink = false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("grouptable");
     switching = true;

@@ -119,6 +119,11 @@ class GroupController < ApplicationController
             }
             ActivityType.all.each {|act|
                 if act.groupid==@group.id
+                    Activity.all.each {|a|
+                        if a.actid == act.id
+                            a.destroy
+                        end
+                    }
                     act.destroy
                 end
             }

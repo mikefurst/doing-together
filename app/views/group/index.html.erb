@@ -8,8 +8,8 @@
                 <H3>There are currently no groups.</H3>
             <% else %>
                 <center>
-                    <input type="text" id="groupSearchInput" class="searchBar" onkeyup="search()" placeholder="Search for a group..." title="Search here">
-                    <select id='groupSearchSelect' class='selectBar' onchange="search()">
+                    <input type="text" id="groupSearchInput" class="searchBar" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
+                    <select id='groupSearchSelect' class='selectBar' onchange="groupSearch()">
                         <option>Group Name</option>
                         <option>Group Description</option>
                         <option>Number of Members</option>
@@ -18,9 +18,9 @@
                 <table id="grouptable" class='grouptable'>
                     <thead>
                         <tr>
-                            <th><a class="UP" onclick="sortTableByColumn(0,true)" href="javascript:void(0);">Group Name</a></th>
-                            <th><a class="UP" onclick="sortTableByColumn(1)" href="javascript:void(0);">Group Description</a></th>
-                            <th><a class="UP" onclick="sortTableByColumn(2)" href="javascript:void(0);">Number of Members</a></th>
+                            <th><a class="UP" onclick="sortGroupTableByColumn(0,true)" href="javascript:void(0);">Group Name</a></th>
+                            <th><a class="UP" onclick="sortGroupTableByColumn(1)" href="javascript:void(0);">Group Description</a></th>
+                            <th><a class="UP" onclick="sortGroupTableByColumn(2)" href="javascript:void(0);">Number of Members</a></th>
                             <th>          </th>
                         </tr>
                     </thead>
