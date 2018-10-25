@@ -5,39 +5,41 @@
         <div class='groupcontainer'>
             <H2 class='pagetitle'>Edit Group</H2>
             <br>
-            <table>
-                <thead>
-                    <th>Member Name</th>
-                    <th>Member Score</th>
-                    <th>            </th>
-                    <th>            </th>
-                </thead>
-                <tbody>
-                    <% @users.each do |user| %>
-                        <% if user.id == current_user.id %>
-                            <tr class="curgroup">
-                                <td><%= user.full_name %></td>
-                                <td><%= @scores[user.id] %></td>
-                                <td>You are already the group admin</td>
-                                <td></td>
-                            </tr>
-                        <% else %>
-                            <tr>
-                                <td><%= user.full_name %></td>
-                                <td><%= @scores[user.id] %></td>
-                                <td><%= link_to (image_tag('button_make_group_admin.png')), 
-                                    {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch',
-                                    data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"},
-                                    :class => 'delitem' %></td>
-                                <td><%= link_to (image_tag('button_kick.png')), 
-                                    {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch',
-                                    data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."},
-                                    :class => 'delitem' %></td>
-                            </tr>
+            <center>
+                <table>
+                    <thead>
+                        <th>Member Name</th>
+                        <th>Member Score</th>
+                        <th>            </th>
+                        <th>            </th>
+                    </thead>
+                    <tbody>
+                        <% @users.each do |user| %>
+                            <% if user.id == current_user.id %>
+                                <tr class="curgroup">
+                                    <td><%= user.full_name %></td>
+                                    <td><%= @scores[user.id] %></td>
+                                    <td>You are already the group admin</td>
+                                    <td></td>
+                                </tr>
+                            <% else %>
+                                <tr>
+                                    <td><%= user.full_name %></td>
+                                    <td><%= @scores[user.id] %></td>
+                                    <td><%= link_to (image_tag('button_make_group_admin.png')), 
+                                        {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch',
+                                        data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"},
+                                        :class => 'delitem' %></td>
+                                    <td><%= link_to (image_tag('button_kick.png')), 
+                                        {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch',
+                                        data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."},
+                                        :class => 'delitem' %></td>
+                                </tr>
+                            <% end %>
                         <% end %>
-                    <% end %>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </center>
             <br>
             <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
                 <p>Group Name: <%= g.text_field 'name', :value => @group.name, :autofocus => true, :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %></p>

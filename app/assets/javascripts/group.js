@@ -27,4 +27,46 @@ verifyNewGroup = () => {
     if (description=="" || name =="" || password=="" || password_confirmation=="") {
         button.disabled=true;
     }
-}
+};
+
+/*global search*/
+search = () => {
+    const input = document.getElementById('groupSearchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('grouptable');
+    let rows = table.rows;
+    for (let i = 1; i < rows.length; i++) {
+        let td = rows[i].getElementsByTagName('td');
+        let found = false;
+        let x = 0;
+        switch (document.getElementById('groupSearchSelect').value) {
+            case 'Group Name':
+                x = 0;
+                break;
+            case 'Group Description':
+                x=1;
+                break;
+            case 'Number of Members':
+                x=2;
+                break;
+            default:
+                x=0;
+                break;
+        }
+        let t = td[x];
+        let val;
+        if (t.className=="name") {
+            val = t.getElementsByTagName('a')[0].innerHTML.toLowerCase();
+        }
+        else {
+            val = t.innerHTML.toLowerCase();
+        }
+        if (val.indexOf(filter) > -1) {
+            rows[i].style.display="";
+            found = true;
+        }
+        else {
+            rows[i].style.display="none";
+        }
+    }
+};

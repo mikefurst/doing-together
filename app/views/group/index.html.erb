@@ -7,12 +7,20 @@
             <% if @groups.blank? %>
                 <H3>There are currently no groups.</H3>
             <% else %>
-                <table class='grouptable'>
+                <center>
+                    <input type="text" id="groupSearchInput" class="searchBar" onkeyup="search()" placeholder="Search for a group..." title="Search here">
+                    <select id='groupSearchSelect' class='selectBar' onchange="search()">
+                        <option>Group Name</option>
+                        <option>Group Description</option>
+                        <option>Number of Members</option>
+                    </select>
+                </center>
+                <table id="grouptable" class='grouptable'>
                     <thead>
                         <tr>
-                            <th>Group ID</th>
                             <th>Group Name</th>
                             <th>Group Description</th>
+                            <th>Number of Members</th>
                             <th>          </th>
                         </tr>
                     </thead>
@@ -20,10 +28,10 @@
                         <% @groups.each do |group| %>
                             <% if group.id == current_user.groupid %>
                                 <tr class="curgroup">
-                                    <td><%= group.id %></td>
                                     <% if group.adminid == current_user.id %>
-                                        <td><%= link_to group.name, {:action => 'edit', :id => group.id} %></td>
+                                        <td class="name"><%= link_to group.name, {:action => 'edit', :id => group.id} %></td>
                                         <td><%= group.description %></td>
+                                        <td><%= group.numMembers %></td>
                                         <td>
                                             <%= link_to (image_tag('button_delete.png')), 
                                                 {:action => 'delete', :id => group.id,}, :method => 'delete',
@@ -31,8 +39,9 @@
                                                 :class => 'delitem' %>
                                         </td>
                                     <% else %>
-                                        <td><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
+                                        <td class="name"><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
                                         <td><%= group.description %></td>
+                                        <td><%= group.numMembers %></td>
                                         <td>
                                             <%= link_to (image_tag('button_leave.png')), {:action => 'leave'}, :method => 'patch',
                                                 data: {:confirm => "Are you sure you want to leave #{group.name}?"}%>
@@ -41,9 +50,9 @@
                                 </tr>
                             <% else %>
                                 <tr>
-                                    <td><%= group.id %></td>
-                                    <td><%= link_to group.name, {:action => 'show', :id => group.id} %></td>
+                                    <td class="name"><%= link_to group.name, {:action => 'show', :id => group.id} %></td>
                                     <td><%= group.description %></td>
+                                    <td><%= group.numMembers %></td>
                                     <td><%= link_to (image_tag('button_join.png')), {:action => 'show', :id => group.id} %></td>
                                 </tr>
                             <%end%>
