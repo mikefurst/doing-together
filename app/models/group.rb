@@ -22,4 +22,14 @@ class Group < ApplicationRecord
         self.password_hash = @password
     end
     
+    def numMembers
+        n = 0
+        User.all.each {|user|
+            if user.groupid == self.id
+                n += 1
+            end
+        }
+        return n
+    end
+    
 end
