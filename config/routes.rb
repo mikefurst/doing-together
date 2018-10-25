@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   #root :to => redirect('/activity/index')
-  root 'activity#index'
+  root 'application#index'
   
   get 'activity/show'
   get 'activity/new'
@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   patch 'group/leave'
   patch 'group/kick'
   patch 'group/makeadmin'
+  
+  get 'application/index'
   
   devise_for :users
   
