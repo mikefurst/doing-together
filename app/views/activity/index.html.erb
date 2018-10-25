@@ -20,8 +20,8 @@
             <%= render "shared/links" %>
         <% else %>
             <center>
-                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="search()" placeholder="Search for an entry..." title="Search here">
-                <select id='activitySearchSelect' class='selectBar' onchange="search()">
+                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
+                <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
                     <option>Activity Type</option>
                     <option>Duration</option>
                     <option>Person Who Done It</option>
@@ -31,10 +31,10 @@
                 <thead>
                     <tr>
                         <!--<th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th> -->
-                        <th><p class="link"><a class="UP" onclick="sortTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
-                        <th><p class="link"><a class="UP" onclick="sortTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
-                        <th><p class="link"><a class="UP" onclick="sortTableByColumn(2)" href=javascript:void(0);>Person Who Done It</a></p></th>
-                        <th><p class="link"><a class="UP" onclick="sortTableByTime()" href=javascript:void(0);>Entry Time</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Person Who Done It</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Time</a></p></th>
                         <th><p class="link"><a onclick="sortTableByTime()" href=javascript:void(0);>Entry Date</a></p></th>
                     </tr>
                 </thead>
