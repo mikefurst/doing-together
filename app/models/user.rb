@@ -4,6 +4,21 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
+  validates :first_name,
+    presence: true,
+    on: :create,
+    allow_nil: false
+    
+  validates :last_name,
+    presence: true,
+    on: :create,
+    allow_nil: false
+    
+  validates :email,
+    presence: true,
+    on: :create,
+    allow_nil: false
+    
   def full_name
     return self.first_name << " " << self.last_name
   end
