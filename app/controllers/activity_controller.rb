@@ -4,7 +4,7 @@ class ActivityController < ApplicationController
     def index
         @acts=Activity.select { |a| 
             if current_user.groupid == nil
-                a.userid == current_user.id
+                a.userid == current_user.id and a.groupid == nil
             else
                 User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
             end
