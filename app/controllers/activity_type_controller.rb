@@ -38,6 +38,42 @@ class ActivityTypeController < ApplicationController
         params.require(:activitytypes).permit("name","score")
     end
     def create
+        if acttype_params[:name]==nil or acttype_params[:name]==""
+            flash[:alert]="Activity Type needs a name."
+            redirect_to :action => 'new'
+            return
+        elsif acttype_params[:score]==nil
+            flash[:alert]="Activity Type must have a score".
+            redirect_to :action => 'new'
+            return
+        elsif acttype_params[:name].length<5
+            flash[:alert]="Activity Type name is too short."
+            redirect_to :action => 'new'
+            return
+        elsif acttype_params[:name].length>50
+            flash[:alert]="Activity Type name is too long."
+            redirect_to :action => 'new'
+            return
+        end
+        ActivityType.all.each { |act|
+            if current_user.groupid == nil
+                if act.userid == current_user.id
+                    if act.name == acttype_params[:name]
+                        flash[:alert]="You cannot make an activity type with a duplicate name."
+                        redirect_to :action => 'new'
+                        return
+                    end
+                end
+            else
+                if act.groupid == current_user.groupid
+                    if act.name == acttype_params[:name]
+                        flash[:alert]="You cannot make an activity type with a duplicate name."
+                        redirect_to :action => 'new'
+                        return
+                    end
+                end
+            end
+        }
         @actType = ActivityType.create(acttype_params)
         
         if current_user.groupid==nil
