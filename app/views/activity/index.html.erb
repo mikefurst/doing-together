@@ -1,9 +1,13 @@
 <div class="activity_controller">
     <%if current_user.groupid == nil %>
         <h1 class="pagetitle">Your Activities</h1>
-
     <% else %>
+<<<<<<< HEAD
         <h1 id="pagetitle" class="pagetitle">Activities for <%=@group.name%></h1>
+=======
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+        <link rel="stylesheet" href="/usr/local/rvm/gems/ruby-2.4.0/gems/bootstrap-4.1.3/assets/stylesheets/bootstrap/mixins/_grid-framework.scss">
+>>>>>>> Changed buttons to bootstrap
     <% end %>
     <br>
     <div class="activitycontainer col-sm-12">
