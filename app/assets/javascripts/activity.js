@@ -1,4 +1,4 @@
-/*global sortTableByColumn*/
+/*global sortActivityTableByColumn*/
 sortActivityTableByColumn = (columnid,hasLink = false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
