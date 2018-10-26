@@ -17,7 +17,7 @@ class ActivityController < ApplicationController
         end
         @users = {}
         User.all.each { |u|
-            @users[u.id]=u.first_name << ' ' << u.last_name
+            @users[u.id]=u.full_name
         }
     end
     
