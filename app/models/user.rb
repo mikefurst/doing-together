@@ -22,6 +22,7 @@ class User < ApplicationRecord
   def full_name
     return self.first_name << " " << self.last_name
   end
+  
   def score
     @score=0
     Activity.all.each { |act|
@@ -37,4 +38,35 @@ class User < ApplicationRecord
     }
     return @score.round(4)
   end
+  
+  def lastActivity
+    @act = nil
+    
+    @acts = Activity.all.select { |ac|
+      ac.userid == self.id
+    }
+    
+    if @acts.blank?
+      return nil
+    end
+    
+    if self.groupid == nil
+      @acts = @acts.select { |ac|
+        ac.groupid == nil
+      }
+    else
+      @acts = @acts.select { |ac|
+        ac.groupid == self.groupid
+      }
+    end
+    
+    if @acts.blank?
+      return nil
+    end
+    
+    @acts = @acts.sort { |a,b| b.created_at <=> a.created_at}
+    @act = @acts[0]
+    return @act
+  end
+  
 end
