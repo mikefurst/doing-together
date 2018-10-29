@@ -25,7 +25,7 @@
                                         <td><%= user.score.round(4) %></td>
                                     <% end %>
                                     <% if user.lastActivity == nil %>
-                                        <td id="1e100000">user.full_name has not yet participated.</td>
+                                        <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
                                     <% else %>
                                         <%= content_tag :td, :id =>user.lastActivity.created_at do %>
                                             <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
@@ -43,7 +43,7 @@
                                         <td><%= user.score.round(4) %></td>
                                     <% end %>
                                     <% if user.lastActivity == nil %>
-                                        <td id="1e100000">user.full_name has not yet participated.</td>
+                                        <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
                                     <% else %>
                                         <%= content_tag :td, :id =>user.lastActivity.created_at do %>
                                             <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
