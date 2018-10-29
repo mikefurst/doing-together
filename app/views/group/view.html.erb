@@ -24,7 +24,9 @@
                                     <% else %>
                                         <td><%= user.score.round(4) %></td>
                                     <% end %>
-                                    <td><%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%></td>
+                                    <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                        <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                    <% end %>
                                 </tr>
                             <% else %>
                                 <tr>
