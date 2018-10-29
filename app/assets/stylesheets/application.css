@@ -55,18 +55,7 @@ body {
     font-size: 30px;
     padding-top: 50px;
 }
-.headerchild {
-    padding: 5px;
-    flex: 1;
-    color: yellow;
-    
-}
-.lalign {
-    text-align: left;
-}
-.ralign {
-    text-align: right;
-}
+
 
 .devisecontainer {
     padding: 25px;

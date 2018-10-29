@@ -1,5 +1,5 @@
 /*global sortActivityTableByColumn*/
-sortActivityTableByColumn = (columnid,hasLink = false) => {
+sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -25,23 +25,27 @@ sortActivityTableByColumn = (columnid,hasLink = false) => {
             one from current row and one from the next:*/
             let x,y;
             if (hasLink) {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+            }
+            else if (timeStamp) {
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
             }
             else {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
             }
             //check if the two rows should switch place:))
             if (goingUp) {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (x > y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             }
             else {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (x < y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
@@ -174,10 +178,10 @@ getNewActivities = () => {
                 //create new row
                 let row = table.insertRow(1);
                 if (currentUser) {
-                    row.class = "curgroup"
+                    row.class = "table-primary"
                 }
                 else {
-                    row.class = "activity"
+                    row.class = "table-info"
                 }
                 //create cell with activity name
                 let nameCell = row.insertCell(0);
