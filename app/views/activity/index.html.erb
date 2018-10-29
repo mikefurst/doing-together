@@ -55,7 +55,7 @@
             <body>
             
             <div class="container">
-              <table id="activitytable" class="activitytable">
+              <table id="activitytable" class="table table-hover table-border">
                 <thead>
                   <tr>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
@@ -69,9 +69,9 @@
                 <tbody>
                     <% @acts.each do |act| %>
                         <% if act.userid == current_user.id %>
-                            <tr class = "curgroup">
+                            <tr class = "table-primary">
                         <% else %>
-                            <tr class="activity">
+                            <tr class="table-info">
                         <% end %>
                             <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
                             <td><p class="duration"><%= act.duration %></p></td>

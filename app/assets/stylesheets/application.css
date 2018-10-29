@@ -19,70 +19,12 @@
 
  
  */
- 
- 
-* {
-    margin: 0px;
-    padding: 0px;
-    
-}
+
 
 body {
     background-image: url(blue_2.png);
 }
 
-header {
-    display: block;
-    background-image: url(blue_gradient.jpg);
-    /*background-color: #8da0d3;*/
-    color: black;
-}
-
-a {
-    color: #D4AC0D;
-    font-size: 20px;
-    border-radius: 12px;
-}
-input {
-    /*The border on this will effect log in, password and email*/
-    border-radius: 10px;
-    /*border: 3px solid #66ccff;*/
-    
-}
-
-select {
-    border-radius: 10px;
-    border: 3px solid #66ccff;
-}
-
-
-
-.container{
-    width:100%;
-    height: 100px;
-    display: flex;
-}
-
-
-.activitypanel{
-    width: 50%;
-    height: 200px;
-    margin-left:auto;
-    margin-right: auto;
-}
-
-.activity_feature{
-    /*width: 100%;*/
-    /*margin-left:45%;*/
-    text-align: center;
-    font-size: x-large;
-    padding: 25px;
-    
-}
-
-#activities_actid, #activities_duration{
-    padding: 3px;
-}
 
 
 .buttonpanel{
@@ -102,11 +44,6 @@ select {
     margin-left: auto;
     margin-right: auto;
     font-size: x-large;
-}
-
-#headercontainer {
-    overflow: hidden;
-    display: flex;
 }
 
 .title {
@@ -159,9 +96,4 @@ select {
 .link, h3{
     text-align: center;
     font-size: x-large;
-}
-
-#activities_actid, #activities_duration{
-    font-size: large;
-    
 }
