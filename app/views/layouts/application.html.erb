@@ -22,8 +22,12 @@
   
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <div class="page-header">
+<% if controller.controller_name == "activity" %>
+  <body onload="automateActivityAJAX()">
+<% else %>
+  <body>
+<% end %>
+<div class="page-header">
     <center><H2><%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title'%></H2></center>
     <div id="headercontainer">
         
@@ -40,7 +44,7 @@
           </H4></div>
         <% end %>
     </div>
-  </header>
+  </div>
   <!-- This adds the fgroup png:Added by Jake -->
   <center><h1><%= image_tag "fgroup.png" %></h1></center>
   <!-- This adds the fgroup png:Added by Jake -->

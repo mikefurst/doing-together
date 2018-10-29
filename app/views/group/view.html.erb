@@ -6,10 +6,11 @@
             <H2 class='pagetitle'>View Group</H2>
             <br>
             <center>
-                <table>
+                <table id="groupmembertable">
                     <thead>
-                        <th>Member Name</th>
-                        <th>Member Score</th>
+                        <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupmembertable')" href="javascript:void(0);">Member Name</a></th>
+                        <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupmembertable')" href="javascript:void(0);">Member Score</a></th>
+                        <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupmembertable',false,true)" href="javascript:void(0);">Last Activity</a></th>
                     </thead>
                     <tbody>
                         <% @users.each do |user| %>
@@ -21,7 +22,14 @@
                                     <% elsif @scores[user.id]==0%>
                                         <td>Has done nothing</td>
                                     <% else %>
-                                        <td><%= @scores[user.id].round(4) %></td>
+                                        <td><%= user.score.round(4) %></td>
+                                    <% end %>
+                                    <% if user.lastActivity == nil %>
+                                        <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                    <% else %>
+                                        <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                            <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                        <% end %>
                                     <% end %>
                                 </tr>
                             <% else %>
@@ -32,7 +40,14 @@
                                     <% elsif @scores[user.id]==0%>
                                         <td>Has done nothing</td>
                                     <% else %>
-                                        <td><%= @scores[user.id].round(4) %></td>
+                                        <td><%= user.score.round(4) %></td>
+                                    <% end %>
+                                    <% if user.lastActivity == nil %>
+                                        <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                    <% else %>
+                                        <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                            <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                        <% end %>
                                     <% end %>
                                 </tr>
                             <% end %>

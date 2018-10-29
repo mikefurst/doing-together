@@ -69,9 +69,9 @@ groupSearch = () => {
     }
 };
 
-sortGroupTableByColumn = (columnid,hasLink = false) => {
+sortGroupTableByColumn = (columnid,tableID,hasLink = false,sortByID=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("grouptable");
+    table = document.getElementById(tableID);
     switching = true;
     let goingUp = table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className == "UP";
     if (goingUp) {
@@ -95,23 +95,31 @@ sortGroupTableByColumn = (columnid,hasLink = false) => {
             one from current row and one from the next:*/
             let x,y;
             if (hasLink) {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+            }
+            else if (sortByID) {
+                x = rows[i].getElementsByTagName("td")[columnid].id;
+                y = rows[i+1].getElementsByTagName("td")[columnid].id;
             }
             else {
-                x = rows[i].getElementsByTagName("td")[columnid];
-                y = rows[i + 1].getElementsByTagName("td")[columnid];
+                x = rows[i].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
+            }
+            if (!isNaN(x) && !isNaN(y)) {
+                x = parseInt(x,10);
+                y = parseInt(y,10);
             }
             //check if the two rows should switch place:))
             if (goingUp) {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (x > y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             }
             else {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (x < y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;

@@ -73,6 +73,10 @@ class GroupController < ApplicationController
     end
     def view
         @group = Group.find(params[:id])
+        if current_user.id == @group.adminid
+            redirect_to :action => 'edit', :id => params[:id]
+            return
+        end
         unless current_user.groupid == @group.id
             flash[:alert] = "You do not have access to this group. Please join it first."
             redirect_to :action => 'index'
@@ -158,6 +162,10 @@ class GroupController < ApplicationController
         if @group.password == join_params[:password]
             current_user.groupid = @group.id
             if current_user.save!
+                if @group.adminid == nil
+                    @group.adminid = current_user.id
+                    @group.save!
+                end
                 flash[:alert]="You have now joined the group: " << @group.name << "."
             else
                 flash[:alert]="Unexpected error when joining the group: " << @group.name << ". Please try again."
