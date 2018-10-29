@@ -15,8 +15,9 @@ class ActivityController < ApplicationController
                 User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
             end
         }.sort {|a,b| b.created_at <=> a.created_at}
-
-        session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
+        if not acts.blank?
+            session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
+        end
     end
     
     def new
