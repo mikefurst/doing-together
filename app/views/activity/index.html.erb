@@ -6,7 +6,7 @@
         <h1 id="pagetitle" class="pagetitle">Activities for <%=@group.name%></h1>
     <% end %>
     <br>
-    <div class="activitycontainer">
+    <div class="activitycontainer col-sm-12">
         <% if @acts.blank? %>
             <H2 class="emptyerror">There are no stored activities!</H2>
             <br>
@@ -30,7 +30,7 @@
             
             
             
-            <div class="container">
+            <div class="container col-sm-12">
                 
               <table id="activitytable" class="table table-hover table-bordered table-dark table-responsive table-dark">
                 <thead class="thead-dark">
