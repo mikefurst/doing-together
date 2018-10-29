@@ -20,8 +20,12 @@
                                 <tr class="curgroup">
                                     <td><%= user.full_name %></td>
                                     <td><%= @scores[user.id] %></td>
-                                    <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                        <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                    <% if user.lastActivity == nil %>
+                                        <td id="1e100000">user.full_name has not yet participated.</td>
+                                    <% else %>
+                                        <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                            <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                        <% end %>
                                     <% end %>
                                     <td>You are already the group admin</td>
                                     <td></td>
@@ -30,7 +34,13 @@
                                 <tr>
                                     <td><%= user.full_name %></td>
                                     <td><%= @scores[user.id] %></td>
-                                    <td><%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%></td>
+                                    <% if user.lastActivity == nil %>
+                                        <td id="1e100000">user.full_name has not yet participated.</td>
+                                    <% else %>
+                                        <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                            <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                        <% end %>
+                                    <% end %>
                                     <td><%= link_to (image_tag('button_make_group_admin.png')), 
                                         {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch',
                                         data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"},
