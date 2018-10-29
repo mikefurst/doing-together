@@ -3,7 +3,7 @@
         <h1 class="pagetitle">Your Activities</h1>
 
     <% else %>
-        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+        <h1 id="pagetitle" class="pagetitle">Activities for <%=@group.name%></h1>
     <% end %>
     <br>
     <div class="activitycontainer">
@@ -47,7 +47,7 @@
                         <% end %>
                             <td><p class="name"><%= link_to act.name, {:action => 'show', :id => act.id} %></p></td>
                             <td><p class="duration"><%= act.duration %></p></td>
-                            <td><p class="user"><%= @users[act.userid] %></p></td>
+                            <td><p class="user"><%= act.userName %></p></td>
                             <td><%= content_tag :p, :id => act.created_at, :class => "timestamp" do %> 
                                     <%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %> 
                                 <% end %>

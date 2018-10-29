@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'activity/edit'
   patch 'activity/update'
   post 'activity/create'
+  get 'activity/getNewActivities'
   get 'activity_type/new'
   get 'activity_type/index'
   get 'activity_type/edit'

@@ -106,6 +106,10 @@ sortGroupTableByColumn = (columnid,tableID,hasLink = false,sortByID=false) => {
                 x = rows[i].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
                 y = rows[i + 1].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
             }
+            if (!isNaN(x) && !isNaN(y)) {
+                x = parseInt(x,10);
+                y = parseInt(y,10);
+            }
             //check if the two rows should switch place:))
             if (goingUp) {
                 if (x > y) {
