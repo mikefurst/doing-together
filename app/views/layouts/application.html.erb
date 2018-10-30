@@ -71,6 +71,9 @@
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 <%= yield %>
-
+<% if user_signed_in? %>
+  <br>
+  <%= render 'shared/links' %>
+<% end %>
 </body>
 </html>
