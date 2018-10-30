@@ -4,7 +4,7 @@
   <% if controller.controller_name == nil or controller.controller_name == 'activity' or controller.controller_name == '' %>
     <!-- Leave links for the activity controller here -->
     <%= button_to "Log New Activity", {:action => 'new', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn' %>
-    
+    <%end%>
     <br>
   <% end %>
   <% if controller.controller_name == 'activity_type' %>
@@ -14,7 +14,6 @@
   <% end %>
   <% if controller.controller_name == 'group' %>
     <!-- Leave links for the group controller here -->
-    <!-- Made the Create A New Group buttom: Jake -->
     <%= button_to "Create New Group", {:action => 'new', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn' %>
     <br>
   <% end %>
