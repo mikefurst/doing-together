@@ -27,10 +27,10 @@
             
             
             
-            <div class="container col-sm-12">
+            <div class="container col-md-12">
                 
-              <table id="activitytable" class="table table-hover table-bordered table-dark table-responsive table-condensed">
-                <thead class="thead-dark">
+              <table id="activitytable" class="table table-hover table-bordered table-condensed">
+                <thead class="thead-light">
                   <tr>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
@@ -59,11 +59,11 @@
                     <% end %>
                 </tbody>
               </table>
-              <center>
-                  <p id="pageLinks"></p>
-              </center>
             </div>
-            
+            <br>
+            <ul id="pageLinks" class="pagination justify-content-center">
+              
+            </ul>
             <br>
             </table>
         <% end %>

@@ -1,5 +1,6 @@
 class GroupController < ApplicationController
     before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
     
     def index
         @groups = Group.all
@@ -66,6 +67,10 @@ class GroupController < ApplicationController
         @users.each { |u| 
             @scores[u.id] = u.score
         }
+        @messages = GroupMessage.select { |g|
+            g.groupid == current_user.groupid
+        }.sort {|a,b| a.timeAsInt <=> b.timeAsInt}
+        session["last-message"] = @messages.last.timeAsInt
         @maximumNameLength = 50
         @minimumNameLength = 10
         @maximumDescriptionLength = 150
@@ -88,6 +93,10 @@ class GroupController < ApplicationController
         @users.each { |u| 
             @scores[u.id] = u.score
         }
+        @messages = GroupMessage.select { |g|
+            g.groupid == current_user.groupid
+        }.sort {|a,b| a.timeAsInt <=> b.timeAsInt}
+        session["last-message"] = @messages.last.timeAsInt
     end
     def group_param
         params.require(:group).permit("name","description","password")
@@ -211,5 +220,28 @@ class GroupController < ApplicationController
             redirect_to :action => 'edit', :id => params[:id]
         end
         redirect_to :action => 'index'
+    end
+    def submitmessage
+        @messageText = params[:message]
+        @message = GroupMessage.create(:userid => current_user.id, :groupid => current_user.groupid, :message => @messageText)
+        @message.message = @messageText
+        unless @messageText==nil or @messageText=="" or @messageText.length > 140
+            @message.save!
+        end
+    end
+    def getNewMessage
+        @messages = GroupMessage.select {|msg|
+            if session["last-message"]==nil
+                msg.groupid == current_user.groupid
+            else
+                msg.groupid == current_user.groupid and session["last-message"] < msg.timeAsInt
+            end
+        }.sort {|a,b| a.timeAsInt <=> b.timeAsInt }
+        if @messages.blank?
+            render :status => "200", :text => "Nothing New"
+        else
+            render :status => "200", :json => @messages[0].getNewMessageJSON(current_user.id)
+            session["last-message"] = @messages[0].timeAsInt
+        end
     end
 end

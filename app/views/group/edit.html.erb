@@ -6,8 +6,8 @@
             <H2 class='pagetitle'>Edit Group</H2>
             <br>
             <center>
-                <table id="groupAdminTable" class="table table-hover table-bordered table-dark table-responsive table-condensed">
-                    <thead class="thead-dark">
+                <table id="groupAdminTable" class="table table-hover table-bordered table-condensed">
+                    <thead class="thead-light">
                         <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupAdminTable')" href="javascript:void(0);">Member Name</a></th>
                         <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupAdminTable')" href="javascript:void(0);">Member Score</a></th>
                         <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupAdminTable',false,true)" href="javascript:void(0);">Last Activity</a></th>
@@ -56,8 +56,38 @@
                 </table>
             </center>
             <br>
+            <div id="messageContainer">
+                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
+                <div class="row">
+                        <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+                            <tbody>
+                                <% @messages.each do |msg|%>
+                                    <tr>
+                                        <% if msg.userid == current_user.id %>
+                                            <td class="username">You:</td>
+                                        <% else %>
+                                            <td class="username"><%= msg.userName%></td>
+                                        <% end %>
+                                        <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="messageInput">
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-light" onclick="submitMessage()">Submit Message</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
             <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
-                <p>Group Name: <%= g.text_field 'name', :value => @group.name, :autofocus => true, :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %></p>
+                <p>Group Name: <%= g.text_field 'name', :value => @group.name, :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %></p>
                 <p>Group Description: <%= g.text_field 'description', :value => @group.description, :maxlength => @maximumDescriptionLength, :minlength => @minimumDescriptionLength, :size => 50, :required => true %></p>
                 <p>Group Password (Leave blank if you do not wish to change): <%= g.password_field 'password', :size => 50%></p>
                 <br>

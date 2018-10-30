@@ -74,3 +74,10 @@ table.grouptable thead th:first-child {
   border: 1px solid #0ad;
   margin-bottom: 12px;
 }
+
+#messageTable {
+  display: block;
+  max-height: 200px;
+  overflow-y: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
