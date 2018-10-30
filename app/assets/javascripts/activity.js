@@ -59,6 +59,7 @@ sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
             switching = true;
         }
     }
+    setActivityTableRows(1,25);
 };
 /*global sortActivityTableByTime*/
 sortActivityTableByTime = () => {
@@ -109,6 +110,7 @@ sortActivityTableByTime = () => {
             switching = true;
         }
     }
+    setActivityTableRows(1,25);
 };
 
 /*global activitySearch*/
@@ -119,7 +121,6 @@ activitySearch = () => {
     let rows = table.rows;
     for (let i = 1; i < rows.length; i++) {
         let td = rows[i].getElementsByTagName('td');
-        let found = false;
         let x = 0;
         switch (document.getElementById('activitySearchSelect').value) {
             case 'Activity Type':
@@ -145,16 +146,22 @@ activitySearch = () => {
         }
         if (val.indexOf(filter) > -1) {
             rows[i].style.display="";
-            found = true;
         }
         else {
             rows[i].style.display="none";
         }
     }
+    if (filter == "") {
+        setActivityTableRows(1,25);
+    }
+    else {
+        removePageLinks();
+    }
 };
 
 automateActivityAJAX = () => {
     window.setInterval(getNewActivities,1000)
+    setActivityTableRows(1,25);
 };
 
 getNewActivities = () => {
@@ -218,6 +225,8 @@ getNewActivities = () => {
                 datestampP.class = "timestamp";
                 datestampP.innerHTML = datestamp;
                 datestampCell.appendChild(datestampP);
+                setActivityTableRows(1,25);
+                updatePageLinks(25);
             }
         }
         else if (this.readyState == 4 && this.status == 400) {
@@ -226,4 +235,43 @@ getNewActivities = () => {
     };
     xhttp.open("GET","/activity/getNewActivities",true);
     xhttp.send();
+};
+
+setActivityTableRows = (page,interval) => {
+    let table = document.getElementById('activitytable');
+    let rows = table.rows;
+    const len = rows.length
+    const start = (interval * (page-1))+1;
+    const end = ((interval*page)<len) ? (interval*page) : (len);
+    if (len >= interval*page) {
+        for (let i=1; i<=len-1; i++) {
+            if (start <= i && i <= end) {
+                rows[i].style.display="";
+            }
+            else {
+                rows[i].style.display="none";
+            }
+        }
+    }
+    updatePageLinks(interval);
+};
+
+updatePageLinks = (interval) => {
+    let p = document.getElementById("pageLinks");
+    p.innerHTML="";
+    const pages = Math.ceil(document.getElementById('activitytable').rows.length / interval);
+    for (let i=1;i<=pages;i++) {
+        let a = document.createElement("a");
+        let linkText = document.createTextNode(i.toString()+" ");
+        a.appendChild(linkText);
+        a.title = i.toString()+" ";
+        a.href = "javascript:void(0)";
+        a.onclick = function() {
+            setActivityTableRows(i,interval);
+        };
+        p.appendChild(a);
+    }
+};
+removePageLinks = () => {
+    document.getElementById("pageLinks").innerHTML="";
 };
