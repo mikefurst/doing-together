@@ -186,3 +186,61 @@ updateGroupPageLinks = (interval,page) => {
         }
     }
 };
+
+
+
+/*Code for group messaging*/
+registerGroupMessagingActivity = () =>{
+    window.setInterval(loadNewMessage,1000);
+};
+
+loadNewMessage = () => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Nothing New") {
+                const response = JSON.parse(responseText)
+                const message = response.message;
+                const userName = response.userName;
+                const createdAt = response.createElement;
+                const timestamp = response.timestamp;
+                const currentUser = response.current_user
+                let table = document.getElementById("messageTable");
+                let row = table.insertRow(-1);
+                let nameCell = row.insertCell(0);
+                nameCell.className = "username";
+                if (currentUser) {
+                    nameCell.innerHTML="You:";
+                }
+                else {
+                    nameCell.innerHTML=userName;
+                }
+                let messageCell=row.insertCell(1);
+                messageCell.setAttribute("class","message col-sm-10 text-sm-left");
+                messageCell.innerHTML=message;
+            }
+        }
+        else if (this.readyState == 4 && this.status == 400) {
+            
+        }
+    };
+    xhttp.open("GET","/group/getNewMessage",true);
+    xhttp.send();
+};
+
+submitMessage = () => {
+    let submitInput = document.getElementById("messageInput");
+    if (submitInput.value.length > 140) {
+        alert("You cannot send a message with a length exceeding 200 characters.");
+        return;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {};
+    xhttp.open("POST","/group/submitmessage",true);
+    let data = {};
+    data["message"]=submitInput.value;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+    submitInput.value="";
+};

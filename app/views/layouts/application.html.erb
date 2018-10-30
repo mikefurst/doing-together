@@ -12,7 +12,7 @@
   
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
+
   <!-- Popper JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   
@@ -26,6 +26,8 @@
   <body onload="automateActivityAJAX()">
 <% elsif controller.controller_name == "group" and controller.action_name == "index" %>
   <body onload="groupIndexPageOnLoad()">
+<% elsif controller.controller_name == "group" and (controller.action_name == "view" or controller.action_name == "edit") %>
+  <body onload="registerGroupMessagingActivity()">
 <% else %>
   <body>
 <% end %>
@@ -34,14 +36,12 @@
         
       <div class="col-md-6"><H4>A place to do things <i>together</i>.</H2></div>
       <% if user_signed_in? %>
-      <div class="col-md-5"></div>
-        <div class="col-md-1"><H4>
+        <div class="col-md-6 justify-content-right"><H4>
            <!-- Creates the out button:Added by Jake -->
           <%= link_to(image_tag('button_sign_out.png'), destroy_user_session_path, method: :delete) %>        
         </H4></div>
       <% else %>
-      <div class="col-md-4"></div>
-        <div class="col-md-2"><H4>
+        <div class="col-md-6 justify-content-right"><H4>
           <!-- Creates the Sign In and Sign Up buttons:Added by Jake -->
           <%= link_to(image_tag('button_sign_in.png'), new_user_session_path) %> or <%= link_to(image_tag('button_sign_up.png'), new_user_registration_path) %>
         </H4></div>

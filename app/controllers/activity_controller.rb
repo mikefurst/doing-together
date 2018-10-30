@@ -90,7 +90,13 @@ class ActivityController < ApplicationController
     
     def getNewActivities
         @acts = Activity.select {|a|
-            if current_user.groupid==nil
+            if session["last_load_timestamp"]==nil
+                if current_user.groupid==nil
+                    a.user_id==current_user.id and a.groupid==nil
+                else
+                    a.groupid==current_user.groupid
+                end
+            elsif current_user.groupid==nil
                 a.created_at.strftime("%s") > session["last_load_timestamp"] and a.user_id==current_user.id and a.groupid==nil
             else
                 a.created_at.strftime("%s") > session["last_load_timestamp"] and a.groupid==current_user.groupid
