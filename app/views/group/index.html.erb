@@ -2,7 +2,7 @@
     <H1 class='pagetitle'>Groups</H1>
     <br>
     <div class="container">
-        <div class='groupcontainer'>
+        <div class='groupcontainer col-sm-12'>
             <H2 class='pagetitle'>Available Groups</H2>
             <% if @groups.blank? %>
                 <H3>There are currently no groups.</H3>
@@ -15,8 +15,8 @@
                         <option>Number of Members</option>
                     </select>
                 </center>
-                <table id="grouptable" class='grouptable'>
-                    <thead>
+                <table id="grouptable" class='table table-hover table-bordered table-dark table-responsive table-condensed'>
+                    <thead class="thead-dark">
                         <tr>
                             <th><a class="UP" onclick="sortGroupTableByColumn(0,'grouptable',true)" href="javascript:void(0);">Group Name</a></th>
                             <th><a class="UP" onclick="sortGroupTableByColumn(1,'grouptable')" href="javascript:void(0);">Group Description</a></th>
