@@ -253,24 +253,34 @@ setActivityTableRows = (page,interval) => {
             }
         }
     }
-    updatePageLinks(interval);
+    updatePageLinks(interval,page);
 };
 
-updatePageLinks = (interval) => {
-    let p = document.getElementById("pageLinks");
-    p.innerHTML="";
+updatePageLinks = (interval,page=1) => {
+    let ul = document.getElementById("pageLinks");
+    ul.innerHTML="";
     const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
     if (pages > 1) {
         for (let i=1;i<=pages;i++) {
+            let li = document.createElement('li');
+            if (i==page) {
+                li.className = "page-item active";
+            }
+            else {
+                li.className = "page-item";
+            }
+            li.id=i.toString();
             let a = document.createElement("a");
             let linkText = document.createTextNode(i.toString()+" ");
             a.appendChild(linkText);
-            a.title = i.toString()+" ";
+            a.title = i.toString();
+            a.className = "page-link";
             a.href = "javascript:void(0)";
             a.onclick = function() {
                 setActivityTableRows(i,interval);
             };
-            p.appendChild(a);
+            li.appendChild(a);
+            ul.appendChild(li);
         }
     }
 };

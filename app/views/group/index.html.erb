@@ -15,8 +15,8 @@
                         <option>Number of Members</option>
                     </select>
                 </center>
-                <table id="grouptable" class='table table-hover table-bordered table-dark table-responsive table-condensed'>
-                    <thead class="thead-dark">
+                <table id="grouptable" class="table table-hover table-bordered table-condensed">
+                    <thead class="thead-light">
                         <tr>
                             <th><a class="UP" onclick="sortGroupTableByColumn(0,'grouptable',true)" href="javascript:void(0);">Group Name</a></th>
                             <th><a class="UP" onclick="sortGroupTableByColumn(1,'grouptable')" href="javascript:void(0);">Group Description</a></th>
@@ -60,7 +60,10 @@
                     </tbody>
                 </table>
             <% end %>
-            <p id="pageLinks"></p>
+            <br>
+            <ul id="pageLinks" class="pagination justify-content-center">
+              
+            </ul>
             <br>
             <%= render "shared/links" %>
         </div>
