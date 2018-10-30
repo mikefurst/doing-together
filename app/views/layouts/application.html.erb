@@ -25,6 +25,8 @@
 </head>
 <% if controller.controller_name == "activity" %>
   <body onload="automateActivityAJAX()">
+<% elsif controller.controller_name == "group" and controller.action_name == "index" %>
+  <body onload="groupIndexPageOnLoad()">
 <% else %>
   <body>
 <% end %>

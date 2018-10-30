@@ -1,3 +1,6 @@
+groupIndexPageOnLoad = () => {
+    setGroupTableRows(1,25);
+}
 verifyNewGroup = () => {
     const password = document.getElementById('group_password').value;
     const password_confirmation = document.getElementById('group_password_confirmation').value;
@@ -131,6 +134,45 @@ sortGroupTableByColumn = (columnid,tableID,hasLink = false,sortByID=false) => {
             and mark that a switch has been done:*/
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
+        }
+    }
+    setGroupTableRows(1,25);
+};
+
+setGroupTableRows = (page,interval) => {
+    let table = document.getElementById('grouptable');
+    let rows = table.rows;
+    const len = rows.length
+    const start = (interval * (page-1))+1;
+    const end = ((interval*page)<len) ? (interval*page) : (len);
+    if (len >= interval*page) {
+        for (let i=1; i<=len-1; i++) {
+            if (start <= i && i <= end) {
+                rows[i].style.display="";
+            }
+            else {
+                rows[i].style.display="none";
+            }
+        }
+    }
+    updateGroupPageLinks(interval);
+};
+
+updateGroupPageLinks = (interval) => {
+    let p = document.getElementById("pageLinks");
+    p.innerHTML="";
+    const pages = Math.ceil((document.getElementById('grouptable').rows.length-1) / interval);
+    if (pages > 1) {
+        for (let i=1;i<=pages;i++) {
+            let a = document.createElement("a");
+            let linkText = document.createTextNode(i.toString()+" ");
+            a.appendChild(linkText);
+            a.title = i.toString()+" ";
+            a.href = "javascript:void(0)";
+            a.onclick = function() {
+                setGroupTableRows(i,interval);
+            };
+            p.appendChild(a);
         }
     }
 };

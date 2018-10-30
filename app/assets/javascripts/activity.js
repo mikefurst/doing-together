@@ -259,17 +259,19 @@ setActivityTableRows = (page,interval) => {
 updatePageLinks = (interval) => {
     let p = document.getElementById("pageLinks");
     p.innerHTML="";
-    const pages = Math.ceil(document.getElementById('activitytable').rows.length / interval);
-    for (let i=1;i<=pages;i++) {
-        let a = document.createElement("a");
-        let linkText = document.createTextNode(i.toString()+" ");
-        a.appendChild(linkText);
-        a.title = i.toString()+" ";
-        a.href = "javascript:void(0)";
-        a.onclick = function() {
-            setActivityTableRows(i,interval);
-        };
-        p.appendChild(a);
+    const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
+    if (pages > 1) {
+        for (let i=1;i<=pages;i++) {
+            let a = document.createElement("a");
+            let linkText = document.createTextNode(i.toString()+" ");
+            a.appendChild(linkText);
+            a.title = i.toString()+" ";
+            a.href = "javascript:void(0)";
+            a.onclick = function() {
+                setActivityTableRows(i,interval);
+            };
+            p.appendChild(a);
+        }
     }
 };
 removePageLinks = () => {
