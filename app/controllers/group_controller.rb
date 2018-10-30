@@ -129,7 +129,7 @@ class GroupController < ApplicationController
             return
         else
             User.all.each { |u|
-                if u.groupid=@group.id
+                if u.groupid==@group.id
                     u.groupid=nil
                     u.save!
                 end
