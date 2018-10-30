@@ -1,32 +1,38 @@
 <!-- These links are for inside the controller -->
-<% if controller.controller_name == nil or controller.controller_name == 'activity' or controller.controller_name == '' %>
-  <!-- Leave links for the activity controller here -->
-  <p class="link"><%= link_to (image_tag('button_log_new_activity.png')), {:action => 'new', :controller => 'activity'} %></p>
+<br>
+<% if controller.action_name == "index" %>
+  <% if controller.controller_name == nil or controller.controller_name == 'activity' or controller.controller_name == '' %>
+    <!-- Leave links for the activity controller here -->
+    <div class="gradient-buttons text-center"><%= button_to "Log New Activity", {:action => 'new', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name == 'activity_type' %>
+    <!-- Leave links for the activity type controller -->
+    <div class="gradient-buttons text-center"><%= button_to "Register New Acitivty Type", {:action => 'new', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name == 'group' %>
+    <!-- Leave links for the group controller here -->
+    <div class="gradient-buttons text-center"><%= button_to "Create New Group", {:action => 'new', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  
+  <!-- These links are to other controllers-->
+  <% if controller.controller_name != nil and controller.controller_name != "activity" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Activity Log", {:action => 'index', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name != "activity_type" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name != "group" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Groups", {:action => 'index', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+<% else %>
   <br>
-<% end %>
-<% if controller.controller_name == 'activity_type' %>
-  <!-- Leave links for the activity type controller -->
-  <p class="link"><%= link_to (image_tag('button_register_new_activity_type.png')), {:action => 'new', :controller => 'activity_type'} %></p>
-  <br>
-<% end %>
-<% if controller.controller_name == 'group' %>
-  <!-- Leave links for the group controller here -->
-  <!-- Made the Create A New Group buttom: Jake -->
-  <p class="link"><%= link_to (image_tag('button_create_new_group.png')), {:action => 'new', :controller => 'group'} %></p>
-  <br>
-<% end %>
-
-<!-- These links are to other controllers-->
-<% if controller.controller_name != nil and controller.controller_name != "activity" %>
-  <p class="link"><%= link_to (image_tag('button_view_activity_log.png')), {:action => 'index', :controller => 'activity'}%></p>
-  <br>
-<% end %>
-<% if controller.controller_name != "activity_type" %>
-  <p class='link'><%= link_to (image_tag('button_view_activity_types.png')), {:action => 'index', :controller => 'activity_type'}%></p>
-  <br>
-<% end %>
-<% if controller.controller_name != "group" %>
-  <p class='link'><%= link_to (image_tag('button_view_groups.png')), {:action => 'index', :controller => 'group'}%></p>
+  <div class="gradient-buttons text-center"><%= button_to "Back", url_for(:back), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %></div>
   <br>
 <% end %>
 <br>

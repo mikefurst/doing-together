@@ -1,9 +1,9 @@
 <div class="activity_controller">
     <%if current_user.groupid == nil %>
         <h1 class="pagetitle">Your Activities</h1>
-
     <% else %>
-        <h1 id="pagetitle" class="pagetitle">Activities for <%=@group.name%></h1>
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+        <link rel="stylesheet" href="/usr/local/rvm/gems/ruby-2.4.0/gems/bootstrap-4.1.3/assets/stylesheets/bootstrap/mixins/_grid-framework.scss">
     <% end %>
     <br>
     <div class="activitycontainer col-sm-12">
@@ -15,9 +15,6 @@
             <%else%>
                 <H3>Activities will appear here when you or someone in your group adds one.</H3>
             <%end%>
-            <br>
-            <br>
-            <%= render "shared/links" %>
         <% else %>
             <center>
                 <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
@@ -89,7 +86,7 @@
                 <% end %>
             </ul>
             <br>
-            <%= render "shared/links" %>
+            </table>
         <% end %>
     </div>
 </div>

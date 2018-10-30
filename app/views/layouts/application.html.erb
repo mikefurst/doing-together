@@ -20,6 +20,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
   
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <%= csrf_meta_tags %>
 </head>
 <% if controller.controller_name == "activity" %>
@@ -33,19 +35,18 @@
 <% end %>
 <div class="page-header">
     <center><H2><%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title'%></H2></center>
-        
-      <div class="col-sm-6"><H4>A place to do things <i>together</i>.</H2></div>
-      <% if user_signed_in? %>
-        <div class="col-sm-6 justify-content-right"><H4>
-           <!-- Creates the out button:Added by Jake -->
-          <%= link_to(image_tag('button_sign_out.png'), destroy_user_session_path, method: :delete) %>        
-        </H4></div>
-      <% else %>
-        <div class="col-sm-6 justify-content-right"><H4>
-          <!-- Creates the Sign In and Sign Up buttons:Added by Jake -->
-          <%= link_to(image_tag('button_sign_in.png'), new_user_session_path) %> or <%= link_to(image_tag('button_sign_up.png'), new_user_registration_path) %>
-        </H4></div>
-      <% end %>
+      <div class="row">
+        <div class="col-sm-6"><H4>A place to do things <i>together</i>.</H2></div>
+        <% if user_signed_in? %>
+          <div class="col-sm-6 gradient-buttons text-right"><H4>
+            <%= button_to "Sign Out", destroy_user_session_path, :method => 'delete', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          </H4></div>
+        <% else %>
+          <div class="col-sm-6 gradient-buttons text-right"><H4>
+            <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %> or <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          </H4></div>
+        <% end %>
+      </div>
   </div>
   <!-- This adds the fgroup png:Added by Jake -->
   <center><h1><%= image_tag "fgroup.png" %></h1></center>
@@ -53,6 +54,9 @@
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 <%= yield %>
-
+<% if user_signed_in? %>
+  <br>
+  <%= render 'shared/links' %>
+<% end %>
 </body>
 </html>
