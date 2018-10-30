@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   patch 'group/leave'
   patch 'group/kick'
   patch 'group/makeadmin'
+  post 'group/submitmessage'
+  get 'group/getNewMessage'
   
   get 'application/index'
   
