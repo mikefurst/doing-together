@@ -1,3 +1,6 @@
+groupIndexPageOnLoad = () => {
+    setGroupTableRows(1,25);
+}
 verifyNewGroup = () => {
     const password = document.getElementById('group_password').value;
     const password_confirmation = document.getElementById('group_password_confirmation').value;
@@ -69,9 +72,9 @@ groupSearch = () => {
     }
 };
 
-sortGroupTableByColumn = (columnid,hasLink = false) => {
+sortGroupTableByColumn = (columnid,tableID,hasLink = false,sortByID=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("grouptable");
+    table = document.getElementById(tableID);
     switching = true;
     let goingUp = table.getElementsByTagName("th")[columnid].getElementsByTagName("a")[0].className == "UP";
     if (goingUp) {
@@ -95,23 +98,31 @@ sortGroupTableByColumn = (columnid,hasLink = false) => {
             one from current row and one from the next:*/
             let x,y;
             if (hasLink) {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+            }
+            else if (sortByID) {
+                x = rows[i].getElementsByTagName("td")[columnid].id;
+                y = rows[i+1].getElementsByTagName("td")[columnid].id;
             }
             else {
-                x = rows[i].getElementsByTagName("td")[columnid];
-                y = rows[i + 1].getElementsByTagName("td")[columnid];
+                x = rows[i].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].innerHTML.toLowerCase();
+            }
+            if (!isNaN(x) && !isNaN(y)) {
+                x = parseInt(x,10);
+                y = parseInt(y,10);
             }
             //check if the two rows should switch place:))
             if (goingUp) {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (x > y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             }
             else {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (x < y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
@@ -123,6 +134,45 @@ sortGroupTableByColumn = (columnid,hasLink = false) => {
             and mark that a switch has been done:*/
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
+        }
+    }
+    setGroupTableRows(1,25);
+};
+
+setGroupTableRows = (page,interval) => {
+    let table = document.getElementById('grouptable');
+    let rows = table.rows;
+    const len = rows.length
+    const start = (interval * (page-1))+1;
+    const end = ((interval*page)<len) ? (interval*page) : (len);
+    if (len >= interval*page) {
+        for (let i=1; i<=len-1; i++) {
+            if (start <= i && i <= end) {
+                rows[i].style.display="";
+            }
+            else {
+                rows[i].style.display="none";
+            }
+        }
+    }
+    updateGroupPageLinks(interval);
+};
+
+updateGroupPageLinks = (interval) => {
+    let p = document.getElementById("pageLinks");
+    p.innerHTML="";
+    const pages = Math.ceil((document.getElementById('grouptable').rows.length-1) / interval);
+    if (pages > 1) {
+        for (let i=1;i<=pages;i++) {
+            let a = document.createElement("a");
+            let linkText = document.createTextNode(i.toString()+" ");
+            a.appendChild(linkText);
+            a.title = i.toString()+" ";
+            a.href = "javascript:void(0)";
+            a.onclick = function() {
+                setGroupTableRows(i,interval);
+            };
+            p.appendChild(a);
         }
     }
 };

@@ -2,6 +2,12 @@
 class ActivityController < ApplicationController
     before_action :authenticate_user!
     def index
+        if current_user.groupid==nil
+            @group=nil
+        else
+            @group = Group.find(current_user.groupid)
+        end
+        
         @acts=Activity.select { |a| 
             if current_user.groupid == nil
                 a.userid == current_user.id and ActivityType.find(a.actid).groupid == nil
@@ -9,16 +15,9 @@ class ActivityController < ApplicationController
                 User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
             end
         }.sort {|a,b| b.created_at <=> a.created_at}
-        @actTypes = ActivityType.all
-        if current_user.groupid==nil
-            @group=nil
-        else
-            @group = Group.find(current_user.groupid)
+        if not @acts.blank?
+            session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
         end
-        @users = {}
-        User.all.each { |u|
-            @users[u.id]=u.first_name << ' ' << u.last_name
-        }
     end
     
     def new
@@ -89,5 +88,20 @@ class ActivityController < ApplicationController
         return
     end
     
+    def getNewActivities
+        @acts = Activity.select {|a|
+            if current_user.groupid==nil
+                a.created_at.strftime("%s") > session["last_load_timestamp"] and a.user_id==current_user.id and a.groupid==nil
+            else
+                a.created_at.strftime("%s") > session["last_load_timestamp"] and a.groupid==current_user.groupid
+            end
+        }.sort {|a,b| a.created_at <=> b.created_at}
+        if @acts.blank?
+            render :status => "200", :text => "Nothing New"
+        else
+            render :status => "200", :json => @acts.last.getNewActivityJSON(current_user.id)
+            session["last_load_timestamp"] = @acts.last.created_at.strftime("%s")
+        end
+    end
     
 end

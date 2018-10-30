@@ -8,7 +8,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   
   <!-- Bootstrap MaxCDN -->
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -19,28 +19,35 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   
   <!-- Bootstrap MaxCDN End-->
+
   
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <div class="page-header">
+<% if controller.controller_name == "activity" %>
+  <body onload="automateActivityAJAX()">
+<% elsif controller.controller_name == "group" and controller.action_name == "index" %>
+  <body onload="groupIndexPageOnLoad()">
+<% else %>
+  <body>
+<% end %>
+<div class="page-header">
     <center><H2><%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title'%></H2></center>
-    <div id="headercontainer">
         
-        <div class="headerchild"><H4 class="lalign">A place to do things <i>together</i>.</H2></div>
-        <% if user_signed_in? %>
-          <div class="headerchild"><H4 class="ralign">
-             <!-- Creates the out button:Added by Jake -->
-            <%= link_to(image_tag('button_sign_out.png'), destroy_user_session_path, method: :delete) %>        
-          </H4></div>
-        <% else %>
-          <div class="headerchild"><H4 class="ralign">
-            <!-- Creates the Sign In and Sign Up buttons:Added by Jake -->
-            <%= link_to(image_tag('button_sign_in.png'), new_user_session_path) %> or <%= link_to(image_tag('button_sign_up.png'), new_user_registration_path) %>
-          </H4></div>
-        <% end %>
-    </div>
-  </header>
+      <div class="col-md-6"><H4>A place to do things <i>together</i>.</H2></div>
+      <% if user_signed_in? %>
+      <div class="col-md-5"></div>
+        <div class="col-md-1"><H4>
+           <!-- Creates the out button:Added by Jake -->
+          <%= link_to(image_tag('button_sign_out.png'), destroy_user_session_path, method: :delete) %>        
+        </H4></div>
+      <% else %>
+      <div class="col-md-4"></div>
+        <div class="col-md-2"><H4>
+          <!-- Creates the Sign In and Sign Up buttons:Added by Jake -->
+          <%= link_to(image_tag('button_sign_in.png'), new_user_session_path) %> or <%= link_to(image_tag('button_sign_up.png'), new_user_registration_path) %>
+        </H4></div>
+      <% end %>
+  </div>
   <!-- This adds the fgroup png:Added by Jake -->
   <center><h1><%= image_tag "fgroup.png" %></h1></center>
   <!-- This adds the fgroup png:Added by Jake -->

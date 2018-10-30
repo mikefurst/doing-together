@@ -51,30 +51,6 @@ table.grouptable thead th:first-child {
   border-left: none;
 }
 
-table.grouptable tfoot {
-  font-size: 14px;
-  font-weight: bold;
-  color: #FFFFFF;
-  background: #D0E4F5;
-  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  border-top: 2px solid #444444;
-}
-table.grouptable tfoot td {
-  font-size: 14px;
-}
-table.grouptable tfoot .links {
-  text-align: right;
-}
-table.grouptable tfoot .links a{
-  display: inline-block;
-  background: #1C6EA4;
-  color: #FFFFFF;
-  padding: 2px 8px;
-  border-radius: 5px;
-}
-
 .AlertMessage {
   visibility: hidden;
   color: red;

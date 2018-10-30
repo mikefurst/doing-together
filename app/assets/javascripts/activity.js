@@ -1,5 +1,5 @@
 /*global sortActivityTableByColumn*/
-sortActivityTableByColumn = (columnid,hasLink = false) => {
+sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -25,23 +25,27 @@ sortActivityTableByColumn = (columnid,hasLink = false) => {
             one from current row and one from the next:*/
             let x,y;
             if (hasLink) {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getElementsByTagName("a")[0].innerHTML.toLowerCase();
+            }
+            else if (timeStamp) {
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
             }
             else {
-                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0];
-                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0];
+                x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
+                y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
             }
             //check if the two rows should switch place:))
             if (goingUp) {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (x > y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
                 }
             }
             else {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (x < y) {
                     //if so, mark as a switch and break the loop:
                     shouldSwitch = true;
                     break;
@@ -55,6 +59,7 @@ sortActivityTableByColumn = (columnid,hasLink = false) => {
             switching = true;
         }
     }
+    setActivityTableRows(1,25);
 };
 /*global sortActivityTableByTime*/
 sortActivityTableByTime = () => {
@@ -105,6 +110,7 @@ sortActivityTableByTime = () => {
             switching = true;
         }
     }
+    setActivityTableRows(1,25);
 };
 
 /*global activitySearch*/
@@ -115,7 +121,6 @@ activitySearch = () => {
     let rows = table.rows;
     for (let i = 1; i < rows.length; i++) {
         let td = rows[i].getElementsByTagName('td');
-        let found = false;
         let x = 0;
         switch (document.getElementById('activitySearchSelect').value) {
             case 'Activity Type':
@@ -141,10 +146,134 @@ activitySearch = () => {
         }
         if (val.indexOf(filter) > -1) {
             rows[i].style.display="";
-            found = true;
         }
         else {
             rows[i].style.display="none";
         }
     }
+    if (filter == "") {
+        setActivityTableRows(1,25);
+    }
+    else {
+        removePageLinks();
+    }
+};
+
+automateActivityAJAX = () => {
+    setActivityTableRows(1,25);
+    window.setInterval(getNewActivities,1000);
+};
+
+getNewActivities = () => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Nothing New") {
+                //parse JSON response
+                const response = JSON.parse(responseText)
+                const activityName = response.name;
+                const activityID = response.id;
+                const userName = response.userName;
+                const duration = response.duration;
+                const createdAt = response.created_at;
+                const timestamp = response.timestamp;
+                const datestamp = response.datestamp;
+                const currentUser = response.current_user;
+                //load table
+                let table = document.getElementById("activitytable");
+                //create new row
+                let row = table.insertRow(1);
+                if (currentUser) {
+                    row.class = "table-primary"
+                }
+                else {
+                    row.class = "table-info"
+                }
+                //create cell with activity name
+                let nameCell = row.insertCell(0);
+                let nameP = document.createElement("p");
+                nameP.class = "name";
+                let a = document.createElement('a');
+                const linkText = document.createTextNode(activityName);
+                a.appendChild(linkText);
+                a.title = activityName;
+                a.href = "/activity/show?id=" + activityID;
+                nameP.appendChild(a);
+                nameCell.appendChild(nameP);
+                //create cell with duration
+                let durationCell = row.insertCell(1);
+                let durationP = document.createElement('p');
+                durationP.class = "duration";
+                durationP.innerHTML = duration;
+                durationCell.appendChild(durationP);
+                let userCell = row.insertCell(2);
+                let userP = document.createElement("p");
+                userP.class = "user";
+                userP.innerHTML = userName;
+                userCell.appendChild(userP);
+                //create cell with timestamp
+                let timestampCell = row.insertCell(3);
+                let timestampP = document.createElement("p");
+                timestampP.class = "timestamp";
+                timestampP.id = createdAt;
+                timestampP.innerHTML = timestamp;
+                timestampCell.appendChild(timestampP);
+                //create cell with datestamp
+                let datestampCell = row.insertCell(4);
+                let datestampP = document.createElement("p");
+                datestampP.class = "timestamp";
+                datestampP.innerHTML = datestamp;
+                datestampCell.appendChild(datestampP);
+                setActivityTableRows(1,25);
+                updatePageLinks(25);
+            }
+        }
+        else if (this.readyState == 4 && this.status == 400) {
+            
+        }
+    };
+    xhttp.open("GET","/activity/getNewActivities",true);
+    xhttp.send();
+};
+
+setActivityTableRows = (page,interval) => {
+    let table = document.getElementById('activitytable');
+    let rows = table.rows;
+    const len = rows.length
+    const start = (interval * (page-1))+1;
+    const end = ((interval*page)<len) ? (interval*page) : (len);
+    if (len >= interval*page) {
+        for (let i=1; i<=len-1; i++) {
+            if (start <= i && i <= end) {
+                rows[i].style.display="";
+            }
+            else {
+                rows[i].style.display="none";
+            }
+        }
+    }
+    updatePageLinks(interval);
+};
+
+updatePageLinks = (interval) => {
+    let p = document.getElementById("pageLinks");
+    p.innerHTML="";
+    const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
+    if (pages > 1) {
+        for (let i=1;i<=pages;i++) {
+            let a = document.createElement("a");
+            let linkText = document.createTextNode(i.toString()+" ");
+            a.appendChild(linkText);
+            a.title = i.toString()+" ";
+            a.href = "javascript:void(0)";
+            a.onclick = function() {
+                setActivityTableRows(i,interval);
+            };
+            p.appendChild(a);
+        }
+    }
+};
+removePageLinks = () => {
+    document.getElementById("pageLinks").innerHTML="";
 };
