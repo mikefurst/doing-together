@@ -33,18 +33,14 @@
                                         <td><%= group.description %></td>
                                         <td><%= group.numMembers %></td>
                                         <td>
-                                            <%= link_to (image_tag('button_delete.png')), 
-                                                {:action => 'delete', :id => group.id,}, :method => 'delete',
-                                                data: {:confirm => "Are you sure you want to delete #{group.name}?"},
-                                                :class => 'delitem' %>
+                                            <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
                                         </td>
                                     <% else %>
                                         <td class="name"><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
                                         <td><%= group.description %></td>
                                         <td><%= group.numMembers %></td>
                                         <td>
-                                            <%= link_to (image_tag('button_leave.png')), {:action => 'leave'}, :method => 'patch',
-                                                data: {:confirm => "Are you sure you want to leave #{group.name}?"}%>
+                                            <%= button_to "Leave", {:controller => 'group', :action =>'leave', :id => group.id}, :method => 'patch', :data => {:confirm => "Are you sure you want to leave #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
                                         </td>
                                     <% end %>
                                 </tr>
@@ -53,7 +49,9 @@
                                     <td class="name"><%= link_to group.name, {:action => 'show', :id => group.id} %></td>
                                     <td><%= group.description %></td>
                                     <td><%= group.numMembers %></td>
-                                    <td><%= link_to (image_tag('button_join.png')), {:action => 'show', :id => group.id} %></td>
+                                    <td>
+                                        <%= link_to "Join", {:action =>'show', :id => group.id}, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+                                    </td>
                                 </tr>
                             <%end%>
                         <% end %>
