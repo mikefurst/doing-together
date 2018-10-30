@@ -70,7 +70,9 @@ class GroupController < ApplicationController
         @messages = GroupMessage.select { |g|
             g.groupid == current_user.groupid
         }.sort {|a,b| a.timeAsInt <=> b.timeAsInt}
-        session["last-message"] = @messages.last.timeAsInt
+        unless @messages.blank?
+            session["last-message"] = @messages.last.timeAsInt
+        end
         @maximumNameLength = 50
         @minimumNameLength = 10
         @maximumDescriptionLength = 150
@@ -96,7 +98,9 @@ class GroupController < ApplicationController
         @messages = GroupMessage.select { |g|
             g.groupid == current_user.groupid
         }.sort {|a,b| a.timeAsInt <=> b.timeAsInt}
-        session["last-message"] = @messages.last.timeAsInt
+        unless @messages.blank?
+            session["last-message"] = @messages.last.timeAsInt
+        end
     end
     def group_param
         params.require(:group).permit("name","description","password")
