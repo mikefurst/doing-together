@@ -10,8 +10,8 @@
                 <% else %>
                     <H2 class='pagetitle'>Existing Activity Types</H2>
                     <br>
-                    <table class="table table-hover table-bordered table-dark table-responsive table-condensed">
-                        <thead class="thead-dark">
+                    <table class="table table-hover table-bordered table-responsive table-condensed">
+                        <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Score</th>
@@ -41,9 +41,9 @@
                     </center>
                     <H2 class='pagetitle'>Existing Activity Types</H2>
                         <br>
-                        <table id='activitytypetable' class='table table-hover table-bordered table-dark table-responsive table-condensed'>
+                        <table id='activitytypetable' class='table table-hover table-bordered table-responsive table-condensed'>
                             <% if @groupAdminID == current_user.id %>
-                                <thead class="thead-dark">
+                                <thead>
                                     <tr>
                                         <th><a class="UP" onclick="sortActivityTypeTableByColumn(0,true)" href="javascript:void(0);">Name</a></th>
                                         <th><a class="UP" onclick="sortActivityTypeTableByColumn(1)" href="javascript:void(0);">Score</a></th>
@@ -64,7 +64,7 @@
                                     <% end %>
                                 </tbody>
                         <% else %>
-                            <thead class="thead-dark">
+                            <thead>
                                 <tr>
                                     <th><a class="UP" onclick="sortActivityTypeTableByColumn(0)" href="javascript:void(0);">Name</a></th>
                                     <th><a class="UP" onclick="sortActivityTypeTableByColumn(1)" href="javascript:void(0);">Score</a></th>
