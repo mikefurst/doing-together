@@ -25,7 +25,13 @@
                 <%= password_field 'group', 'password_confirmation', :size => @smallerMaximumLength, :onkeyup => 'verifyNewGroup()', :required => true%>
             </div>
             <br>
-            <%= image_submit_tag 'button_create.png', :class => 'submitbutton', :id => 'group_submit_button', :disabled => 'true'%>
+            <div class="gradient-buttons">
+                <Button type="submit" class='btn center-block btn-lg btn-primary'>
+                    Log Data
+                    <%=:id => 'group_submit_button', :disabled => 'true'%>
+                    </Button>
+            </div>
+            
             <% end %>
         </div>
     </div>
