@@ -64,13 +64,11 @@
                     <%= number_field 'activitytypes', 'score', :step => 'any', :size => 10, :required => true %>
                 </div>
                 <br>
-                <div class="buttonpanel">
-                    <%= image_submit_tag "button_create_new_activity_type.png", :class => 'submitbutton'%>
+                <div class="gradient-buttons">
+                    <Button type="submit" class='btn center-block btn-lg btn-primary'>Create New Activity Type</Button>
+                    
                 </div>
             <% end %>
-            <br>
-            <!-- Added a back button png: Jake -->
-            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>

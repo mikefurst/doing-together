@@ -18,11 +18,9 @@
       </div>
     <% end -%>
     <br>
-    <div class="actions">
+    <div class="actions gradient-buttons">
       <!-- changed Log In to a button -- :Added by Jake -->
-      <%= image_submit_tag("button_log_in.png") %>
-
-
+      <%= button_to "Log In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
     </div>
   <% end %>
     <br>

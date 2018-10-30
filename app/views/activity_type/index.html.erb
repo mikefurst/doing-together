@@ -30,7 +30,9 @@
             <% else %>
                 <% if @actTypes.blank? %>
                     <H2 class='pagetitle'>No Existing Activity Types</H2>
-                    <p>Make some below.</p>
+                    <center>
+                        <p>Make some below.</p>
+                    </center>
                 <% else %>
                     <center>
                         <input type='text' id='activityTypeSearchInput' class='searchBar' onkeyup='activityTypeSearch()' placeholder='Search for an entry...' title='Search here'>
@@ -88,8 +90,6 @@
                     </table>
                 <% end %>
             <% end %>
-            <br>
-            <%= render 'shared/links' %>
         </div>
     </div>
 </div>

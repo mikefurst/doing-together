@@ -1,3 +1,133 @@
+getNewActivities = () => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Nothing New") {
+                //parse JSON response
+                const response = JSON.parse(responseText)
+                const activityName = response.name;
+                const activityID = response.id;
+                const userName = response.userName;
+                const duration = response.duration;
+                const createdAt = response.created_at;
+                const timestamp = response.timestamp;
+                const datestamp = response.datestamp;
+                const currentUser = response.current_user;
+                //load table
+                let table = document.getElementById("activitytable");
+                //create new row
+                let row = table.insertRow(1);
+                if (currentUser) {
+                    row.class = "table-primary"
+                }
+                else {
+                    row.class = "table-info"
+                }
+                //create cell with activity name
+                let nameCell = row.insertCell(0);
+                let nameP = document.createElement("p");
+                nameP.class = "name";
+                let a = document.createElement('a');
+                const linkText = document.createTextNode(activityName);
+                a.appendChild(linkText);
+                a.title = activityName;
+                a.href = "/activity/show?id=" + activityID;
+                nameP.appendChild(a);
+                nameCell.appendChild(nameP);
+                //create cell with duration
+                let durationCell = row.insertCell(1);
+                let durationP = document.createElement('p');
+                durationP.class = "duration";
+                durationP.innerHTML = duration;
+                durationCell.appendChild(durationP);
+                let userCell = row.insertCell(2);
+                let userP = document.createElement("p");
+                userP.class = "user";
+                userP.innerHTML = userName;
+                userCell.appendChild(userP);
+                //create cell with timestamp
+                let timestampCell = row.insertCell(3);
+                let timestampP = document.createElement("p");
+                timestampP.class = "timestamp";
+                timestampP.id = createdAt;
+                timestampP.innerHTML = timestamp;
+                timestampCell.appendChild(timestampP);
+                //create cell with datestamp
+                let datestampCell = row.insertCell(4);
+                let datestampP = document.createElement("p");
+                datestampP.class = "timestamp";
+                datestampP.innerHTML = datestamp;
+                datestampCell.appendChild(datestampP);
+                setActivityTableRows(1,25);
+                updatePageLinks(25);
+            }
+        }
+        else if (this.readyState == 4 && this.status == 400) {
+            
+        }
+    };
+    xhttp.open("GET","/activity/getNewActivities",true);
+    xhttp.send();
+};
+
+
+updatePageLinks = (interval,page=1) => {
+    let ul = document.getElementById("pageLinks");
+    ul.innerHTML="";
+    const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
+    if (pages > 1) {
+        for (let i=1;i<=pages;i++) {
+            let li = document.createElement('li');
+            if (i==page) {
+                li.className = "page-item active";
+            }
+            else {
+                li.className = "page-item";
+            }
+            li.id=i.toString();
+            let a = document.createElement("a");
+            let linkText = document.createTextNode(i.toString()+" ");
+            a.appendChild(linkText);
+            a.title = i.toString();
+            a.className = "page-link";
+            a.href = "javascript:void(0)";
+            a.onclick = function() {
+                setActivityTableRows(i,interval);
+            };
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+    }
+};
+removePageLinks = () => {
+    document.getElementById("pageLinks").innerHTML="";
+};
+
+setActivityTableRows = (page,interval) => {
+    let table = document.getElementById('activitytable');
+    let rows = table.rows;
+    const len = rows.length
+    const start = (interval * (page-1))+1;
+    const end = ((interval*page)<len) ? (interval*page) : (len);
+    if (len >= interval*page) {
+        for (let i=1; i<=len-1; i++) {
+            if (start <= i && i <= end) {
+                rows[i].style.display="";
+            }
+            else {
+                rows[i].style.display="none";
+            }
+        }
+    }
+    updatePageLinks(interval,page);
+};
+
+automateActivityAJAX = () => {
+    setActivityTableRows(1,25);
+    window.setInterval(getNewActivities,1000);
+};
+
 /*global sortActivityTableByColumn*/
 sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
@@ -117,135 +247,35 @@ sortActivityTableByTime = () => {
 activitySearch = () => {
     const input = document.getElementById('activitySearchInput');
     const filter = input.value.toLowerCase();
-    const table = document.getElementById('activitytable');
-    let rows = table.rows;
-    for (let i = 1; i < rows.length; i++) {
-        let td = rows[i].getElementsByTagName('td');
-        let x = 0;
-        switch (document.getElementById('activitySearchSelect').value) {
-            case 'Activity Type':
-                x = 0;
-                break;
-            case 'Duration':
-                x=1;
-                break;
-            case 'Person Who Done It':
-                x=2;
-                break;
-            default:
-                x=0;
-                break;
-        }
-        let p = td[x].getElementsByTagName('p')[0];
-        let val;
-        if (p.className=="name") {
-            val = p.getElementsByTagName('a')[0].innerHTML.toLowerCase();
-        }
-        else {
-            val = p.innerHTML.toLowerCase();
-        }
-        if (val.indexOf(filter) > -1) {
-            rows[i].style.display="";
-        }
-        else {
-            rows[i].style.display="none";
-        }
-    }
-    if (filter == "") {
-        setActivityTableRows(1,25);
-    }
-    else {
-        removePageLinks();
-    }
-};
-
-automateActivityAJAX = () => {
-    setActivityTableRows(1,25);
-    window.setInterval(getNewActivities,1000);
-};
-
-getNewActivities = () => {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            const responseText = this.responseText
-            if (responseText != "Nothing New") {
-                //parse JSON response
-                const response = JSON.parse(responseText)
-                const activityName = response.name;
-                const activityID = response.id;
-                const userName = response.userName;
-                const duration = response.duration;
-                const createdAt = response.created_at;
-                const timestamp = response.timestamp;
-                const datestamp = response.datestamp;
-                const currentUser = response.current_user;
-                //load table
-                let table = document.getElementById("activitytable");
-                //create new row
-                let row = table.insertRow(1);
-                if (currentUser) {
-                    row.class = "table-primary"
-                }
-                else {
-                    row.class = "table-info"
-                }
-                //create cell with activity name
-                let nameCell = row.insertCell(0);
-                let nameP = document.createElement("p");
-                nameP.class = "name";
-                let a = document.createElement('a');
-                const linkText = document.createTextNode(activityName);
-                a.appendChild(linkText);
-                a.title = activityName;
-                a.href = "/activity/show?id=" + activityID;
-                nameP.appendChild(a);
-                nameCell.appendChild(nameP);
-                //create cell with duration
-                let durationCell = row.insertCell(1);
-                let durationP = document.createElement('p');
-                durationP.class = "duration";
-                durationP.innerHTML = duration;
-                durationCell.appendChild(durationP);
-                let userCell = row.insertCell(2);
-                let userP = document.createElement("p");
-                userP.class = "user";
-                userP.innerHTML = userName;
-                userCell.appendChild(userP);
-                //create cell with timestamp
-                let timestampCell = row.insertCell(3);
-                let timestampP = document.createElement("p");
-                timestampP.class = "timestamp";
-                timestampP.id = createdAt;
-                timestampP.innerHTML = timestamp;
-                timestampCell.appendChild(timestampP);
-                //create cell with datestamp
-                let datestampCell = row.insertCell(4);
-                let datestampP = document.createElement("p");
-                datestampP.class = "timestamp";
-                datestampP.innerHTML = datestamp;
-                datestampCell.appendChild(datestampP);
-                setActivityTableRows(1,25);
-                updatePageLinks(25);
+    if (filter.length > 0) {
+        const table = document.getElementById('activitytable');
+        let rows = table.rows;
+        for (let i = 1; i < rows.length; i++) {
+            let td = rows[i].getElementsByTagName('td');
+            let x = 0;
+            switch (document.getElementById('activitySearchSelect').value) {
+                case 'Activity Type':
+                    x = 0;
+                    break;
+                case 'Duration':
+                    x=1;
+                    break;
+                case 'Person Who Done It':
+                    x=2;
+                    break;
+                default:
+                    x=0;
+                    break;
             }
-        }
-        else if (this.readyState == 4 && this.status == 400) {
-            
-        }
-    };
-    xhttp.open("GET","/activity/getNewActivities",true);
-    xhttp.send();
-};
-
-setActivityTableRows = (page,interval) => {
-    let table = document.getElementById('activitytable');
-    let rows = table.rows;
-    const len = rows.length
-    const start = (interval * (page-1))+1;
-    const end = ((interval*page)<len) ? (interval*page) : (len);
-    if (len >= interval*page) {
-        for (let i=1; i<=len-1; i++) {
-            if (start <= i && i <= end) {
+            let p = td[x].getElementsByTagName('p')[0];
+            let val;
+            if (p.className=="name") {
+                val = p.getElementsByTagName('a')[0].innerHTML.toLowerCase();
+            }
+            else {
+                val = p.innerHTML.toLowerCase();
+            }
+            if (val.indexOf(filter) > -1) {
                 rows[i].style.display="";
             }
             else {
@@ -253,37 +283,10 @@ setActivityTableRows = (page,interval) => {
             }
         }
     }
-    updatePageLinks(interval,page);
-};
-
-updatePageLinks = (interval,page=1) => {
-    let ul = document.getElementById("pageLinks");
-    ul.innerHTML="";
-    const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
-    if (pages > 1) {
-        for (let i=1;i<=pages;i++) {
-            let li = document.createElement('li');
-            if (i==page) {
-                li.className = "page-item active";
-            }
-            else {
-                li.className = "page-item";
-            }
-            li.id=i.toString();
-            let a = document.createElement("a");
-            let linkText = document.createTextNode(i.toString()+" ");
-            a.appendChild(linkText);
-            a.title = i.toString();
-            a.className = "page-link";
-            a.href = "javascript:void(0)";
-            a.onclick = function() {
-                setActivityTableRows(i,interval);
-            };
-            li.appendChild(a);
-            ul.appendChild(li);
-        }
+    if (filter.length < 1) {
+        setActivityTableRows(1,25);
     }
-};
-removePageLinks = () => {
-    document.getElementById("pageLinks").innerHTML="";
+    else {
+        removePageLinks();
+    }
 };

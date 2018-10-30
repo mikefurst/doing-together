@@ -1,9 +1,9 @@
 <div class="activity_controller">
     <%if current_user.groupid == nil %>
         <h1 class="pagetitle">Your Activities</h1>
-
     <% else %>
-        <h1 id="pagetitle" class="pagetitle">Activities for <%=@group.name%></h1>
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+        <link rel="stylesheet" href="/usr/local/rvm/gems/ruby-2.4.0/gems/bootstrap-4.1.3/assets/stylesheets/bootstrap/mixins/_grid-framework.scss">
     <% end %>
     <br>
     <div class="activitycontainer col-sm-12">
@@ -15,9 +15,6 @@
             <%else%>
                 <H3>Activities will appear here when you or someone in your group adds one.</H3>
             <%end%>
-            <br>
-            <br>
-            <%= render "shared/links" %>
         <% else %>
             <center>
                 <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
@@ -44,11 +41,21 @@
                 </thead>
                 
                 <tbody>
+                    <% @n = 0 %>
                     <% @acts.each do |act| %>
-                        <% if act.userid == current_user.id %>
-                            <tr class = "table-primary">
+                        <% @n = @n+1 %>
+                        <% unless @n > 25 %>
+                            <% if act.userid == current_user.id %>
+                                <tr class = "table-primary">
+                            <% else %>
+                                <tr class="table-info">
+                            <% end %>
                         <% else %>
-                            <tr class="table-info">
+                            <% if act.userid == current_user.id %>
+                                <tr class = "table-primary" style="display: none;">
+                            <% else %>
+                                <tr class="table-info" style="display: none;">
+                            <% end %>
                         <% end %>
                             <td><p class="name"><%= link_to act.name, {:action => 'show', :id => act.id} %></p></td>
                             <td><p class="duration"><%= act.duration %></p></td>
@@ -65,10 +72,21 @@
             </div>
             <br>
             <ul id="pageLinks" class="pagination justify-content-center">
-              
+                <% @pages = (@n/25).ceil %>
+                <% (1..@pages).each do |i| %>
+                    <% if i == 1 %>
+                        <li class="page-item active">
+                    <% else %>
+                        <li class="page-item">
+                    <% end %>
+                    <%= content_tag :a, :class => "page-link", :href =>"javascript:void(0)", :onclick => "setActivityTableRows("+i.to_s+",25)" do %>
+                        <%= i %>&nbsp
+                    <% end %>
+                    </li>
+                <% end %>
             </ul>
             <br>
-            <%= render "shared/links" %>
+            </table>
         <% end %>
     </div>
 </div>

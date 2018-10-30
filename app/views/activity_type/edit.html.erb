@@ -17,8 +17,6 @@
                 <p>Activity Type Score: <%= a.number_field 'score', :value => @actType.score, :step => 'any', :required => true %></p>
                 <%= image_submit_tag "button_save_changes.png", :class => 'submitbutton' %>
             <% end %>
-            <br>
-            <p class="link"><%= link_to (image_tag('button_back.png')), url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>

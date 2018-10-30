@@ -31,8 +31,8 @@
       <%= f.password_field :password_confirmation, autocomplete: "new-password", :size => 50 %>
     </div>
     <br>
-    <div class="actions">
-      <%= image_submit_tag "button_sign_up.png" %>
+    <div class="actions gradient-buttons">
+      <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
     </div>
   <% end %>
   <br>

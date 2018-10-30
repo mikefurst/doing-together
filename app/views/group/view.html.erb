@@ -2,7 +2,11 @@
     <H1 class='pagetitle'>View This Group</H1>
     <br>
     <div class="container">
+<<<<<<< HEAD
         <div id="groupcontainer" class='groupcontainer table table-hover table-bordered table-responsive table-condensed'>
+=======
+        <div id="groupcontainer" class='groupcontainer'>
+>>>>>>> 46f57a0cecef1c837d1734049020b86912a700b6
             <H2 class='pagetitle'>View Group</H2>
             <br>
             <center>
@@ -80,13 +84,12 @@
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="messageInput">
                 </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-light" onclick="submitMessage()">Submit Message</button>
+                <div class="col-sm-2 gradient-buttons">
+                    <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
                 </div>
             </div>
             <br>
             <br>
-            <p class="link"><%= link_to 'Back', url_for(:back), :class => 'backitem'%></p>
         </div>
     </div>
 </div>

@@ -1,25 +1,27 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to (image_tag('button_log_in.png')), new_session_path(resource_name) %><br />
-<% end -%>
-  <!-- Creates the Sign Up Button under log in:Added by Jake -->
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to (image_tag('button_sign_in_small.png')), new_registration_path(resource_name) %><br /><br />
-<% end -%>
-  <!-- Creates the forgotten password Button under log in:Added by Jake -->
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to (image_tag('button_forgot_pw.png')), new_password_path(resource_name) %><br /><br />
-<% end -%>
-
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br /><br />
-<% end -%>
-
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br /><br />
-<% end -%>
-
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br /><br />
+<div class="gradient-buttons">
+  <%- if controller_name != 'sessions' %>
+    <%= button_to "Log In", new_session_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br />
   <% end -%>
-<% end -%>
+  <!-- Creates the Sign Up Button under log in:Added by Jake -->
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= button_to "Sign In", new_registration_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <% end -%>
+  <!-- Creates the forgotten password Button under log in:Added by Jake -->
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= button_to "Forgot Password", new_password_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <% end -%>
+
+  <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= button_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <% end -%>
+
+  <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <%= button_to "Didn't receive unlock instructions?", new_unlock_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <% end -%>
+
+  <%- if devise_mapping.omniauthable? %>
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+    <% end -%>
+  <% end -%>
+</div>
