@@ -160,8 +160,8 @@ activitySearch = () => {
 };
 
 automateActivityAJAX = () => {
-    window.setInterval(getNewActivities,1000)
     setActivityTableRows(1,25);
+    window.setInterval(getNewActivities,1000);
 };
 
 getNewActivities = () => {
