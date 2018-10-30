@@ -1,7 +1,7 @@
 <div class='activity_controller'>
     <H1 class='pagetitle'>Activity Types</H1>
     <br>
-    <div class='container'>
+    <div class='container col-sm-12'>
         <div class='activitytypecontainer'>
             <% if current_user.groupid == nil %>
                 <% if @actTypes.blank? %>
@@ -10,8 +10,8 @@
                 <% else %>
                     <H2 class='pagetitle'>Existing Activity Types</H2>
                     <br>
-                    <table>
-                        <thead>
+                    <table class="table table-hover table-bordered table-dark table-responsive table-condensed">
+                        <thead class="thead-dark">
                             <tr>
                                 <th>Name</th>
                                 <th>Score</th>
@@ -41,9 +41,9 @@
                     </center>
                     <H2 class='pagetitle'>Existing Activity Types</H2>
                         <br>
-                        <table id='activitytypetable' class='activitytypetable'>
+                        <table id='activitytypetable' class='table table-hover table-bordered table-dark table-responsive table-condensed'>
                             <% if @groupAdminID == current_user.id %>
-                                <thead>
+                                <thead class="thead-dark">
                                     <tr>
                                         <th><a class="UP" onclick="sortActivityTypeTableByColumn(0,true)" href="javascript:void(0);">Name</a></th>
                                         <th><a class="UP" onclick="sortActivityTypeTableByColumn(1)" href="javascript:void(0);">Score</a></th>
@@ -64,7 +64,7 @@
                                     <% end %>
                                 </tbody>
                         <% else %>
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr>
                                     <th><a class="UP" onclick="sortActivityTypeTableByColumn(0)" href="javascript:void(0);">Name</a></th>
                                     <th><a class="UP" onclick="sortActivityTypeTableByColumn(1)" href="javascript:void(0);">Score</a></th>
