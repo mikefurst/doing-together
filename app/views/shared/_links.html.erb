@@ -19,7 +19,7 @@
   
   <!-- These links are to other controllers-->
   <% if controller.controller_name != nil and controller.controller_name != "activity" %>
-    <div clas="gradient-buttons"><%= button_to "View Activity Log", {:action => 'index', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <div class="gradient-buttons"><%= button_to "View Activity Log", {:action => 'index', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
     <br>
   <% end %>
   <% if controller.controller_name != "activity_type" %>
