@@ -1,6 +1,8 @@
 #Controller for activity
 class ActivityController < ApplicationController
     before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
+
     def index
         if current_user.groupid==nil
             @group=nil
@@ -18,9 +20,6 @@ class ActivityController < ApplicationController
         if not @acts.blank?
             session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
         end
-    end
-    
-    def new
         @act = Activity.new
         @act_types = ActivityType.select { |a| 
             if current_user.groupid == nil
@@ -36,6 +35,12 @@ class ActivityController < ApplicationController
         end
     end
     
+    def new
+        redirect_to :action => 'index'
+        flash[:alert]="This page is depracated. Please use the popup form."
+        return
+    end
+    
     def show
         @act = Activity.find(params[:id])
         @actType = ActivityType.find(@act.actid)
@@ -48,14 +53,7 @@ class ActivityController < ApplicationController
     end
     def create
         @act = Activity.create(act_params)
-        
-        if @act.save
-            redirect_to :action => 'index'
-            return
-        else
-            redirect_to :action => 'new'
-            return
-        end
+        @act.save!
     end
     
     def edit

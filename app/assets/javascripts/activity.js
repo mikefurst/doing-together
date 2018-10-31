@@ -19,15 +19,15 @@ getNewActivities = () => {
                 //create new row
                 let row = table.insertRow(1);
                 if (currentUser) {
-                    row.class = "table-primary"
+                    row.setAttribute("class","table-primary");
                 }
                 else {
-                    row.class = "table-info"
+                    row.setAttribute("class","table-info");
                 }
                 //create cell with activity name
                 let nameCell = row.insertCell(0);
                 let nameP = document.createElement("p");
-                nameP.class = "name";
+                nameP.setAttribute("class","name");
                 let a = document.createElement('a');
                 const linkText = document.createTextNode(activityName);
                 a.appendChild(linkText);
@@ -38,25 +38,25 @@ getNewActivities = () => {
                 //create cell with duration
                 let durationCell = row.insertCell(1);
                 let durationP = document.createElement('p');
-                durationP.class = "duration";
+                durationP.setAttribute("class","duration");
                 durationP.innerHTML = duration;
                 durationCell.appendChild(durationP);
                 let userCell = row.insertCell(2);
                 let userP = document.createElement("p");
-                userP.class = "user";
+                userP.setAttribute("class","user");
                 userP.innerHTML = userName;
                 userCell.appendChild(userP);
                 //create cell with timestamp
                 let timestampCell = row.insertCell(3);
                 let timestampP = document.createElement("p");
-                timestampP.class = "timestamp";
-                timestampP.id = createdAt;
+                timestampP.setAttribute("class","timestamp");
+                timestampP.setAttribute("id",createdAt);
                 timestampP.innerHTML = timestamp;
                 timestampCell.appendChild(timestampP);
                 //create cell with datestamp
                 let datestampCell = row.insertCell(4);
                 let datestampP = document.createElement("p");
-                datestampP.class = "timestamp";
+                datestampP.setAttribute("class","timestamp");
                 datestampP.innerHTML = datestamp;
                 datestampCell.appendChild(datestampP);
                 setActivityTableRows(1,25);
@@ -71,13 +71,34 @@ getNewActivities = () => {
     xhttp.send();
 };
 
+submitNewActivity = () => {
+    let activitySelect=document.getElementById("activities_actid");
+    let activitySelectValue = activitySelect[activitySelect.selectedIndex].value;
+    activitySelect.selectedIndex = 0;
+    let activityInput = document.getElementById("activities_duration");
+    let activityInputValue = activityInput.value;
+    activityInput.value = "";
+    let userId = document.getElementById("activities_userid");
+    let userIdValue = userId.value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {};
+    xhttp.open("POST","/activity/create",true);
+    let data = {};
+    data["activities"]={};
+    data["activities"]["actid"]=activitySelectValue;
+    data["activities"]["duration"]=activityInputValue;
+    data["activities"]["userid"]=userIdValue;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+}
+
 
 updatePageLinks = (interval,page=1) => {
     let ul = document.getElementById("pageLinks");
     ul.innerHTML="";
     const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
     if (pages > 1) {
-        for (let i=1;i<=pages;i++) {
+        for (let i=1;i<pages;i++) {
             let li = document.createElement('li');
             if (i==page) {
                 li.className = "page-item active";
