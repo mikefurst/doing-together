@@ -69,4 +69,11 @@ class User < ApplicationRecord
     return @act
   end
   
+  def isAdmin
+    if self.groupid==nil
+      return false
+    end
+    return Group.find(self.groupid).adminid == self.id
+  end
+  
 end

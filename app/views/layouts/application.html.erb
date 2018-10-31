@@ -42,8 +42,12 @@
             <%= button_to "Sign Out", destroy_user_session_path, :method => 'delete', :type => 'button', :class => 'btn btn-lg btn-primary' %>
           </H4></div>
         <% else %>
-          <div class="col-sm-6 gradient-buttons text-right"><H4>
-            <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %> or <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-1 gradient-buttons text-right"><H4>
+            <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          </H4></div>
+          <div class="col-sm-1 gradient-buttons text-right"><H4>
+            <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
           </H4></div>
         <% end %>
       </div>

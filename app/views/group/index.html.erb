@@ -50,9 +50,36 @@
                                     <td><%= group.description %></td>
                                     <td><%= group.numMembers %></td>
                                     <td>
-                                        <%= link_to "Join", {:action =>'show', :id => group.id}, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+                                        <% if current_user.isAdmin %>
+                                            <%= button_tag "Join", :class =>"btn btn-lg btn-primary", :type => 'button', :data => {:toggle => "modal", :target => "#joinModal#{group.id}"}, :disabled => true%>
+                                        <% else %>
+                                            <%= button_tag "Join", :class =>"btn btn-lg btn-primary", :type => 'button', :data => {:toggle => "modal", :target => "#joinModal#{group.id}"} %>
+                                        <% end %>
                                     </td>
                                 </tr>
+                                <%= content_tag :div, :class => "modal fade", :id => "joinModal#{group.id}" do %>
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Modal Heading</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <H2 class='pagetitle'>Join Group: <%= group.name %></H2>
+                                                <br>
+                                                <H3><%= group.description %></H3>
+                                                <%= form_for group, :url => {:action => 'join', :id => group.id} do |g| %>
+                                                    <p>Enter Group Password to Join: <%= g.password_field 'password'%></p>
+                                                    <br>
+                                                    <button type="submit" class='btn btn-lg btn-primary'>Join Group</button>
+                                                <% end %>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% end %>
                             <%end%>
                         <% end %>
                     </tbody>
