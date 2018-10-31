@@ -90,6 +90,7 @@ submitNewActivity = () => {
     data["activities"]["userid"]=userIdValue;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
+    getNewActivities();
 }
 
 
