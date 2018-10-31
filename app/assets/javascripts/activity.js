@@ -146,7 +146,7 @@ setActivityTableRows = (page,interval) => {
 
 automateActivityAJAX = () => {
     setActivityTableRows(1,25);
-    window.setInterval(getNewActivities,1000);
+    window.setInterval(getNewActivities,10000);
 };
 
 /*global sortActivityTableByColumn*/
