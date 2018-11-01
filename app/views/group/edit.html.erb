@@ -102,10 +102,7 @@
             <% end %>
             <br>
             <p class='delete'>
-                <%= link_to "Delete this group.", 
-                        {:action => 'delete', :id => @group.id}, :method => 'delete',
-                        data: {:confirm => "Are you sure you want to delete #{@group.name}?"},
-                        :class => 'delitem' %>
+                <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => @group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
             </p>
         </div>
     </div>

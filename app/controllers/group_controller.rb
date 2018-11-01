@@ -47,10 +47,7 @@ class GroupController < ApplicationController
             flash[:alert] = "You have created and been added to group " << group_params[:name]
             current_user.groupid = @group.id
             current_user.save!
-            redirect_to :action => 'index'
-            return
-        else
-            redirect_to :action => 'new'
+            redirect_to :action => 'view', :id => @group.id
             return
         end
     end
@@ -185,7 +182,7 @@ class GroupController < ApplicationController
             else
                 flash[:alert]="Unexpected error when joining the group: " << @group.name << ". Please try again."
             end
-            redirect_to :action => 'index'
+            redirect_to :action => 'view', :id => @group.id
             return
         else
             flash[:alert]="You entered an incorrect password for the group."
