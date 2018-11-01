@@ -1,6 +1,10 @@
+
+
+
+
 <% if user_signed_in? %>
     <!-- have content for users who are signed in below -->
-    <p>Add messages for users who are signed in here.</p>
+    <p class="link"><%= link_to (image_tag('button_faq.png')), {:action => 'faq', :controller => 'application'}%></p>
     <!-- have a link to all the things users can do with the render -->
     <br>
     <%= render "shared/links" %>
