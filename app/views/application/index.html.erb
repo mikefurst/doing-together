@@ -1,6 +1,60 @@
 <% if user_signed_in? %>
     <!-- have content for users who are signed in below -->
-    <p>Add messages for users who are signed in here.</p>
+    <div class="jumbotron text-center">
+        <H2>Welcome to <embed>Doing Together</embed> <%= current_user.full_name %>.</H2>
+    </div>
+    <br>
+    <h4>
+        Now that you've signed in you are ready to track your activities.
+        Use the buttons below to start tracking your information or look at the 
+        quickstart guide to learn how to get started.
+    </h4>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h4>Quickstart Guide</h4>
+    <div id="quickAccordian">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseSubOne">
+                                    Joining a Group
+                                </a>
+                            </div>
+                            <div id="collapseSubOne" class="collapse" data-parent="#quickAccordian">
+                                <div class="card-body">
+                                    <p>
+                                        If you are just starting out it's a great idea to join a group 
+                                        with interests common to you. The advantage to joining a group 
+                                        is that you will have people to compete with and there will be 
+                                        activity types ready for you to use. It is recommended that 
+                                        newcomers join a group.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="collapsed card-link" data-toggle="collapse" href="#collapseSubTwo">
+                                    Creating a Group
+                                </a>
+                            </div>
+                            <div id="collapseSubTwo" class="collapse" data-parent="#quickAccordian">
+                                <div class="card-body">
+                                    <p>
+                                        If you cannot find a group that matches your interests or 
+                                        you are joining this site with a group of people you intend 
+                                        to track activites with together, you may wish to create your 
+                                        own group. Simply go to the groups page and click on the Create 
+                                        New Group button to load a form for creating a new group. Simply 
+                                        fill out the form to make your own group. After that you will 
+                                        want to register some new activity types so the members of your 
+                                        group can register their activities.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 <% else %>
     <!-- have content for users who are not signed in below, make this information
          about the website. -->
