@@ -10,6 +10,7 @@ getNewActivities = () => {
                 const activityID = response.id;
                 const userName = response.userName;
                 const duration = response.duration;
+                const fullDuration = response.full_duration;
                 const createdAt = response.created_at;
                 const timestamp = response.timestamp;
                 const datestamp = response.datestamp;
@@ -48,7 +49,8 @@ getNewActivities = () => {
                 let durationCell = row.insertCell(1);
                 let durationP = document.createElement('p');
                 durationP.setAttribute("class","duration");
-                durationP.innerHTML = duration;
+                durationP.setAttribute("name",duration);
+                durationP.innerHTML = fullDuration;
                 durationCell.appendChild(durationP);
                 let userCell = row.insertCell(2);
                 let userP = document.createElement("p");
@@ -131,6 +133,7 @@ getActivity = (actID) => {
                 const activityID = response.id;
                 const userName = response.userName;
                 const duration = response.duration;
+                const fullDuration = response.full_duration;
                 const createdAt = response.created_at;
                 const updatedAt = response.updated_at;
                 const timestamp = response.timestamp;
@@ -144,7 +147,7 @@ getActivity = (actID) => {
                 activityTitle.innerHTML=activityName+" performed by "+userName;
                 
                 let activityDuration = document.getElementById("activityDuration");
-                activityDuration.innerHTML = userName+" engaged in <strong>"+activityName+"</strong> for "+duration.toString()+" minutes at "+timestamp+" on "+datestamp+".";
+                activityDuration.innerHTML = userName+" engaged in <strong>"+activityName+"</strong> for "+fullDuration.toString()+", at "+timestamp+" on "+datestamp+".";
                 
                 let activityTimestampMessage = document.getElementById("activityTimestampMessage");
                 if (updated) {
@@ -335,7 +338,7 @@ automateActivityAJAX = () => {
 };
 
 /*global sortActivityTableByColumn*/
-sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
+sortActivityTableByColumn = (columnid,hasLink = false,number=false,timeStamp=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -367,6 +370,10 @@ sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
             else if (timeStamp) {
                 x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
                 y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
+            }
+            else if (number) {
+                x = parseInt(rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getAttribute("name"),10);
+                y = parseInt(rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getAttribute("name"),10);
             }
             else {
                 x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
@@ -466,7 +473,7 @@ activitySearch = () => {
                 case 'Duration':
                     x=1;
                     break;
-                case 'Person Who Done It':
+                case 'Performer':
                     x=2;
                     break;
                 default:

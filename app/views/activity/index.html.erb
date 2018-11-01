@@ -16,31 +16,29 @@
                 <H3>Activities will appear here when you or someone in your group adds one.</H3>
             <%end%>
         <% else %>
-            <center>
-                <div class="input-group mb-3 justify-content-center">
-                    <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
-                    <div class="input-group-append">
-                        <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
-                            <option>Activity Type</option>
-                            <option>Duration</option>
-                            <option>Person Who Done It</option>
-                        </select>
-                    </div>
+            <div class="input-group mb-3 justify-content-center">
+                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
+                <div class="input-group-append">
+                    <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
+                        <option>Activity Type</option>
+                        <option>Duration</option>
+                        <option>Performer</option>
+                    </select>
                 </div>
-            </center>
+            </div>
             
             
             
             <div class="container col-md-12">
                 
-              <table id="activitytable" class="table table-hover table-bordered table-condensed table-sm">
+              <table id="activitytable" class="table table-hover table-bordered table-condensed table-sm text-center">
                 <thead class="thead-light">
                   <tr>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
-                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
-                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Person Who Done It</a></p></th>
-                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Time</a></p></th>
-                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Date</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1,false,true)" href=javascript:void(0);>Duration</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
                   </tr>
                 </thead>
                 
@@ -66,7 +64,7 @@
                                 </p></td>
                             <td>
                                 <%= content_tag :p, :class => "duration", :name => act.duration do %>
-                                    <%= act.duration %>
+                                    <%= act.niceDuration %>
                                 <% end %>
                             </td>
                             <td><p class="user"><%= act.userName %></p></td>
