@@ -4,12 +4,14 @@ class GroupController < ApplicationController
     
     def index
         @groups = Group.all
-    end
-    def new
         @maximumNameLength = 50
         @minimumNameLength = 10
         @maximumDescriptionLength = 150
         @minimumDescriptionLength = 15
+    end
+    def new
+        flash[:alert]="This method is deprecated."
+        redirect_to :action => index
     end
     def group_params
         params.require(:group).permit("name","description","password","password_confirmation")

@@ -2,15 +2,15 @@ groupIndexPageOnLoad = () => {
     setGroupTableRows(1,25);
 }
 verifyNewGroup = () => {
-    const password = document.getElementById('group_password').value;
-    const password_confirmation = document.getElementById('group_password_confirmation').value;
-    const description = document.getElementById('group_description').value;
-    const name = document.getElementById('group_name').value;
+    let passwordCheck = document.getElementById('group_password').value;
+    let password_confirmation = document.getElementById('group_password_confirmation').value;
+    let description = document.getElementById('group_description').value;
+    let name = document.getElementById('group_name').value;
     let passAlert = document.getElementById('groupPasswordAlert');
     let descAlert = document.getElementById('groupDescriptionAlert');
     let button = document.getElementById('group_submit_button');
     button.disabled=false;
-    if (password != password_confirmation) {
+    if (passwordCheck != password_confirmation) {
         passAlert.style.visibility="visible";
         button.disabled=true;
     }
@@ -26,7 +26,7 @@ verifyNewGroup = () => {
         descAlert.style.visibility="hidden";
     }
     
-    if (description=="" || name =="" || password=="" || password_confirmation=="") {
+    if (description=="" || name =="" || passwordCheck=="" || password_confirmation=="") {
         button.disabled=true;
     }
 };

@@ -6,11 +6,7 @@
     <div class="gradient-buttons text-center"><%= button_to "Register New Acitivty Type", {:action => 'new', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
     <br>
   <% end %>
-  <% if controller.controller_name == 'group' %>
-    <!-- Leave links for the group controller here -->
-    <div class="gradient-buttons text-center"><%= button_to "Create New Group", {:action => 'new', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
-    <br>
-  <% end %>
+
   
   <!-- These links are to other controllers-->
   <% if controller.controller_name != nil and controller.controller_name != "activity" %>
