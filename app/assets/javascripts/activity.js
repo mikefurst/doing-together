@@ -13,6 +13,7 @@ getNewActivities = () => {
                 const createdAt = response.created_at;
                 const timestamp = response.timestamp;
                 const datestamp = response.datestamp;
+                const updated = response.updated;
                 const currentUser = response.current_user;
                 //load table
                 let table = document.getElementById("activitytable");
@@ -63,12 +64,187 @@ getNewActivities = () => {
                 updatePageLinks(25);
             }
         }
-        else if (this.readyState == 4 && this.status == 400) {
-            
-        }
     };
     xhttp.open("GET","/activity/getNewActivities",true);
     xhttp.send();
+};
+
+deleteActivity = (actID,activityName,rowI) => {
+    if (confirm("Are you sure you want to delete "+activityName+"?")) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState ==4 && this.status == 200) {
+                if (this.responseText == "Success") {
+                    document.getElementById("activitytable").deleteRow(rowI);
+                }
+            }
+        };
+        xhttp.open("delete","/activity/delete",true);
+        let data = {};
+        data["id"] = actID;
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.send(JSON.stringify(data));
+        getNewActivities();
+    }
+    else {
+        
+    }
+};
+editActivity = (optVal,duration,actID,rowActElement,rowActName,rowDurElement) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState ==4 && this.status == 200) {
+            if (this.responseText == "Success") {
+                rowActElement.name = rowActName;
+                rowActElement.innerHTML = rowActName;
+                rowDurElement.innerHTML = duration
+            }
+        }
+    };
+    xhttp.open("POST","/activity/update",true);
+    let data = {};
+    data["activity"]={};
+    data["activity"]["actid"]=optVal;
+    data["activity"]["duration"]=duration;
+    data["activity"]["aid"]=actID;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+    getNewActivities();
+};
+
+getActivity = (actID) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Does Not Exist") {
+                const response = JSON.parse(responseText)
+                const activityName = response.name;
+                const activityID = response.id;
+                const userName = response.userName;
+                const duration = response.duration;
+                const createdAt = response.created_at;
+                const updatedAt = response.updated_at;
+                const timestamp = response.timestamp;
+                const datestamp = response.datestamp;
+                const updatedTimestamp = response.timestamp_u;
+                const updatedDatestamp = response.datestamp_u;
+                const updated = response.updated;
+                const currentUser = response.current_user;
+                
+                let activityTitle = document.getElementById("activityTitle");
+                activityTitle.innerHTML=activityName+" performed by "+userName;
+                
+                let activityDuration = document.getElementById("activityDuration");
+                activityDuration.innerHTML = userName+" engaged in <strong>"+activityName+"</strong> for "+duration.toString()+" minutes at "+timestamp+" on "+datestamp+".";
+                
+                let activityTimestampMessage = document.getElementById("activityTimestampMessage");
+                if (updated) {
+                    activityTimestampMessage.innerHTML="Activity was last updated at "+updatedTimestamp+" on "+updatedDatestamp+" by "+userName+".";
+                }
+                else {
+                    activityTimestampMessage.innerHTML=userName+" registered this activity at "+timestamp+" on "+datestamp+".";
+                }
+                document.getElementById("currentUserContainer").innerHTML="";
+                if (currentUser) {
+                    let table = document.getElementById("activitytable");
+                    let rows = table.rows;
+                    let row;
+                    let rowI;
+                    for (let i=0;i<rows.length;i++) {
+                        if (rows[i].id == "act"+actID.toString()) {
+                            row = rows[i];
+                            rowI = i;
+                            break;
+                        }
+                    }
+                    let rowElements = row.getElementsByTagName("td");
+                    const rowActElement = rowElements[0].getElementsByTagName("a")[0];
+                    let rowActName = rowElements[0].getElementsByTagName("a")[0].name;
+                    const rowDurElement = rowElements[1].getElementsByTagName("p")[0];
+                    let rowActDuration = rowElements[1].getElementsByTagName("p")[0].innerHTML;
+                    let uContainer = document.getElementById("currentUserContainer");
+                    let editButton = document.createElement("button");
+                    editButton.innerHTML="Edit Entry";
+                    editButton.setAttribute("class","btn btn-primary btn-large");
+                    editButton.setAttribute("type","button");
+                    editButton.setAttribute("data-toggle","collapse");
+                    editButton.setAttribute("data-target","#editDIV");
+                    let deleteButton = document.createElement("button");
+                    deleteButton.innerHTML="Delete Entry";
+                    deleteButton.setAttribute("class","btn btn-danger btn-large");
+                    deleteButton.setAttribute("type","submit");
+                    deleteButton.setAttribute("data-dismiss","modal");
+                    deleteButton.onclick=function() {deleteActivity(actID,activityName,rowI)};
+                    let editDIV = document.createElement("div");
+                    editDIV.setAttribute("class","collapse gradient-buttons justify-content-left block-left text-left")
+                    editDIV.id="editDIV";
+                    let form = document.createElement("form");
+                    form.id = "edit_activity_"+actID.toString();
+                    let div1 = document.createElement("div");
+                    div1.setAttribute("class","form-group");
+                    let actIDLabel = document.createElement("label");
+                    actIDLabel.setAttribute("for","activity_actid");
+                    actIDLabel.innerHTML = "Choose Activity Type";
+                    div1.appendChild(actIDLabel);
+                    let actIDSelect = document.createElement("select");
+                    actIDSelect.id="activity_actid";
+                    actIDSelect.setAttribute("class","form-control");
+                    let options = document.getElementsByClassName("activityOption");
+                    for (let i=0;i<options.length;i++) {
+                        let option = options[i].cloneNode(true);
+                        actIDSelect.appendChild(option);
+                        if (option.innerHTML.includes(rowActName)) {
+                            actIDSelect.selectedIndex=i;   
+                        }
+                    }
+                    div1.appendChild(actIDSelect);
+                    form.appendChild(div1);
+                    let div2 = document.createElement("div");
+                    div2.setAttribute("class","form-group");
+                    let activityDurationLabel = document.createElement("activityDurationLabel");
+                    activityDurationLabel.setAttribute("for","activity_duration");
+                    activityDurationLabel.innerHTML = "Edit Activity Duration";
+                    div2.append(activityDurationLabel);
+                    let activityDurationInput = document.createElement("input");
+                    activityDurationInput.id = "activity_duration";
+                    activityDurationInput.setAttribute("class","form-control");
+                    activityDurationInput.setAttribute("step","any");
+                    activityDurationInput.setAttribute("type","number");
+                    activityDurationInput.value = parseInt(rowActDuration,10);
+                    div2.appendChild(activityDurationInput);
+                    form.appendChild(div2);
+                    let div3 = document.createElement("div");
+                    div3.setAttribute("class","form-group gradient-buttons justify-content-center block-center text-center");
+                    let button = document.createElement("button");
+                    button.setAttribute("class","btn btn-primary btn-large");
+                    button.setAttribute("type","button");
+                    button.setAttribute("data-dismiss","modal");
+                    button.onclick = (function() {
+                        const duration = document.getElementById("activity_duration").value;
+                        const opt = document.getElementById("activity_actid");
+                        const optVal = opt[opt.selectedIndex].value;
+                        const rAName = opt[opt.selectedIndex].innerHTML;
+                        editActivity(optVal,duration,actID,rowActElement,rAName,rowDurElement);
+                    });
+                    button.innerHTML="Submit Edit";
+                    div3.appendChild(button);
+                    form.appendChild(div3);
+                    editDIV.appendChild(form);
+                    uContainer.appendChild(editDIV);
+                    uContainer.appendChild(editButton);
+                    uContainer.appendChild(deleteButton);
+                }
+                
+                
+            }
+        }
+    };
+    xhttp.open("post","/activity/getActivity",true);
+    let data={};
+    data["actid"]=actID;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
 };
 
 submitNewActivity = () => {
@@ -147,7 +323,7 @@ setActivityTableRows = (page,interval) => {
 
 automateActivityAJAX = () => {
     setActivityTableRows(1,25);
-    window.setInterval(getNewActivities,10000);
+    window.setInterval(getNewActivities,5000);
 };
 
 /*global sortActivityTableByColumn*/
