@@ -92,3 +92,61 @@
         </div>
     </div>
 </div>
+
+<div id="newGroupModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <div class="modal-header">
+            <h4 class="modal-title">Log New Activity</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+    
+          <div class="modal-body">
+                <% if current_user.groupid == nil %>
+                    <p class="warn">
+                        You are currently not a member of any group. Activities that you 
+                        log now will not be available to you once you join a group.
+                    </p>
+                    <br>
+                <% end %>
+                <%= form_tag onsubmit="submitNewActivity()" do %>
+                    <div class='activitypanel'>
+                        <div class="activity_feature">
+                            <p><label for = "activity_type">Select Activity Type: </label></p>
+                            <div class="form-group">
+                                <select id="activities_actid" class="form-control">
+                                    <% @act_types.each do |actType| %>
+                                        <%= content_tag :option, :name => actType.name, :value => actType.id, :class => "activityOption" do%>
+                                            <%= actType.name %>
+                                        <% end %>
+                                    <% end %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="activity_feature">
+                            <p><label for = "activity_duration">Enter Activity Duration in Minutes: </label></p>
+                            <%= number_field 'activities', 'duration', :required => true, :step=>'any', :class => "form-control" %>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="activity_feature">
+                            <p><label for = "activity_user">Activity will be recorded under the name of <%= current_user.first_name %> <%= current_user.last_name %></label></p>
+                            <%= hidden_field :activities, :userid, :value => current_user.id %>
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="gradient-buttons">
+                        <button type="submit" onclick="submitNewActivity()" data-dismiss="modal" class='btn center-block btn-lg btn-primary'>Log Data</Button>
+                    </div>
+                <% end%>
+          </div>
+    
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+    </div>
+  </div>
+</div>

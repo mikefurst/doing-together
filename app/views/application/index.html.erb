@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
     <!-- have content for users who are signed in below -->
-    <div class="jumbotron text-center">
+    <div class="jumbotron text-center" style="margin-bottom: 0px;margin-top: 0px;">
         <H2>Welcome to <embed>Doing Together</embed> <%= current_user.full_name %>.</H2>
     </div>
     <br>
@@ -10,8 +10,7 @@
         quickstart guide to learn how to get started.
     </h4>
     <br>
-    <br>
-    <br>
+    <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
     <br>
     <h4 class="text-center"><a href="javascript:void(0)" data-toggle="collapse" data-target="#quickCollapse">Quickstart Guide</a></h4>
     <div id="quickCollapse" class="collapse">
@@ -112,12 +111,12 @@
 <% else %>
     <!-- have content for users who are not signed in below, make this information
          about the website. -->
-    <div class="jumbotron text-center">
+    <div class="jumbotron text-center" style="margin-bottom: 0px;margin-top: 0x;">
         <H2>Welcome to <embed>Doing Together</embed>!</H2>
         <H4>A site for <embed>doing together</embed>.</H4>
     </div>
     <br>
-    <br>
+    <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
     <br>
     <div id="quickAccordian">
         <div class="card">

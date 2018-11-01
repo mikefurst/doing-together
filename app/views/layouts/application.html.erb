@@ -36,7 +36,13 @@
 <div class="page-header">
   <center><H2><%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title'%></H2></center>
 </div>
-<nav class="navbar bg-light navbar-expand-md">
+
+<% if controller.controller_name == "application" or controller.controller_name == "" %>
+  <% @sty = "margin-bottom: 0px;" %>
+<% else %>
+  <% @sty = "" %>
+<% end %>
+<%= content_tag :nav, :class => "navbar bg-light navbar-expand-md", :style => @sty do %>
   <a class="navbar-brand" >A place to do things <i>together</i>.</a>
   <ul class="navbar-nav mr-auto">
     <% if user_signed_in? %>
@@ -108,9 +114,11 @@
       </ul>
     </div>
   <% end %>
-</nav>
+<% end %>
   <!-- This adds the fgroup png:Added by Jake -->
-  <center><h1><%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %></h1></center>
+  <% if controller.controller_name != "application" and controller.controller_name != "" %>
+    <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
+  <% end %>
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 <%= yield %>
