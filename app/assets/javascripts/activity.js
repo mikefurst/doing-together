@@ -17,6 +17,10 @@ getNewActivities = () => {
                 const currentUser = response.current_user;
                 //load table
                 let table = document.getElementById("activitytable");
+                if (table == undefined) {
+                    location.reload(true);
+                    return;
+                }
                 //create new row
                 let row = table.insertRow(1);
                 if (currentUser) {
