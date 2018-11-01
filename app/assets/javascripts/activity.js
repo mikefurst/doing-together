@@ -33,7 +33,11 @@ getNewActivities = () => {
                 const linkText = document.createTextNode(activityName);
                 a.appendChild(linkText);
                 a.title = activityName;
-                a.href = "/activity/show?id=" + activityID;
+                a.href = "javascript:void(0)"
+                a.click = function(){getActivity(activityID)};
+                a.setAttribute("name","activityName");
+                a.setAttribute("data-toggle","modal");
+                a.setAttribute("data-target","#viewActivityModal");
                 nameP.appendChild(a);
                 nameCell.appendChild(nameP);
                 //create cell with duration
