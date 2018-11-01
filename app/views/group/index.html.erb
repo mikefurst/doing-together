@@ -104,12 +104,13 @@
           <div class="modal-header">
             <h4 class="modal-title">Create New Group</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <p id="ERROR"></p>
           </div>
     
           <div class="modal-body">
                 <div class='container'>
                     <div class='groupcontainer'>
-                        <%= form_tag :action => 'create' do %>
+                        <form onsubmit="submitNewActivity()" >
                             <div class='form-group'>
                                 <p><label for = 'group_name'>Enter Group Name: </label></p>
                                 <em>(Must be between <%= @minimumNameLength %> and <%= @maximumNameLength %> characters)</em><br>
@@ -131,11 +132,21 @@
                                 <%= password_field 'group', 'password_confirmation', :size => @smallerMaximumLength, :onkeyup => 'verifyNewGroup()', :required => true, :class => "form-control" %>
                             </div>
                             <br>
-                            <div class="gradient-buttons">
-                                <button type="submit" class='btn center-block btn-lg btn-primary' id="group_submit_button" disabled>Create New Group</button>
+                            <div class="form-group">
+                                <p><label for = 'group_select'>If you would like, you can select a template for your group that will add some preconfigured Activity Types to your group for you.</label></p>
+                                <select class="form-control" id="group_select">
+                                    <% @templates.each do |name,value| %>
+                                        <%= content_tag :option, :id => name do %>
+                                            <%= "#{name.to_s.gsub('_',' ')} -- #{value}" %>
+                                        <% end %>
+                                    <% end %>
+                                </select>
                             </div>
-                        
-                        <% end %>
+                            <br>
+                            <div class="gradient-buttons">
+                                <button type="submit" onclick="createGroup()" class='btn center-block btn-lg btn-primary' id="group_submit_button" data-dismiss="modal" disabled>Create New Group</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
           </div>

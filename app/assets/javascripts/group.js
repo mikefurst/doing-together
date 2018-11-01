@@ -29,6 +29,13 @@ verifyNewGroup = () => {
     if (description=="" || name =="" || passwordCheck=="" || password_confirmation=="") {
         button.disabled=true;
     }
+    if (description.length < 15 || description.length > 150 ) {
+        button.disabled = true;
+    }
+    if (name.length < 10 || name.length > 50 ) {
+        button.disabled = true;
+    }
+    return !button.disabled;
 };
 
 groupSearch = () => {
@@ -243,4 +250,38 @@ submitMessage = () => {
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
     submitInput.value="";
+};
+
+createGroup = () => {
+    if (verifyNewGroup()) {
+        let passwordCheck = document.getElementById('group_password').value;
+        let password_confirmation = document.getElementById('group_password_confirmation').value;
+        let description = document.getElementById('group_description').value;
+        let name = document.getElementById('group_name').value;
+        let select = document.getElementById("group_select");
+        let option = select[select.selectedIndex].id;
+        let button = document.getElementById('group_submit_button');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status=="200") {
+                if (this.responseText == "ERROR") {
+                    document.getElementById("ERROR").innerHTML="There was an error creating your group. Please try again.";
+                }
+                else {
+                    window.location.replace("/group/view?id="+this.responseText);
+                    window.location.href("/group/view?id="+this.responseText);
+                }
+            }
+        };
+        xhttp.open("POST","/group/create",true);
+        let data = {};
+        data["group"] = {};
+        data["group"]["name"]=name;
+        data["group"]["description"]=description;
+        data["group"]["password"]=passwordCheck;
+        data["group"]["password_confirmation"]=password_confirmation;
+        data["group"]["template"]=option;
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.send(JSON.stringify(data));
+    }
 };

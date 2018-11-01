@@ -8,13 +8,17 @@ class GroupController < ApplicationController
         @minimumNameLength = 10
         @maximumDescriptionLength = 150
         @minimumDescriptionLength = 15
+        @templates = {
+            :None => "Use no template. This is for groups who want to make all of their own activites",
+            :General_Fitness => "A template for groups who are trying to get fit and healthy"
+        }
     end
     def new
         flash[:alert]="This method is deprecated."
         redirect_to :action => index
     end
     def group_params
-        params.require(:group).permit("name","description","password","password_confirmation")
+        params.require(:group).permit("name","description","password","password_confirmation","template")
     end
     def create
         @group = Group.create()
@@ -47,8 +51,41 @@ class GroupController < ApplicationController
             flash[:alert] = "You have created and been added to group " << group_params[:name]
             current_user.groupid = @group.id
             current_user.save!
-            redirect_to :action => 'view', :id => @group.id
-            return
+            
+            if group_params[:template] == "General_Fitness"
+                activitytypelist = [
+                    {
+                        :name => "Walking",
+                        :score => 1
+                    },
+                    {
+                        :name => "Jogging",
+                        :score => 1.25
+                    },
+                    {
+                        :name => "Running",
+                        :score => 1.50
+                    },
+                    {
+                        :name => "Swimming",
+                        :score => 1.75
+                    },
+                    {
+                        :name => "Martial Arts",
+                        :score => 2.00
+                    }
+                ]
+                activitytypelist.each { |atype|
+                    @act = ActivityType.create(atype)
+                    @act.groupid = @group.id
+                    @act.verified = true
+                    @act.save!
+                }
+            end
+            
+            render :status => "200", :text => @group.id.to_s
+        else
+            render :status => "200", :text => "ERROR"
         end
     end
     def edit
