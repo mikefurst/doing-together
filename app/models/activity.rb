@@ -22,6 +22,7 @@ class Activity < ActiveRecord::Base
                 msg+=hours.to_s + " hour"
             else
                 msg+=hours.to_s + " hours"
+            end
             if minutes > 0 and seconds > 0
                 msg += ", "
             elsif minutes >0 or seconds > 0
