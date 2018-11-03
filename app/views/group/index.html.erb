@@ -132,13 +132,17 @@
                             <br>
                             <div class="form-group">
                                 <p><label for = 'group_select'>If you would like, you can select a template for your group that will add some preconfigured Activity Types to your group for you.</label></p>
-                                <select class="form-control" id="group_select">
+                                <select class="form-control" id="group_select" onchange="changeLabel()">
                                     <% @templates.each do |name,value| %>
-                                        <%= content_tag :option, :id => name do %>
-                                            <%= "#{name.to_s.gsub('_',' ')} -- #{value}" %>
+                                        <%= content_tag :option, :id => name, :value => value do %>
+                                            <%= "#{name.to_s.gsub('_',' ')}" %>
                                         <% end %>
                                     <% end %>
                                 </select>
+                                <br>
+                                <label id="templateLabel" for='group_select'>
+                                    <%= @templates[:None] %>
+                                </label>
                             </div>
                             <br>
                             <div class="gradient-buttons">

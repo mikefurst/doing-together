@@ -18,7 +18,10 @@ class Activity < ActiveRecord::Base
         seconds = ((rawMinutes-minutes)*60).round
         msg = ""
         if hours > 0
-            msg+=hours.to_s + " hours"
+            if hours == 1
+                msg+=hours.to_s + " hour"
+            else
+                msg+=hours.to_s + " hours"
             if minutes > 0 and seconds > 0
                 msg += ", "
             elsif minutes >0 or seconds > 0
@@ -26,7 +29,11 @@ class Activity < ActiveRecord::Base
             end
         end
         if minutes > 0
-            msg+=minutes.to_s + " minutes"
+            if minutes == 1
+                msg+=minutes.to_s + " minute"
+            else
+                msg+=minutes.to_s + " minutes"
+            end
             if hours >0 and seconds >0
                 msg += ", and "
             elsif seconds > 0
@@ -34,7 +41,11 @@ class Activity < ActiveRecord::Base
             end
         end
         if seconds > 0
-            msg += seconds.to_s + " seconds"
+            if seconds==1
+                msg += seconds.to_s + " second"
+            else
+                msg += seconds.to_s + " seconds"
+            end
         end
         return msg
     end

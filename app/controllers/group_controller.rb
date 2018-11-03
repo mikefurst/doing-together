@@ -9,8 +9,9 @@ class GroupController < ApplicationController
         @maximumDescriptionLength = 150
         @minimumDescriptionLength = 15
         @templates = {
-            :None => "Use no template. This is for groups who want to make all of their own activites",
-            :General_Fitness => "A template for groups who are trying to get fit and healthy"
+            :None => "Use no template. This is for groups who want to make all of their own activites.",
+            :General_Fitness => "A template for groups who are trying to get fit and healthy. Contains some basic activities for getting healthy.",
+            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. "
         }
     end
     def new
@@ -75,12 +76,53 @@ class GroupController < ApplicationController
                         :score => 2.00
                     }
                 ]
+            elsif group_params[:template] == "Reading"
+                activitytypelist = [
+                    {
+                        :name => "Reading Academic Articles",
+                        :score => 3
+                    },
+                    {
+                        :name => "Reading Poetry",
+                        :score => 2.85
+                    },
+                    {
+                        :name => "Reading Novels",
+                        :score => 2.5
+                    },
+                    {
+                        :name => "Reading Books",
+                        :score => 2.15
+                    },
+                    {
+                        :name => "Reading Anthologies",
+                        :score => 2
+                    },
+                    {
+                        :name => "Reading Ethnographies",
+                        :score => 1.85
+                    },
+                    {
+                        :name => "Reading short stories",
+                        :score => 1.5
+                    },
+                    {
+                        :name => "Reading News Articles",
+                        :score => 1.15
+                    },
+                    {
+                        :name => "Reading Magazine Articles",
+                        :score => 1
+                    }
+                ]
+            end
+            unless activitytypelist == nil
                 activitytypelist.each { |atype|
-                    @act = ActivityType.create(atype)
-                    @act.groupid = @group.id
-                    @act.verified = true
-                    @act.save!
-                }
+                        @act = ActivityType.create(atype)
+                        @act.groupid = @group.id
+                        @act.verified = true
+                        @act.save!
+                    }
             end
             
             render :status => "200", :text => @group.id.to_s
@@ -93,7 +135,7 @@ class GroupController < ApplicationController
         unless current_user.id == @group.adminid
             @admin = User.find(@group.adminid)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.full_name << "."
-            redirect_to :action => 'index'
+            redirect_to :action => 'view', :id => params[:id]
             return
         end
         @users = User.all.select { |u|
@@ -259,7 +301,7 @@ class GroupController < ApplicationController
             flash[:alert] = "Invalid User!"
             redirect_to :action => 'edit', :id => params[:id]
         end
-        redirect_to :action => 'index'
+        redirect_to :action => 'view', :id => params[:id]
     end
     def submitmessage
         @messageText = params[:message]

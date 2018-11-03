@@ -1,6 +1,11 @@
 groupIndexPageOnLoad = () => {
     setGroupTableRows(1,25);
 }
+
+changeLabel = () => {
+    document.getElementById("templateLabel").innerHTML=document.getElementById("group_select")[document.getElementById("group_select").selectedIndex].value;
+}
+
 verifyNewGroup = () => {
     let passwordCheck = document.getElementById('group_password').value;
     let password_confirmation = document.getElementById('group_password_confirmation').value;
