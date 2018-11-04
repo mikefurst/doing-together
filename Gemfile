@@ -37,6 +37,8 @@ gem 'sprockets', '> 3.7.2'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
+gem 'omniauth', '>= 1.0.0'
+gem 'omniauth-facebook'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

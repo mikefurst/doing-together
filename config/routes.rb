@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   #root :to => redirect('/activity/index')
   root 'application#index'
   
-  get 'activity/show'
-  get 'activity/new'
   get 'activity/index'
   delete 'activity/delete'
   get 'activity/edit'
@@ -33,8 +31,10 @@ Rails.application.routes.draw do
   get 'group/getNewMessage'
   
   get 'application/index'
+  get 'application/privacy_policy'
   
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
