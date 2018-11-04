@@ -28,11 +28,6 @@ class ActivityController < ApplicationController
                 a.groupid == current_user.groupid and a.verified
             end
         }.sort{ |a,b| a[:name]<=>b[:name] }
-        if @act_types.blank?
-            flash[:alert] = "There are no available activity types. Please create one first."
-            redirect_to :action => 'index'
-            return
-        end
     end
     
     def new
