@@ -95,7 +95,7 @@
           User Menu
         </a>
       </li>
-      <div id="userMenu" class="dropdown-menu" style="right: 0; left: auto;">
+      <div id="userMenu" class="dropdown-menu bg-info" style="right: 0; left: auto;">
         <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
         <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item" %>
       </div>
