@@ -25,6 +25,9 @@ body {
     background-image: url(blue_2.png);
 }
 
+a {
+    color: yellow!important;
+}
 
 
 .buttonpanel{

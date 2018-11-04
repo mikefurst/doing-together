@@ -4,11 +4,13 @@
         <H2>Welcome to <embed>Doing Together</embed> <%= current_user.full_name %>.</H2>
     </div>
     <br>
-    <h4>
-        Now that you've signed in you are ready to track your activities.
-        Use the buttons below to start tracking your information or look at the 
-        quickstart guide to learn how to get started.
-    </h4>
+    <center>
+        <h4>
+            Now that you've signed in you are ready to track your activities.
+            Use the buttons below to start tracking your information or look at the 
+            quickstart guide to learn how to get started.
+        </h4>
+    </center>
     <br>
     <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
     <br>
@@ -167,3 +169,7 @@
         </div>
     </div>
 <% end %>
+
+<div class="justify-content-center text-center block-center data-center">
+    <a href="/application/privacy_policy">View Our Privacy Policy</a>
+</div>
