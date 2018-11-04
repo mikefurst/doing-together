@@ -39,6 +39,7 @@ gem 'sprockets', '> 3.7.2'
 gem 'devise'
 gem 'omniauth', '>= 1.0.0'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
