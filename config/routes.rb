@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'group/getNewMessage'
   
   get 'application/index'
+  get 'application/privacy_policy'
   
   devise_for :users
   
