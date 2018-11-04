@@ -2,10 +2,10 @@ getNewActivities = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            const responseText = this.responseText
+            const responseText = this.responseText;
             if (responseText != "Nothing New") {
                 //parse JSON response
-                const response = JSON.parse(responseText)
+                const response = JSON.parse(responseText);
                 const activityName = response.name;
                 const activityID = response.id;
                 const userName = response.userName;
@@ -18,9 +18,8 @@ getNewActivities = () => {
                 const currentUser = response.current_user;
                 //load table
                 let table = document.getElementById("activitytable");
-                if (table == undefined) {
-                    location.reload(true);
-                    return;
+                if (table.style.display=="none") {
+                    table.style.display="";
                 }
                 //create new row
                 let row = table.insertRow(1);
@@ -38,7 +37,7 @@ getNewActivities = () => {
                 const linkText = document.createTextNode(activityName);
                 a.appendChild(linkText);
                 a.title = activityName;
-                a.href = "javascript:void(0)"
+                a.href = "javascript:void(0)";
                 a.click = function(){getActivity(activityID)};
                 a.setAttribute("name","activityName");
                 a.setAttribute("data-toggle","modal");
@@ -95,11 +94,57 @@ deleteActivity = (actID,activityName,rowI) => {
         xhttp.setRequestHeader("Content-Type","application/json");
         xhttp.send(JSON.stringify(data));
         getNewActivities();
-    }
-    else {
-        
+        if (document.getElementById("activitytable").rows.length <= 1) {
+            document.getElementById("activitytable").style.display="none";
+        }
     }
 };
+
+getFullDuration = (duration) => {
+    const hours = Math.floor(duration / 60);
+    const rawMinutes = (duration - (hours*60));
+    const minutes = Math.floor(rawMinutes);
+    seconds = Math.round((rawMinutes-minutes)*60)
+    msg = ""
+    if (hours > 0) {
+        if (hours == 1) {
+            msg+=hours.toString() + " hour";
+        }
+        else {
+            msg+=hours.toString() + " hours";
+        }
+        if (minutes > 0 && seconds > 0) {
+            msg += ", ";
+        }
+        else if (minutes >0 || seconds > 0) {
+            msg += " and ";
+        }
+    }
+    if (minutes > 0) {
+        if (minutes == 1) {
+            msg+=minutes.toString() + " minute";
+        }
+        else {
+            msg+=minutes.toString() + " minutes";
+        }
+        if (hours >0 && seconds >0) {
+            msg += ", and ";
+        }
+        else if (seconds > 0) {
+            msg += " and ";
+        }
+    }
+    if (seconds > 0) {
+        if (seconds==1) {
+            msg += seconds.toString() + " second";
+        }
+        else {
+            msg += seconds.toString() + " seconds";
+        }
+    }
+    return msg;
+};
+
 editActivity = (optVal,duration,actID,rowActElement,rowActName,rowDurElement) => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -107,7 +152,7 @@ editActivity = (optVal,duration,actID,rowActElement,rowActName,rowDurElement) =>
             if (this.responseText == "Success") {
                 rowActElement.name = rowActName;
                 rowActElement.innerHTML = rowActName;
-                rowDurElement.innerHTML = duration
+                rowDurElement.innerHTML = getFullDuration(duration);
             }
         }
     };
@@ -315,6 +360,9 @@ removePageLinks = () => {
 
 setActivityTableRows = (page,interval) => {
     let table = document.getElementById('activitytable');
+    if (table==undefined) {
+        return false;
+    }
     let rows = table.rows;
     const len = rows.length
     const start = (interval * (page-1))+1;
@@ -330,11 +378,13 @@ setActivityTableRows = (page,interval) => {
         }
     }
     updatePageLinks(interval,page);
+    return true;
 };
 
 automateActivityAJAX = () => {
-    setActivityTableRows(1,25);
-    window.setInterval(getNewActivities,5000);
+    if (setActivityTableRows(1,25)) {
+        window.setInterval(getNewActivities,5000);
+    }
 };
 
 /*global sortActivityTableByColumn*/
