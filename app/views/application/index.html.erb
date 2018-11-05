@@ -4,7 +4,7 @@
 
 <% if user_signed_in? %>
     <!-- have content for users who are signed in below -->
-    <%= link_to(image_tag('button_profile.png'), current_user ) %>
+    <center><%= link_to(image_tag('button_profile.png'), current_user ) %></center>
     <!-- have a link to all the things users can do with the render -->
     <br>
     <%= render "shared/links" %>

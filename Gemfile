@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'fog', '~> 1.25'
 
 # Use version of FFI that does not have known security vulnerabilities.
 gem 'ffi', '>=1.9.24'
@@ -55,6 +56,9 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  
+  gem 'carrierwave', '~> 1.2', '>= 1.2.3'
+  gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 end
 
 group :production do
