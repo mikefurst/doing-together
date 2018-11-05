@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   
+  
+
   #root :to => redirect('/activity/index')
   root 'application#index'
-  
+  get 'application/faq'
   get 'activity/show'
   get 'activity/new'
   get 'activity/index'
@@ -30,8 +32,11 @@ Rails.application.routes.draw do
   patch 'group/makeadmin'
   
   get 'application/index'
+
+  
   
   devise_for :users
+  resources :users, only: [:show, :edit, :update]
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
