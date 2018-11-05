@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
@@ -18,6 +20,11 @@ class User < ApplicationRecord
     presence: true,
     on: :create,
     allow_nil: false
+    
+  mount_uploader :avatar, AvatarUploader
+  
+    
+  
     
   def full_name
     return self.first_name << " " << self.last_name
