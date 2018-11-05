@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: %i[facebook]
+         :omniauthable, :omniauth_providers=> [:facebook, :google_oauth2]
          
   validates :first_name,
     presence: true,
@@ -96,6 +96,18 @@ class User < ApplicationRecord
       # user.skip_confirmation!
       return user
     end
+  end
+  
+  def self.from_omniauthgoogle(auth)
+    data = auth.info
+    user = User.where(:email => data["email"]).first
+
+    unless user
+      password = Devise.friendly_token[0,20]
+      user = User.create(:first_name => data[:first_name], :last_name => data[:last_name], :email => data["email"],
+      :password => password, :password_confirmation => password)
+      end
+    return user
   end
   
   def self.new_with_session(params, session)

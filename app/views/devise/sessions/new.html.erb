@@ -1,28 +1,38 @@
-<h2 class='pagetitle'>Sign in</h2>
-<div class='devisecontainer'>
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", :size => 50 %>
-    </div>
-  
-    <div class="field">
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password", :size => 50 %>
-    </div>
-  
-    <% if devise_mapping.rememberable? -%>
-      <div class="field">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+<div class="justify-content-md-center data-center text-center block-center row">
+  <div class='devisecontainer justify-content-center data-center text-center block-center col-md-6'>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="card bg-info">
+        <div class="card-header">
+          <h2 class='pagetitle'>Sign in</h2>
+        </div>
+        <div class="card-body">
+          <div class="field">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", :size => 50 %>
+          </div>
+        
+          <div class="field">
+            <%= f.label :password %><br />
+            <%= f.password_field :password, autocomplete: "current-password", :size => 50 %>
+          </div>
+        
+          <% if devise_mapping.rememberable? -%>
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
+            </div>
+          <% end -%>
+          <br>
+          <div class="actions gradient-buttons">
+            <!-- changed Log In to a button -- :Added by Jake -->
+            <%= button_to "Log In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          </div>
+        </div>
+        <br>
+        <div class="card-footer">
+          <%= render "devise/shared/links" %>
+        </div>
       </div>
-    <% end -%>
-    <br>
-    <div class="actions gradient-buttons">
-      <!-- changed Log In to a button -- :Added by Jake -->
-      <%= button_to "Log In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
-    </div>
-  <% end %>
-  <br>
-  <%= render "devise/shared/links" %>
+    <% end %>
+  </div>
 </div>

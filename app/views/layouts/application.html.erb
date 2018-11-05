@@ -25,13 +25,13 @@
   <%= csrf_meta_tags %>
 </head>
 <% if controller.controller_name == "activity" %>
-  <body onload="automateActivityAJAX()">
+  <body onload="automateActivityAJAX()" class="bg-secondary">
 <% elsif controller.controller_name == "group" and controller.action_name == "index" %>
-  <body onload="groupIndexPageOnLoad()">
+  <body onload="groupIndexPageOnLoad()" class="bg-secondary">
 <% elsif controller.controller_name == "group" and (controller.action_name == "view" or controller.action_name == "edit") %>
-  <body onload="registerGroupMessagingActivity()">
+  <body onload="registerGroupMessagingActivity()" class="bg-secondary">
 <% else %>
-  <body>
+  <body class="bg-secondary">
 <% end %>
 <% if controller.controller_name == "application" or controller.controller_name == "" %>
   <% @sty = "margin-bottom: 0px;" %>
