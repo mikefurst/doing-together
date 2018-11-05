@@ -1,12 +1,7 @@
 <!-- These links are for inside the controller -->
 <br>
 <% if controller.action_name == "index" %>
-  <% if controller.controller_name == 'activity_type' %>
-    <!-- Leave links for the activity type controller -->
-    <div class="gradient-buttons text-center"><%= button_to "Register New Acitivty Type", {:action => 'new', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
-    <br>
-  <% end %>
-
+  
   
   <!-- These links are to other controllers-->
   <% if controller.controller_name != nil and controller.controller_name != "activity" %>

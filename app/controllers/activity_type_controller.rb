@@ -1,4 +1,7 @@
 class ActivityTypeController < ApplicationController
+    before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
+    
     def index
         if current_user.groupid == nil
             @groupAdminID=nil
@@ -59,16 +62,14 @@ class ActivityTypeController < ApplicationController
             if current_user.groupid == nil
                 if act.userid == current_user.id
                     if act.name == acttype_params[:name]
-                        flash[:alert]="You cannot make an activity type with a duplicate name."
-                        redirect_to :action => 'new'
+                        render :status => "200", :text => "Failure_E"
                         return
                     end
                 end
             else
                 if act.groupid == current_user.groupid
                     if act.name == acttype_params[:name]
-                        flash[:alert]="You cannot make an activity type with a duplicate name."
-                        redirect_to :action => 'new'
+                        render :status => "200", :text => "Failure_E"
                         return
                     end
                 end
@@ -88,18 +89,14 @@ class ActivityTypeController < ApplicationController
         end
         
         if @actType.save
-            if @actType.verified==nil
-                flash[:alert] = "Activity type has been registered and is now available to only you."
-            elsif @actType.verified
-                flash[:alert] = "Activity type has been registered and is now available to everyone in your group."
+            if @actType.verified
+                render :status => "200", :text => "Success_V"
             else
-                flash[:alert] = "Activity type has been registered successfully and will be available once your group's administrator has approved it."
+                render :status => "200", :text => "Success"
             end
-            redirect_to :action => 'index'
             return
         else
-            flash[:alert] = "Failed to create the activity type. Please verify what you have entered is valid."
-            redirect_to :action => 'new'
+            render :status => "200", :text => "Failure"
             return
         end
     end
@@ -107,7 +104,7 @@ class ActivityTypeController < ApplicationController
     def edit
         if current_user.groupid == nil
             @actType = ActivityType.find(params[:id])
-            unless @actType.groupid == nil and @actType.userid == current_user.userid
+            unless @actType.groupid == nil and @actType.userid == current_user.id
                 flash[:alert] = "You do not have access to this activity type."
                 redirect_to :action => 'index'
                 return
@@ -131,6 +128,17 @@ class ActivityTypeController < ApplicationController
     
     def acttype_param
         params.require(:activity_type).permit('name','score')
+    end
+    
+    def delete
+        @acttype = ActivityType.find(params[:id])
+        if current_user.groupid == @acttype.group and current_user.isAdmin
+            if @acttype.destroy
+                render :status => "200", :text => "Success"
+            else
+                render :status => "200", :text => "Failure"
+            end
+        end
     end
     def update
         @actType = ActivityType.find(params[:id])

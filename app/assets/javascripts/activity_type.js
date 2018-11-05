@@ -93,3 +93,52 @@ sortActivityTypeTableByColumn = (columnid,hasLink = false) => {
         }
     }
 };
+
+verifyActivityType = () => {
+    let actTypeName = document.getElementById("activitytypes_name").value;
+    let actTypeMod = document.getElementById("activitytypes_score").value;
+    let button = document.getElementById("submitNewActivityTypeButton");
+    if (actTypeName.length < 5 || actTypeName.length > 50) {
+        button.disabled=true;
+        return false;
+    }
+    if (actTypeMod.length==0) {
+        button.disabled=true;
+        return false;
+    }
+    button.disabled=false;
+    return true;
+}
+
+submitNewActivityType = () => {
+    let actTypeName = document.getElementById("activitytypes_name").value;
+    let actTypeMod = document.getElementById("activitytypes_score").value;
+    if (!verifyActivityType()) {
+        alert("Activity Type is not valid.")
+        return;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText=="Failure_E") {
+                alert("Error creating activity type. An activity type already exists with that name.");
+            }
+            else if (this.responseText=="Success_V") {
+                window.location.reload();  
+            }
+            else if (this.responseText=="Success") {
+                window.location.reload();
+            }
+            else if (this.responseText=="Failure") {
+                alert("Failed to create the activity type. Please verify what you have entered is valid.");
+            }
+        }
+    };
+    xhttp.open("POST","/activity_type/create",true);
+    let data = {};
+    data["activitytypes"]={};
+    data["activitytypes"]["name"]=actTypeName;
+    data["activitytypes"]["score"]=actTypeMod;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
