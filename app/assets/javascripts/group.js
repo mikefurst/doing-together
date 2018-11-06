@@ -290,3 +290,53 @@ createGroup = () => {
         xhttp.send(JSON.stringify(data));
     }
 };
+
+checkEmail = () => {
+    const email = document.getElementById("userEmail").value;
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(String(email).toLowerCase())) {
+        return false;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status=="200") {
+            const rText = this.responseText;
+            if (rText == "User can be invited") {
+                document.getElementById("userEmail").style.borderColor="green";
+                document.getElementById("userEmail").style.borderWidth=5;
+                document.getElementById("emailButton").style.borderColor="green";
+                document.getElementById("emailButton").style.borderWidth=5;
+                return true;
+            }
+            else {
+                alert(rText);
+                document.getElementById("userEmail").style.borderColor="red";
+                document.getElementById("userEmail").style.borderWidth=5;
+                document.getElementById("emailButton").style.borderColor="red";
+                document.getElementById("emailButton").style.borderWidth=5;
+                return false;
+            }
+        }
+    };
+    xhttp.open("POST","/group/verifyUserCanBeAddedToGroup",true);
+    let data = {};
+    data["userEmail"] = email;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
+createNewInvite = () => {
+    if (!checkEmail()) {
+        return;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status=="200") {
+            
+        }
+    };
+    xhttp.open("POST","/group/verifyUserCanBeAddedToGroup",true);
+    let data = {};
+    data["userEmail"] = email;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+}

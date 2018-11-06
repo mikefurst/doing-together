@@ -326,4 +326,32 @@ class GroupController < ApplicationController
             session["last-message"] = @messages[0].timeAsInt
         end
     end
+    
+    def verifyUserCanBeAddedToGroup
+        if params[:userEmail]==nil
+            render :status => "200", :text => "Invalid Email Entry"
+            return nil
+        else
+            @user = User.find_for_authentication(:email => params[:userEmail])
+            if @user == nil
+                render :status => "200", :text => "User does not exist"
+                return nil
+            end
+            unless @user.groupid == nil
+                if @user.groupid == current_user.groupid
+                    render :status => "200", :text => "User is already a member of the group"
+                    return nil
+                else
+                    render :status => "200", :text => "User is already a member of a group"
+                    return nil
+                end
+            end
+            render :status => "200", :text => "User can be invited"
+            return @user
+        end
+    end
+    
+    def createNewInvite
+        @user = verifyUserCanBeAddedToGroup
+    end
 end

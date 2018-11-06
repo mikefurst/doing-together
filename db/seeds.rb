@@ -176,3 +176,18 @@ activitytypelist = [
         @act.save!
     }
 }
+#Create some empty users to test adding a member to a group
+r = rand(10..15)
+(1..r).each {
+    first_name = nil
+    while first_name==nil do
+        first_name = first_names[rand(0..(first_names.length-1))]
+    end
+    last_name = nil
+    while last_name==nil do
+        last_name = last_names[rand(0..(last_names.length))]
+    end
+    email = first_name[0] << last_name << rand(11..1111).to_s()<< "@dotgthr.com"
+    @user = User.create(:first_name => first_name, :last_name => last_name, :email => email, :password => 'Password')
+    @user.save!
+}
