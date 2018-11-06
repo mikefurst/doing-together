@@ -130,6 +130,40 @@ class ActivityTypeController < ApplicationController
         params.require(:activity_type).permit('name','score')
     end
     
+    def update
+        @actType = ActivityType.find(params[:id])
+        if not @actType.userid==nil
+            unless @actType.userid == current_user.id
+                render :status => "200", :text => "Failure"
+                return
+            end
+            if @actType.update_attributes(acttype_param)
+                render :status => "200", :text => "Success"
+                return
+            else
+                render :status => "200", :text => "Failure"
+                return
+            end
+        elsif not @actType.groupid == nil
+            unless current_user.isAdmin and @actType.groupid == current_user.groupid
+                render :status => "200", :text => "Failure"
+                return
+            end
+            if @actType.update_attributes(acttype_param)
+                @actType.verified = true
+                @actType.save
+                render :status => "200", :text => "Success"
+                return
+            else
+                render :status => "200", :text => "Failure"
+                return
+            end
+        else
+            render :status => "200", :text => "Failure"
+            return
+        end
+    end
+    
     def delete
         @acttype = ActivityType.find(params[:id])
         if current_user.groupid == @acttype.group and current_user.isAdmin
@@ -140,44 +174,32 @@ class ActivityTypeController < ApplicationController
             end
         end
     end
-    def update
+    
+    def verify
         @actType = ActivityType.find(params[:id])
-        if not @actType.userid==nil
-            unless @actType.userid == current_user.id
-                flash[:alert] = "You do not have access to this activity type."
-                redirect_to :action => 'index'
-                return
-            end
-            if @actType.update_attributes(acttype_param)
-                flash[:alert] = "Activity type was successfully updated."
-                redirect_to :action => 'index'
-                return
-            else
-                flash[:alert] = "There was an error editing the entry. Please try again."
-                redirect_to :action => 'edit'
-                return
-            end
-        elsif not @actType.groupid == nil
-            unless Group.find(current_user.groupid).adminid==current_user.id
-                flash[:alert] = "You must be the group's administrator to edit activity types."
-                redirect_to :action => 'index'
-                return
-            end
-            if @actType.update_attributes(acttype_param)
-                @actType.verified = true
-                @actType.save
-                flash[:alert] = "Activity type was successfully updated."
-                redirect_to :action => 'index'
-                return
-            else
-                flash[:alert] = "There was an error editing the entry. Please try again."
-                redirect_to :action => 'edit'
-                return
-            end
-        else
-            flash[:alert] = "Activity type encountered an unknown error when updating."
-            redirect_to :action => 'index'
+        if current_user.groupid == @actType.groupid and current_user.isAdmin
+            @actType.verified = true
+            @actType.save
+            render :status => "200", :text => "Success"
             return
         end
+        render :status => "200", :text => "Failure"
     end
+    
+    def getActivityType
+        if params[:actid]==nil or ActivityType.find(params[:actid])==nil
+            render :status => "200", :text => "Does Not Exist"
+        elsif ActivityType.find(params[:actid]).groupid == nil
+            if ActivityType.find(params[:actid]).userid == current_user.id
+                render :status => "200", :json => ActivityType.find(params[:actid]).getActivityTypeJSON(current_user)
+            else
+                render :status => "200", :text => "Cannot Access"
+            end
+        elsif ActivityType.find(params[:actid]).groupid != current_user.groupid
+            render :status => "200", :text => "Cannot Access"
+        else
+            render :status => "200", :json => ActivityType.find(params[:actid]).getActivityTypeJSON(current_user)
+        end
+    end
+    
 end
