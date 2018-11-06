@@ -1,16 +1,21 @@
 groupIndexPageOnLoad = () => {
     setGroupTableRows(1,25);
 }
+
+changeLabel = () => {
+    document.getElementById("templateLabel").innerHTML=document.getElementById("group_select")[document.getElementById("group_select").selectedIndex].value;
+}
+
 verifyNewGroup = () => {
-    const password = document.getElementById('group_password').value;
-    const password_confirmation = document.getElementById('group_password_confirmation').value;
-    const description = document.getElementById('group_description').value;
-    const name = document.getElementById('group_name').value;
+    let passwordCheck = document.getElementById('group_password').value;
+    let password_confirmation = document.getElementById('group_password_confirmation').value;
+    let description = document.getElementById('group_description').value;
+    let name = document.getElementById('group_name').value;
     let passAlert = document.getElementById('groupPasswordAlert');
     let descAlert = document.getElementById('groupDescriptionAlert');
     let button = document.getElementById('group_submit_button');
     button.disabled=false;
-    if (password != password_confirmation) {
+    if (passwordCheck != password_confirmation) {
         passAlert.style.visibility="visible";
         button.disabled=true;
     }
@@ -26,9 +31,16 @@ verifyNewGroup = () => {
         descAlert.style.visibility="hidden";
     }
     
-    if (description=="" || name =="" || password=="" || password_confirmation=="") {
+    if (description=="" || name =="" || passwordCheck=="" || password_confirmation=="") {
         button.disabled=true;
     }
+    if (description.length < 15 || description.length > 150 ) {
+        button.disabled = true;
+    }
+    if (name.length < 10 || name.length > 50 ) {
+        button.disabled = true;
+    }
+    return !button.disabled;
 };
 
 groupSearch = () => {
@@ -155,24 +167,126 @@ setGroupTableRows = (page,interval) => {
             }
         }
     }
-    updateGroupPageLinks(interval);
+    updateGroupPageLinks(interval,page);
 };
 
-updateGroupPageLinks = (interval) => {
-    let p = document.getElementById("pageLinks");
-    p.innerHTML="";
+updateGroupPageLinks = (interval,page) => {
+    let ul = document.getElementById("pageLinks");
+    ul.innerHTML="";
     const pages = Math.ceil((document.getElementById('grouptable').rows.length-1) / interval);
     if (pages > 1) {
         for (let i=1;i<=pages;i++) {
+            let li = document.createElement('li');
+            if (i==page) {
+                li.className = "page-item active";
+            }
+            else {
+                li.className = "page-item";
+            }
+            li.id=i.toString();
             let a = document.createElement("a");
             let linkText = document.createTextNode(i.toString()+" ");
             a.appendChild(linkText);
-            a.title = i.toString()+" ";
+            a.title = i.toString();
+            a.className = "page-link";
             a.href = "javascript:void(0)";
             a.onclick = function() {
                 setGroupTableRows(i,interval);
             };
-            p.appendChild(a);
+            li.appendChild(a);
+            ul.appendChild(li);
         }
+    }
+};
+
+
+
+/*Code for group messaging*/
+registerGroupMessagingActivity = () =>{
+    window.setInterval(loadNewMessage,1000);
+};
+
+loadNewMessage = () => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Nothing New") {
+                const response = JSON.parse(responseText)
+                const message = response.message;
+                const userName = response.userName;
+                const createdAt = response.createElement;
+                const timestamp = response.timestamp;
+                const currentUser = response.current_user
+                let table = document.getElementById("messageTable");
+                let row = table.insertRow(-1);
+                let nameCell = row.insertCell(0);
+                nameCell.className = "username";
+                if (currentUser) {
+                    nameCell.innerHTML="You:";
+                }
+                else {
+                    nameCell.innerHTML=userName;
+                }
+                let messageCell=row.insertCell(1);
+                messageCell.setAttribute("class","message col-sm-10 text-sm-left");
+                messageCell.innerHTML=message;
+            }
+        }
+        else if (this.readyState == 4 && this.status == 400) {
+            
+        }
+    };
+    xhttp.open("GET","/group/getNewMessage",true);
+    xhttp.send();
+};
+
+submitMessage = () => {
+    let submitInput = document.getElementById("messageInput");
+    if (submitInput.value.length > 140) {
+        alert("You cannot send a message with a length exceeding 200 characters.");
+        return;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {};
+    xhttp.open("POST","/group/submitmessage",true);
+    let data = {};
+    data["message"]=submitInput.value;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+    submitInput.value="";
+};
+
+createGroup = () => {
+    if (verifyNewGroup()) {
+        let passwordCheck = document.getElementById('group_password').value;
+        let password_confirmation = document.getElementById('group_password_confirmation').value;
+        let description = document.getElementById('group_description').value;
+        let name = document.getElementById('group_name').value;
+        let select = document.getElementById("group_select");
+        let option = select[select.selectedIndex].id;
+        let button = document.getElementById('group_submit_button');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status=="200") {
+                if (this.responseText == "ERROR") {
+                    document.getElementById("ERROR").innerHTML="There was an error creating your group. Please try again.";
+                }
+                else {
+                    window.location.replace("/group/view?id="+this.responseText);
+                    window.location.href("/group/view?id="+this.responseText);
+                }
+            }
+        };
+        xhttp.open("POST","/group/create",true);
+        let data = {};
+        data["group"] = {};
+        data["group"]["name"]=name;
+        data["group"]["description"]=description;
+        data["group"]["password"]=passwordCheck;
+        data["group"]["password_confirmation"]=password_confirmation;
+        data["group"]["template"]=option;
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.send(JSON.stringify(data));
     }
 };

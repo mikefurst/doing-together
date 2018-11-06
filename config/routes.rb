@@ -10,14 +10,17 @@ Rails.application.routes.draw do
   get 'activity/index'
   delete 'activity/delete'
   get 'activity/edit'
-  patch 'activity/update'
+  post 'activity/update'
   post 'activity/create'
   get 'activity/getNewActivities'
+  post 'activity/getActivity'
   get 'activity_type/new'
   get 'activity_type/index'
   get 'activity_type/edit'
+  post 'activity_type/getActivityType'
   post 'activity_type/create'
-  patch 'activity_type/update'
+  post 'activity_type/verify'
+  post 'activity_type/update'
   get 'group/index'
   get 'group/new'
   post 'group/create'
@@ -30,13 +33,15 @@ Rails.application.routes.draw do
   patch 'group/leave'
   patch 'group/kick'
   patch 'group/makeadmin'
+  post 'group/submitmessage'
+  get 'group/getNewMessage'
   
   get 'application/index'
-
+  get 'application/privacy_policy'
   
-  
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :users, only: [:show, :edit, :update]
+  #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
