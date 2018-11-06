@@ -385,14 +385,11 @@ DEPENDENCIES
   fog (~> 1.25)
   jbuilder (~> 2.0)
   jquery-rails
-<<<<<<< HEAD
-  mini_magick (~> 4.9, >= 4.9.2)
-=======
   loofah (>= 2.2.3)
+  mini_magick (~> 4.9, >= 4.9.2)
   omniauth (>= 1.0.0)
   omniauth-facebook
   omniauth-google-oauth2
->>>>>>> cc90167d2d912ce1c5b23e5b366d1c933e215d87
   pg
   rails (>= 4.2.5)
   rails_12factor
