@@ -20,6 +20,9 @@ class User < ApplicationRecord
     on: :create,
     allow_nil: false
     
+    
+  mount_uploader :avatar, AvatarUploader
+    
   def full_name
     return self.first_name << " " << self.last_name
   end
