@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   get 'application/index'
   get 'application/privacy_policy'
   
+  
+  
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :users, only: [:show, :edit, :update]
   #devise_for :users
