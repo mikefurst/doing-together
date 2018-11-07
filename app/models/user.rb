@@ -21,6 +21,8 @@ class User < ApplicationRecord
     allow_nil: false
     
     
+    
+    
   mount_uploader :avatar, AvatarUploader
     
   def full_name
