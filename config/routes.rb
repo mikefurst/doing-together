@@ -3,19 +3,20 @@ Rails.application.routes.draw do
   #root :to => redirect('/activity/index')
   root 'application#index'
   
-  get 'activity/show'
-  get 'activity/new'
   get 'activity/index'
   delete 'activity/delete'
   get 'activity/edit'
-  patch 'activity/update'
+  post 'activity/update'
   post 'activity/create'
   get 'activity/getNewActivities'
+  post 'activity/getActivity'
   get 'activity_type/new'
   get 'activity_type/index'
   get 'activity_type/edit'
+  post 'activity_type/getActivityType'
   post 'activity_type/create'
-  patch 'activity_type/update'
+  post 'activity_type/verify'
+  post 'activity_type/update'
   get 'group/index'
   get 'group/new'
   post 'group/create'
@@ -32,8 +33,10 @@ Rails.application.routes.draw do
   get 'group/getNewMessage'
   
   get 'application/index'
+  get 'application/privacy_policy'
   
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

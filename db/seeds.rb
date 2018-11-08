@@ -110,28 +110,28 @@ group_adjectives = [
 group_nouns = [
     'Runners', 'Athletes', 'Pirates', 'Scholars', 'Students', 'Professionals', 'Coders', 'Astronauts', 'Retirees'
     ]
-  activitytypelist = [
-    {
-        :name => "Walking",
-        :score => 1
-    },
-    {
-        :name => "Jogging",
-        :score => 1.25
-    },
-    {
-        :name => "Running",
-        :score => 1.50
-    },
-    {
-        :name => "Swimming",
-        :score => 1.75
-    },
-    {
-        :name => "Martial Arts",
-        :score => 2.00
-    }
-    ]  
+activitytypelist = [
+{
+    :name => "Walking",
+    :score => 1
+},
+{
+    :name => "Jogging",
+    :score => 1.25
+},
+{
+    :name => "Running",
+    :score => 1.50
+},
+{
+    :name => "Swimming",
+    :score => 1.75
+},
+{
+    :name => "Martial Arts",
+    :score => 2.00
+}
+]  
 (1..10).each {
     @group = Group.create()
     @group.name = group_adjectives[rand(0..(group_adjectives.length-1))] << " " << group_nouns[rand(0..(group_nouns.length-1))]

@@ -1,14 +1,12 @@
 <div class="gradient-buttons">
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= button_to "Forgot Password", new_password_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <% end -%>
   <%- if controller_name != 'sessions' %>
     <%= button_to "Log In", new_session_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br />
   <% end -%>
-  <!-- Creates the Sign Up Button under log in:Added by Jake -->
   <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
     <%= button_to "Sign In", new_registration_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
-  <% end -%>
-  <!-- Creates the forgotten password Button under log in:Added by Jake -->
-  <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-    <%= button_to "Forgot Password", new_password_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
   <% end -%>
 
   <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
@@ -19,9 +17,19 @@
     <%= button_to "Didn't receive unlock instructions?", new_unlock_path(resource_name), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
   <% end -%>
 
-  <%- if devise_mapping.omniauthable? %>
-    <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+  <div class="row justify-content-md-center">
+    <div class="col-md-1"></div>
+    <%- if devise_mapping.omniauthable? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <div class="col-md-auto">
+          <% if OmniAuth::Utils.camelize(provider)=="GoogleOauth2"%>
+            <%= button_to "Sign in with Google", omniauth_authorize_path(resource_name, provider), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+          <% else %>
+            <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %><br /><br />
+          <% end %>
+        </div>
+      <% end -%>
     <% end -%>
-  <% end -%>
+    <div class="col-md-1"></div>
+  </div>
 </div>

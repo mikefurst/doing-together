@@ -4,15 +4,22 @@ class GroupController < ApplicationController
     
     def index
         @groups = Group.all
-    end
-    def new
         @maximumNameLength = 50
         @minimumNameLength = 10
         @maximumDescriptionLength = 150
         @minimumDescriptionLength = 15
+        @templates = {
+            :None => "Use no template. This is for groups who want to make all of their own activites.",
+            :General_Fitness => "A template for groups who are trying to get fit and healthy. Contains some basic activities for getting healthy.",
+            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. "
+        }
+    end
+    def new
+        flash[:alert]="This method is deprecated."
+        redirect_to :action => index
     end
     def group_params
-        params.require(:group).permit("name","description","password","password_confirmation")
+        params.require(:group).permit("name","description","password","password_confirmation","template")
     end
     def create
         @group = Group.create()
@@ -45,11 +52,82 @@ class GroupController < ApplicationController
             flash[:alert] = "You have created and been added to group " << group_params[:name]
             current_user.groupid = @group.id
             current_user.save!
-            redirect_to :action => 'index'
-            return
+            
+            if group_params[:template] == "General_Fitness"
+                activitytypelist = [
+                    {
+                        :name => "Walking",
+                        :score => 1
+                    },
+                    {
+                        :name => "Jogging",
+                        :score => 1.25
+                    },
+                    {
+                        :name => "Running",
+                        :score => 1.50
+                    },
+                    {
+                        :name => "Swimming",
+                        :score => 1.75
+                    },
+                    {
+                        :name => "Martial Arts",
+                        :score => 2.00
+                    }
+                ]
+            elsif group_params[:template] == "Reading"
+                activitytypelist = [
+                    {
+                        :name => "Reading Academic Articles",
+                        :score => 3
+                    },
+                    {
+                        :name => "Reading Poetry",
+                        :score => 2.85
+                    },
+                    {
+                        :name => "Reading Novels",
+                        :score => 2.5
+                    },
+                    {
+                        :name => "Reading Books",
+                        :score => 2.15
+                    },
+                    {
+                        :name => "Reading Anthologies",
+                        :score => 2
+                    },
+                    {
+                        :name => "Reading Ethnographies",
+                        :score => 1.85
+                    },
+                    {
+                        :name => "Reading short stories",
+                        :score => 1.5
+                    },
+                    {
+                        :name => "Reading News Articles",
+                        :score => 1.15
+                    },
+                    {
+                        :name => "Reading Magazine Articles",
+                        :score => 1
+                    }
+                ]
+            end
+            unless activitytypelist == nil
+                activitytypelist.each { |atype|
+                        @act = ActivityType.create(atype)
+                        @act.groupid = @group.id
+                        @act.verified = true
+                        @act.save!
+                    }
+            end
+            
+            render :status => "200", :text => @group.id.to_s
         else
-            redirect_to :action => 'new'
-            return
+            render :status => "200", :text => "ERROR"
         end
     end
     def edit
@@ -57,7 +135,7 @@ class GroupController < ApplicationController
         unless current_user.id == @group.adminid
             @admin = User.find(@group.adminid)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.full_name << "."
-            redirect_to :action => 'index'
+            redirect_to :action => 'view', :id => params[:id]
             return
         end
         @users = User.all.select { |u|
@@ -183,7 +261,7 @@ class GroupController < ApplicationController
             else
                 flash[:alert]="Unexpected error when joining the group: " << @group.name << ". Please try again."
             end
-            redirect_to :action => 'index'
+            redirect_to :action => 'view', :id => @group.id
             return
         else
             flash[:alert]="You entered an incorrect password for the group."
@@ -223,7 +301,7 @@ class GroupController < ApplicationController
             flash[:alert] = "Invalid User!"
             redirect_to :action => 'edit', :id => params[:id]
         end
-        redirect_to :action => 'index'
+        redirect_to :action => 'view', :id => params[:id]
     end
     def submitmessage
         @messageText = params[:message]

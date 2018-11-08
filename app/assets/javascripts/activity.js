@@ -2,74 +2,328 @@ getNewActivities = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            const responseText = this.responseText
+            const responseText = this.responseText;
             if (responseText != "Nothing New") {
                 //parse JSON response
-                const response = JSON.parse(responseText)
+                const response = JSON.parse(responseText);
                 const activityName = response.name;
                 const activityID = response.id;
                 const userName = response.userName;
                 const duration = response.duration;
+                const fullDuration = response.full_duration;
                 const createdAt = response.created_at;
                 const timestamp = response.timestamp;
                 const datestamp = response.datestamp;
+                const updated = response.updated;
                 const currentUser = response.current_user;
                 //load table
                 let table = document.getElementById("activitytable");
+                if (table.style.display=="none") {
+                    table.style.display="";
+                }
                 //create new row
                 let row = table.insertRow(1);
                 if (currentUser) {
-                    row.class = "table-primary"
+                    row.setAttribute("class","table-primary");
                 }
                 else {
-                    row.class = "table-info"
+                    row.setAttribute("class","table-info");
                 }
                 //create cell with activity name
                 let nameCell = row.insertCell(0);
                 let nameP = document.createElement("p");
-                nameP.class = "name";
+                nameP.setAttribute("class","name");
                 let a = document.createElement('a');
                 const linkText = document.createTextNode(activityName);
                 a.appendChild(linkText);
                 a.title = activityName;
-                a.href = "/activity/show?id=" + activityID;
+                a.href = "javascript:void(0)";
+                a.click = function(){getActivity(activityID)};
+                a.setAttribute("name","activityName");
+                a.setAttribute("data-toggle","modal");
+                a.setAttribute("data-target","#viewActivityModal");
                 nameP.appendChild(a);
                 nameCell.appendChild(nameP);
                 //create cell with duration
                 let durationCell = row.insertCell(1);
                 let durationP = document.createElement('p');
-                durationP.class = "duration";
-                durationP.innerHTML = duration;
+                durationP.setAttribute("class","duration");
+                durationP.setAttribute("name",duration);
+                durationP.innerHTML = fullDuration;
                 durationCell.appendChild(durationP);
                 let userCell = row.insertCell(2);
                 let userP = document.createElement("p");
-                userP.class = "user";
+                userP.setAttribute("class","user");
                 userP.innerHTML = userName;
                 userCell.appendChild(userP);
                 //create cell with timestamp
                 let timestampCell = row.insertCell(3);
                 let timestampP = document.createElement("p");
-                timestampP.class = "timestamp";
-                timestampP.id = createdAt;
+                timestampP.setAttribute("class","timestamp");
+                timestampP.setAttribute("id",createdAt);
                 timestampP.innerHTML = timestamp;
                 timestampCell.appendChild(timestampP);
                 //create cell with datestamp
                 let datestampCell = row.insertCell(4);
                 let datestampP = document.createElement("p");
-                datestampP.class = "timestamp";
+                datestampP.setAttribute("class","timestamp");
                 datestampP.innerHTML = datestamp;
                 datestampCell.appendChild(datestampP);
                 setActivityTableRows(1,25);
                 updatePageLinks(25);
             }
         }
-        else if (this.readyState == 4 && this.status == 400) {
-            
-        }
     };
     xhttp.open("GET","/activity/getNewActivities",true);
     xhttp.send();
 };
+
+deleteActivity = (actID,activityName,rowI) => {
+    if (confirm("Are you sure you want to delete "+activityName+"?")) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState ==4 && this.status == 200) {
+                if (this.responseText == "Success") {
+                    document.getElementById("activitytable").deleteRow(rowI);
+                }
+            }
+        };
+        xhttp.open("delete","/activity/delete",true);
+        let data = {};
+        data["id"] = actID;
+        xhttp.setRequestHeader("Content-Type","application/json");
+        xhttp.send(JSON.stringify(data));
+        getNewActivities();
+        if (document.getElementById("activitytable").rows.length <= 1) {
+            document.getElementById("activitytable").style.display="none";
+        }
+    }
+};
+
+getFullDuration = (duration) => {
+    const hours = Math.floor(duration / 60);
+    const rawMinutes = (duration - (hours*60));
+    const minutes = Math.floor(rawMinutes);
+    seconds = Math.round((rawMinutes-minutes)*60)
+    msg = ""
+    if (hours > 0) {
+        if (hours == 1) {
+            msg+=hours.toString() + " hour";
+        }
+        else {
+            msg+=hours.toString() + " hours";
+        }
+        if (minutes > 0 && seconds > 0) {
+            msg += ", ";
+        }
+        else if (minutes >0 || seconds > 0) {
+            msg += " and ";
+        }
+    }
+    if (minutes > 0) {
+        if (minutes == 1) {
+            msg+=minutes.toString() + " minute";
+        }
+        else {
+            msg+=minutes.toString() + " minutes";
+        }
+        if (hours >0 && seconds >0) {
+            msg += ", and ";
+        }
+        else if (seconds > 0) {
+            msg += " and ";
+        }
+    }
+    if (seconds > 0) {
+        if (seconds==1) {
+            msg += seconds.toString() + " second";
+        }
+        else {
+            msg += seconds.toString() + " seconds";
+        }
+    }
+    return msg;
+};
+
+editActivity = (optVal,duration,actID,rowActElement,rowActName,rowDurElement) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState ==4 && this.status == 200) {
+            if (this.responseText == "Success") {
+                rowActElement.name = rowActName;
+                rowActElement.innerHTML = rowActName;
+                rowDurElement.innerHTML = getFullDuration(duration);
+            }
+        }
+    };
+    xhttp.open("POST","/activity/update",true);
+    let data = {};
+    data["activity"]={};
+    data["activity"]["actid"]=optVal;
+    data["activity"]["duration"]=duration;
+    data["activity"]["aid"]=actID;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+    getNewActivities();
+};
+
+getActivity = (actID) => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText
+            if (responseText != "Does Not Exist") {
+                const response = JSON.parse(responseText)
+                const activityName = response.name;
+                const activityID = response.id;
+                const userName = response.userName;
+                const duration = response.duration;
+                const fullDuration = response.full_duration;
+                const createdAt = response.created_at;
+                const updatedAt = response.updated_at;
+                const timestamp = response.timestamp;
+                const datestamp = response.datestamp;
+                const updatedTimestamp = response.timestamp_u;
+                const updatedDatestamp = response.datestamp_u;
+                const updated = response.updated;
+                const currentUser = response.current_user;
+                
+                let activityTitle = document.getElementById("activityTitle");
+                activityTitle.innerHTML=activityName+" performed by "+userName;
+                
+                let activityDuration = document.getElementById("activityDuration");
+                activityDuration.innerHTML = userName+" engaged in <strong>"+activityName+"</strong> for "+fullDuration.toString()+", at "+timestamp+" on "+datestamp+".";
+                
+                let activityTimestampMessage = document.getElementById("activityTimestampMessage");
+                if (updated) {
+                    activityTimestampMessage.innerHTML="Activity was last updated at "+updatedTimestamp+" on "+updatedDatestamp+" by "+userName+".";
+                }
+                else {
+                    activityTimestampMessage.innerHTML=userName+" registered this activity at "+timestamp+" on "+datestamp+".";
+                }
+                document.getElementById("currentUserContainer").innerHTML="";
+                if (currentUser) {
+                    let table = document.getElementById("activitytable");
+                    let rows = table.rows;
+                    let row;
+                    let rowI;
+                    for (let i=0;i<rows.length;i++) {
+                        if (rows[i].id == "act"+actID.toString()) {
+                            row = rows[i];
+                            rowI = i;
+                            break;
+                        }
+                    }
+                    let rowElements = row.getElementsByTagName("td");
+                    const rowActElement = rowElements[0].getElementsByTagName("a")[0];
+                    let rowActName = rowElements[0].getElementsByTagName("a")[0].name;
+                    const rowDurElement = rowElements[1].getElementsByTagName("p")[0];
+                    let rowActDuration = rowElements[1].getElementsByTagName("p")[0].innerHTML;
+                    let uContainer = document.getElementById("currentUserContainer");
+                    let editButton = document.createElement("button");
+                    editButton.innerHTML="Edit Entry";
+                    editButton.setAttribute("class","btn btn-primary btn-large");
+                    editButton.setAttribute("type","button");
+                    editButton.setAttribute("data-toggle","collapse");
+                    editButton.setAttribute("data-target","#editDIV");
+                    let deleteButton = document.createElement("button");
+                    deleteButton.innerHTML="Delete Entry";
+                    deleteButton.setAttribute("class","btn btn-danger btn-large");
+                    deleteButton.setAttribute("type","submit");
+                    deleteButton.setAttribute("data-dismiss","modal");
+                    deleteButton.onclick=function() {deleteActivity(actID,activityName,rowI)};
+                    let editDIV = document.createElement("div");
+                    editDIV.setAttribute("class","collapse gradient-buttons justify-content-left block-left text-left")
+                    editDIV.id="editDIV";
+                    let form = document.createElement("form");
+                    form.id = "edit_activity_"+actID.toString();
+                    let div1 = document.createElement("div");
+                    div1.setAttribute("class","form-group");
+                    let actIDLabel = document.createElement("label");
+                    actIDLabel.setAttribute("for","activity_actid");
+                    actIDLabel.innerHTML = "Choose Activity Type";
+                    div1.appendChild(actIDLabel);
+                    let actIDSelect = document.createElement("select");
+                    actIDSelect.id="activity_actid";
+                    actIDSelect.setAttribute("class","form-control");
+                    let options = document.getElementsByClassName("activityOption");
+                    for (let i=0;i<options.length;i++) {
+                        let option = options[i].cloneNode(true);
+                        actIDSelect.appendChild(option);
+                        if (option.innerHTML.includes(rowActName)) {
+                            actIDSelect.selectedIndex=i;   
+                        }
+                    }
+                    div1.appendChild(actIDSelect);
+                    form.appendChild(div1);
+                    let div2 = document.createElement("div");
+                    div2.setAttribute("class","form-group");
+                    let activityDurationLabel = document.createElement("activityDurationLabel");
+                    activityDurationLabel.setAttribute("for","activity_duration");
+                    activityDurationLabel.innerHTML = "Edit Activity Duration";
+                    div2.append(activityDurationLabel);
+                    let activityDurationInput = document.createElement("input");
+                    activityDurationInput.id = "activity_duration";
+                    activityDurationInput.setAttribute("class","form-control");
+                    activityDurationInput.setAttribute("step","any");
+                    activityDurationInput.setAttribute("type","number");
+                    activityDurationInput.value = parseInt(rowActDuration,10);
+                    div2.appendChild(activityDurationInput);
+                    form.appendChild(div2);
+                    let div3 = document.createElement("div");
+                    div3.setAttribute("class","form-group gradient-buttons justify-content-center block-center text-center");
+                    let button = document.createElement("button");
+                    button.setAttribute("class","btn btn-primary btn-large");
+                    button.setAttribute("type","button");
+                    button.setAttribute("data-dismiss","modal");
+                    button.onclick = (function() {
+                        const duration = document.getElementById("activity_duration").value;
+                        const opt = document.getElementById("activity_actid");
+                        const optVal = opt[opt.selectedIndex].value;
+                        const rAName = opt[opt.selectedIndex].innerHTML;
+                        editActivity(optVal,duration,actID,rowActElement,rAName,rowDurElement);
+                    });
+                    button.innerHTML="Submit Edit";
+                    div3.appendChild(button);
+                    form.appendChild(div3);
+                    editDIV.appendChild(form);
+                    uContainer.appendChild(editDIV);
+                    uContainer.appendChild(editButton);
+                    uContainer.appendChild(deleteButton);
+                }
+                
+                
+            }
+        }
+    };
+    xhttp.open("post","/activity/getActivity",true);
+    let data={};
+    data["actid"]=actID;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
+
+submitNewActivity = () => {
+    let activitySelect=document.getElementById("activities_actid");
+    let activitySelectValue = activitySelect[activitySelect.selectedIndex].value;
+    activitySelect.selectedIndex = 0;
+    let activityInput = document.getElementById("activities_duration");
+    let activityInputValue = activityInput.value;
+    activityInput.value = "";
+    let userId = document.getElementById("activities_userid");
+    let userIdValue = userId.value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {};
+    xhttp.open("POST","/activity/create",true);
+    let data = {};
+    data["activities"]={};
+    data["activities"]["actid"]=activitySelectValue;
+    data["activities"]["duration"]=activityInputValue;
+    data["activities"]["userid"]=userIdValue;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+    getNewActivities();
+}
 
 
 updatePageLinks = (interval,page=1) => {
@@ -77,7 +331,7 @@ updatePageLinks = (interval,page=1) => {
     ul.innerHTML="";
     const pages = Math.ceil((document.getElementById('activitytable').rows.length-1) / interval);
     if (pages > 1) {
-        for (let i=1;i<=pages;i++) {
+        for (let i=1;i<pages;i++) {
             let li = document.createElement('li');
             if (i==page) {
                 li.className = "page-item active";
@@ -106,6 +360,9 @@ removePageLinks = () => {
 
 setActivityTableRows = (page,interval) => {
     let table = document.getElementById('activitytable');
+    if (table==undefined) {
+        return false;
+    }
     let rows = table.rows;
     const len = rows.length
     const start = (interval * (page-1))+1;
@@ -121,15 +378,17 @@ setActivityTableRows = (page,interval) => {
         }
     }
     updatePageLinks(interval,page);
+    return true;
 };
 
 automateActivityAJAX = () => {
-    setActivityTableRows(1,25);
-    window.setInterval(getNewActivities,1000);
+    if (setActivityTableRows(1,25)) {
+        window.setInterval(getNewActivities,5000);
+    }
 };
 
 /*global sortActivityTableByColumn*/
-sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
+sortActivityTableByColumn = (columnid,hasLink = false,number=false,timeStamp=false) => {
     let table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("activitytable");
     switching = true;
@@ -161,6 +420,10 @@ sortActivityTableByColumn = (columnid,hasLink = false,timeStamp=false) => {
             else if (timeStamp) {
                 x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
                 y = rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].id;
+            }
+            else if (number) {
+                x = parseInt(rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getAttribute("name"),10);
+                y = parseInt(rows[i + 1].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].getAttribute("name"),10);
             }
             else {
                 x = rows[i].getElementsByTagName("td")[columnid].getElementsByTagName("p")[0].innerHTML.toLowerCase();
@@ -260,7 +523,7 @@ activitySearch = () => {
                 case 'Duration':
                     x=1;
                     break;
-                case 'Person Who Done It':
+                case 'Performer':
                     x=2;
                     break;
                 default:

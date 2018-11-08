@@ -24,7 +24,7 @@
                 <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
                     <option>Activity Type</option>
                     <option>Duration</option>
-                    <option>Person Who Done It</option>
+                    <option>Performer</option>
                 </select>
             </center>
             
@@ -60,9 +60,9 @@
                   <tr>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
                     <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
-                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Person Who Done It</a></p></th>
-                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Time</a></p></th>
-                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Date</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
                   </tr>
                 </thead>
                 
@@ -111,9 +111,9 @@
                         <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
                         
                         <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
-                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Person Who Done It</a></p></th>
-                        <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Time</a></p></th>
-                        <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Entry Date</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                        <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
                     </tr>
                 </thead>
                 

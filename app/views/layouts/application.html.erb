@@ -25,31 +25,94 @@
   <%= csrf_meta_tags %>
 </head>
 <% if controller.controller_name == "activity" %>
-  <body onload="automateActivityAJAX()">
+  <body onload="automateActivityAJAX()" class="bg-secondary">
 <% elsif controller.controller_name == "group" and controller.action_name == "index" %>
-  <body onload="groupIndexPageOnLoad()">
+  <body onload="groupIndexPageOnLoad()" class="bg-secondary">
 <% elsif controller.controller_name == "group" and (controller.action_name == "view" or controller.action_name == "edit") %>
-  <body onload="registerGroupMessagingActivity()">
+  <body onload="registerGroupMessagingActivity()" class="bg-secondary">
 <% else %>
-  <body>
+  <body class="bg-secondary">
 <% end %>
-<div class="page-header">
-    <center><H2><%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title'%></H2></center>
-      <div class="row">
-        <div class="col-sm-6"><H4>A place to do things <i>together</i>.</H2></div>
-        <% if user_signed_in? %>
-          <div class="col-sm-6 gradient-buttons text-right"><H4>
-            <%= button_to "Sign Out", destroy_user_session_path, :method => 'delete', :type => 'button', :class => 'btn btn-lg btn-primary' %>
-          </H4></div>
-        <% else %>
-          <div class="col-sm-6 gradient-buttons text-right"><H4>
-            <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %> or <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
-          </H4></div>
+<% if controller.controller_name == "application" or controller.controller_name == "" %>
+  <% @sty = "margin-bottom: 0px;" %>
+<% else %>
+  <% @sty = "" %>
+<% end %>
+<%= content_tag :nav, :class => "navbar bg-info navbar-expand-md fixed-top", :style => @sty do %>
+  <a class="navbar-brand" >
+    <%= link_to (image_tag('doing_together.png')), '/application/index', :class => 'title', :alt => "logo"%>
+  </a>
+  <ul class="navbar-nav mr-auto">
+    <% if user_signed_in? %>
+      <% @navLinkClass = "nav-link" %>
+    <% else %>
+      <% @navLinkClass = "nav-link disabled" %>
+    <% end %>
+    <% if controller.controller_name == "activity" %>
+      <li class="nav-item active">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/activity/index" do %>
+          Activity Log
         <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/activity/index" do %>
+          Activity Log
+        <% end %>
+      </li>
+    <% end %>
+    <% if controller.controller_name == "activity_type" %>
+      <li class="nav-item active">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/activity_type/index" do %>
+          Activity Types
+        <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/activity_type/index" do %>
+          Activity Types
+        <% end %>
+      </li>
+    <% end %>
+    <% if controller.controller_name == "group" %>
+      <li class="nav-item active">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/group/index" do %>
+          Groups
+        <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= content_tag :a, :class => @navLinkClass, :href => "/group/index" do %>
+          Groups
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <% if user_signed_in? %>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" data-target="#userMenu">
+          User Menu
+        </a>
+      </li>
+      <div id="userMenu" class="dropdown-menu bg-info" style="right: 0; left: auto;">
+        <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
+        <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item" %>
       </div>
-  </div>
-  <!-- This adds the fgroup png:Added by Jake -->
-  <center><h1><%= image_tag "fgroup.png" %></h1></center>
+    </ul>
+  <% else %>
+    <div class="gradient-buttons">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
+        </li>
+        <li class="nav-item">
+          <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
   <!-- This adds the fgroup png:Added by Jake -->
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>

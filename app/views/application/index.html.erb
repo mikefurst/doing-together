@@ -1,8 +1,175 @@
 <% if user_signed_in? %>
     <!-- have content for users who are signed in below -->
-    <p>Add messages for users who are signed in here.</p>
+    <div class="jumbotron text-center" style="margin-bottom: 0px;margin-top: 0px;">
+        <H2>Welcome to <embed>Doing Together</embed> <%= current_user.full_name %>.</H2>
+    </div>
+    <br>
+    <center>
+        <h4>
+            Now that you've signed in you are ready to track your activities.
+            Use the buttons below to start tracking your information or look at the 
+            quickstart guide to learn how to get started.
+        </h4>
+    </center>
+    <br>
+    <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
+    <br>
+    <br>
+    <div class="gradient-buttons justify-content-center block-center text-center">
+        <button type="button" class="btn btn-large btn-info block-center" data-toggle="collapse" data-target="#quickCollapse">Quickstart Guide</button>
+    </div>
+    <br>
+    <div id="quickCollapse" class="collapse">
+        <div id="quickAccordian">
+            <div class="card">
+                <div class="card-header text-center" data-target="#collapseSubOne" data-toggle="collapse">
+                    <H3>Joining a Group</H3>
+                </div>
+                <div id="collapseSubOne" class="collapse" data-parent="#quickAccordian">
+                    <div class="card-body">
+                        <p>
+                            If you are just starting out it's a great idea to join a group 
+                            with interests common to you. The advantage to joining a group 
+                            is that you will have people to compete with and there will be 
+                            activity types ready for you to use. It is recommended that 
+                            newcomers join a group.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header text-center" data-target="#collapseSubTwo" data-toggle="collapse">
+                    <H3>Create a Group</H3>
+                </div>
+                <div id="collapseSubTwo" class="collapse" data-parent="#quickAccordian">
+                    <div class="card-body">
+                        <p>
+                            If you cannot find a group that matches your interests or 
+                            you are joining this site with a group of people you intend 
+                            to track activites with together, you may wish to create your 
+                            own group. Simply go to the groups page and click on the Create 
+                            New Group button to load a form for creating a new group. Simply 
+                            fill out the form to make your own group. After that you will 
+                            want to register some new activity types so the members of your 
+                            group can register their activities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header text-center" data-target="#collapseSubThree" data-toggle="collapse">
+                    <H3>Creating an Activity Type</H3>
+                </div>
+                <div id="collapseSubThree" class="collapse" data-parent="#quickAccordian">
+                    <div class="card-body">
+                        <p>
+                            Before you can log an activty, you will need to create at least one activity 
+                            type. Each activity type is given a name and a score modifier when it is 
+                            created. When a user logs an activity they select an activity type that best 
+                            fits the activity they performed. The score modifier from the activity type 
+                            will determine the score they recieve for the activity. We recommend that 
+                            each score modifier be based on the difficulty of the activity. For example, 
+                            the score modifier for a 'walking' activity type in a group for fitness 
+                            should be lower than the score modifier for 'running'.
+                            <br>
+                            If you are the administrator for your group then any Activity Type that 
+                            you register will automatically be approved. Otherwise, your group's 
+                            administrator will have to edit and approve the activity type before it
+                            can be used.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header text-center" data-target="#collapseSubFour" data-toggle="collapse">
+                    <H3>Logging an Activity</H3>
+                </div>
+                <div id="collapseSubFour" class="collapse" data-parent="#quickAccordian">
+                    <div class="card-body">
+                        <p>
+                            When you have performed an activity you can log it on the Activity Log 
+                            page to register it either for yourself or for the group you are a part
+                            of. At the bottom of the page you will be able to find a button labeled 
+                            "Log New Activity". When you click on this button a menu will appear 
+                            where you can enter the information about your activity. If you do not 
+                            see an Activity Type that best fits your activity, you can always register
+                            a new one.
+                            <br>
+                            Once an activity is logged, it will appear in the table of activities on 
+                            the Activity Log page. If you click on the name of the activity a menu will
+                            pop up with information about the activity. If it is an activity that you
+                            registered, then you will be able to edit or delete the activity through that
+                            menu as well.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <% else %>
     <!-- have content for users who are not signed in below, make this information
          about the website. -->
-    <p>Welcome to Doing Together.</p>
+    <div class="jumbotron text-center" style="margin-bottom: 0px;margin-top: 0x;">
+        <H2>Welcome to <embed>Doing Together</embed>!</H2>
+        <H4>A site for <embed>doing together</embed>.</H4>
+    </div>
+    <br>
+    <%= image_tag "fgroup.png", :class => "rounded mx-auto d-block" %>
+    <br>
+    <div id="quickAccordian">
+        <div class="card">
+            <div class="card-header text-center" data-target="#collapseSubOne" data-toggle="collapse">
+                <H3>What is Doing Together?</H3>
+            </div>
+            <div id="collapseSubOne" class="collapse" data-parent="#quickAccordian">
+                <div class="card-body">
+                    <p>
+                        Doing Together is a site for people to connect and motivate 
+                        themselves to become better by doing activities together with
+                        a group of likeminded individuals. These can be people who you
+                        already know, or people who have a group setup that appeals to 
+                        you.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header text-center" data-target="#collapseSubTwo" data-toggle="collapse">
+                <H3>How does it work?</H3>
+            </div>
+            <div id="collapseSubTwo" class="collapse" data-parent="#quickAccordian">
+                <div class="card-body">
+                    <p>
+                        Once you have signed up, you can follow the quickstart guide 
+                        to join a group and get to tracking. Each time you register an 
+                        activity it will add it to a list of activities for you and
+                        members of your group. You also get a score for perfoming the 
+                        activity, which ranks you against other group members. The 
+                        purpose of making the activities public to everyone in the group,
+                        and giving them all scores it to provide a form of motivation that
+                        keeps you active and encourages better lifestyles.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header text-center" data-target="#collapseSubThree" data-toggle="collapse">
+                <H3>What if I do not want to be part of a group?</H3>
+            </div>
+            <div id="collapseSubThree" class="collapse" data-parent="#quickAccordian">
+                <div class="card-body">
+                    <p>
+                        Doing Together works best as a group platform, but if you just want 
+                        to try it out, or groups are just not for you, then the site will 
+                        still allow you to track all of your activities. And if you want 
+                        to join a group later on, you will not have to make a new account.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 <% end %>
+
+<div class="justify-content-center text-center block-center data-center">
+    <a href="/application/privacy_policy">View Our Privacy Policy</a>
+</div>
