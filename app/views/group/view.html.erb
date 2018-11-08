@@ -60,29 +60,35 @@
             <button type="button" class="btn btn-large btn-primary" data-toggle="collapse" data-target="#collapsableGroupContainer">View Group Members</button>
             <br>
             <br>
-            <div id="messageContainer">
-                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
-                <div class="row">
-                        <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
-                            <tbody>
-                                <% @messages.each do |msg|%>
-                                    <tr>
-                                        <% if msg.userid == current_user.id %>
-                                            <td class="username">You:</td>
-                                        <% else %>
-                                            <td class="username"><%= msg.userName%></td>
-                                        <% end %>
-                                        <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-                        </table>
+            <div class="card bg-info">
+                <div class="card-header">
+                    <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
                 </div>
-            </div>
-            <div class="input-group">
-                <input type="text" class="form-control" id="messageInput">
-                <div class="input-group-append gradient-buttons">
-                    <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
+                <div id="messageContainer" class="card-body">
+                    <div class="row">
+                            <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+                                <tbody>
+                                    <% @messages.each do |msg|%>
+                                        <tr>
+                                            <% if msg.userid == current_user.id %>
+                                                <td class="username">You:</td>
+                                            <% else %>
+                                                <td class="username"><%= msg.userName%></td>
+                                            <% end %>
+                                            <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="messageInput">
+                        <div class="input-group-append gradient-buttons">
+                            <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br>
