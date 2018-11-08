@@ -307,7 +307,7 @@ class GroupController < ApplicationController
         @messageText = params[:message]
         @message = GroupMessage.create(:userid => current_user.id, :groupid => current_user.groupid, :message => @messageText)
         @message.message = @messageText
-        unless @messageText==nil or @messageText=="" or @messageText.length > 140
+        unless @messageText==nil or @messageText=="" or @messageText.length > 140 or @messageText.length <= 0
             @message.save!
         end
     end

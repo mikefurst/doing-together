@@ -247,6 +247,10 @@ submitMessage = () => {
         alert("You cannot send a message with a length exceeding 200 characters.");
         return;
     }
+    if (submitInput.value.length <= 0) {
+        alert("You cannot send a blank message.");
+        return;
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {};
     xhttp.open("POST","/group/submitmessage",true);
@@ -357,4 +361,4 @@ createNewInvite = () => {
     data["message"] = document.getElementById("inviteMessage").value;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
-}
+};
