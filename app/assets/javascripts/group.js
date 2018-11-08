@@ -295,6 +295,12 @@ checkEmail = () => {
     const email = document.getElementById("userEmail").value;
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(String(email).toLowerCase())) {
+        alert("Invalid Email");
+        document.getElementById("userEmail").style.borderColor="red";
+        document.getElementById("userEmail").style.borderWidth=5;
+        document.getElementById("emailButton").style.borderColor="red";
+        document.getElementById("emailButton").style.borderWidth=5;
+        document.getElementById("createInviteButton").disabled=true;
         return false;
     }
     var xhttp = new XMLHttpRequest();
@@ -306,6 +312,7 @@ checkEmail = () => {
                 document.getElementById("userEmail").style.borderWidth=5;
                 document.getElementById("emailButton").style.borderColor="green";
                 document.getElementById("emailButton").style.borderWidth=5;
+                document.getElementById("createInviteButton").disabled=false;
                 return true;
             }
             else {
@@ -314,6 +321,7 @@ checkEmail = () => {
                 document.getElementById("userEmail").style.borderWidth=5;
                 document.getElementById("emailButton").style.borderColor="red";
                 document.getElementById("emailButton").style.borderWidth=5;
+                document.getElementById("createInviteButton").disabled=true;
                 return false;
             }
         }
@@ -326,17 +334,27 @@ checkEmail = () => {
 };
 createNewInvite = () => {
     if (!checkEmail()) {
-        return;
+        if (document.getElementById("createInviteButton").disabled) {
+            return;
+        }
     }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status=="200") {
-            
+            if (this.responseText=="Success") {
+                alert(document.getElementById("userEmail").value+" has been invited to join the group.")
+                document.getElementById("inviteMessage").value="User,\nCome join our group to engage in activities together.";
+                document.getElementById("userEmail").value="";
+            }
+            else {
+                alert("Error inviting the user to join your group. Please try again later");
+            }
         }
     };
-    xhttp.open("POST","/group/verifyUserCanBeAddedToGroup",true);
+    xhttp.open("POST","/group/createNewInvite",true);
     let data = {};
-    data["userEmail"] = email;
+    data["email"] = document.getElementById("userEmail").value;
+    data["message"] = document.getElementById("inviteMessage").value;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 }

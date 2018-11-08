@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   post 'group/submitmessage'
   get 'group/getNewMessage'
   post 'group/verifyUserCanBeAddedToGroup'
+  post 'group/createNewInvite'
+
   
   get 'application/index'
   get 'application/privacy_policy'

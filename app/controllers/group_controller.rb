@@ -327,31 +327,49 @@ class GroupController < ApplicationController
         end
     end
     
-    def verifyUserCanBeAddedToGroup
-        if params[:userEmail]==nil
-            render :status => "200", :text => "Invalid Email Entry"
-            return nil
+    def verifyUser(email)
+        if email==nil
+            return "Invalid Email Entry"
         else
-            @user = User.find_for_authentication(:email => params[:userEmail])
+            @user = User.find_for_authentication(:email => email)
             if @user == nil
-                render :status => "200", :text => "User does not exist"
-                return nil
+                return "User does not exist"
             end
             unless @user.groupid == nil
                 if @user.groupid == current_user.groupid
-                    render :status => "200", :text => "User is already a member of the group"
-                    return nil
+                    return "User is already a member of the group"
                 else
-                    render :status => "200", :text => "User is already a member of a group"
-                    return nil
+                    return "User is already a member of a group"
                 end
             end
-            render :status => "200", :text => "User can be invited"
-            return @user
         end
+        @invites = GroupInvite.select {|gInv|
+            gInv.groupID == current_user.groupid and gInv.targetID==@user.id
+        }
+        unless @invites.blank?
+            return "User has already been invited"
+        end
+        return "User can be invited"
+    end
+    
+    def verifyUserCanBeAddedToGroup
+        @check = verifyUser(params[:userEmail])
+        render :status => "200", :text => @check
     end
     
     def createNewInvite
-        @user = verifyUserCanBeAddedToGroup
+        @check = verifyUser(params[:email])
+        if @check == "User can be invited"
+            @user = User.find_for_authentication(:email => params[:email])
+            @message = GroupInvite.create(:groupID => current_user.groupid, :targetID => @user.id, :message => params[:message])
+            if @message.save
+                render :status => "200", :text => "Success"
+            else
+                render :status => "200", :text => "Failure"
+            end
+        else
+            render :status => "200", :text => @check
+            return
+        end
     end
 end

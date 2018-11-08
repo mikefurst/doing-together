@@ -58,14 +58,15 @@
                         </tbody>
                     </table>
                 </center>
-                <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#inviteMemberModal">
-                    Invite a Member
-                </button>
-                <br>
                 <br>
             </div>
             <button type="button" class="btn btn-large btn-primary" data-toggle="collapse" data-target="#collapsableGroupContainer">
                 View Group Members
+            </button>
+            <br>
+            <br>
+            <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#inviteMemberModal">
+                    Invite a Member
             </button>
             <br>
             <br>
@@ -145,8 +146,8 @@
 User,
 Come join our group to engage in activities together. </textarea>
                     </div>
-                    <div class="form-group gradient-buttons">
-                        <button type="button" onclick="createNewInvite()" class="btn btn-primary">Send Invite</button>
+                    <div class="form-group gradient-buttons justify-content-center block-center text-center data-center">
+                        <button id="createInviteButton" type="button" data-dismiss="modal" onclick="createNewInvite()" class="btn btn-primary" disabled>Send Invite</button>
                     </div>
                 </form>
             </div>
