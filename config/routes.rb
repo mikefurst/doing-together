@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   get 'group/getNewMessage'
   post 'group/verifyUserCanBeAddedToGroup'
   post 'group/createNewInvite'
+  get 'group/getInviteMessage'
+  post 'group/rejectInvite'
+  post 'group/acceptInvite'
 
   
   get 'application/index'

@@ -372,4 +372,72 @@ class GroupController < ApplicationController
             return
         end
     end
+    def getInviteMessage
+        unless user_signed_in?
+            render :status => '200', :text => 'BAD'
+            return
+        else
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            if @invites.blank?
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            unless current_user.groupid == nil
+                @invites.each {|inv|
+                    inv.delete
+                }
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            @invites.sort {|a,b| 
+                a.created_at <=> b.created_at
+            }
+            render :status => '200', :json => @invites[0].makeJSON;
+        end
+    end
+    def rejectInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        if @invite.delete
+            render :status => '200', :text => 'SUCCESS_R'
+        else
+            render :status => '200', :text => 'FAILURE_R'
+        end
+    end
+    def acceptInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @group = Group.find(@invite.groupID)
+        if @group == nil
+            render :status => '200', :text => 'FAILURE_R'
+        end
+        current_user.groupid = @group.id
+        if current_user.save
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            @invites.each {|inv|
+                inv.delete
+            }
+            render :status => '200', :text => 'SUCCESS_A'
+        else
+            render :status => '200', :text => 'FAILURE_R'
+        end
+    end
 end

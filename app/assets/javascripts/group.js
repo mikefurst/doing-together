@@ -244,7 +244,7 @@ loadNewMessage = () => {
 submitMessage = () => {
     let submitInput = document.getElementById("messageInput");
     if (submitInput.value.length > 140) {
-        alert("You cannot send a message with a length exceeding 200 characters.");
+        alert("You cannot send a message with a length exceeding 140 characters.");
         return;
     }
     if (submitInput.value.length <= 0) {
