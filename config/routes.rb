@@ -31,6 +31,12 @@ Rails.application.routes.draw do
   patch 'group/makeadmin'
   post 'group/submitmessage'
   get 'group/getNewMessage'
+  post 'group/verifyUserCanBeAddedToGroup'
+  post 'group/createNewInvite'
+  get 'group/getInviteMessage'
+  post 'group/rejectInvite'
+  post 'group/acceptInvite'
+
   
   get 'application/index'
   get 'application/privacy_policy'

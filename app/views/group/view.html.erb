@@ -3,89 +3,96 @@
     <br>
     <div class="container">
         <div id="groupcontainer" class='groupcontainer'>
-            <div id="collapsableGroupContainer" class="collapse">
-                <H2 class='pagetitle'>View Group</H2>
-                <br>
-                <center>
-                    <table id="groupmembertable" class="table table-hover table-bordered table-condensed">
-                        <thead class="thead-light">
-                            <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupmembertable')" href="javascript:void(0);">Member Name</a></th>
-                            <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupmembertable')" href="javascript:void(0);">Member Score</a></th>
-                            <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupmembertable',false,true)" href="javascript:void(0);">Last Activity</a></th>
-                        </thead>
-                        <tbody>
-                            <% @users.each do |user| %>
-                                <% if user.id == current_user.id %>
-                                    <tr class="curgroup">
-                                        <td><%= user.full_name %></td>
-                                        <% if @scores[user.id]==nil %>
-                                            <td>Has done nothing</td>
-                                        <% elsif @scores[user.id]==0%>
-                                            <td>Has done nothing</td>
-                                        <% else %>
-                                            <td><%= user.score.round(4) %></td>
-                                        <% end %>
-                                        <% if user.lastActivity == nil %>
-                                            <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
-                                        <% else %>
-                                            <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
-                                            <% end %>
-                                        <% end %>
-                                    </tr>
-                                <% else %>
-                                    <tr>
-                                        <td><%= user.full_name %></td>
-                                        <% if @scores[user.id]==nil %>
-                                            <td>Has done nothing</td>
-                                        <% elsif @scores[user.id]==0%>
-                                            <td>Has done nothing</td>
-                                        <% else %>
-                                            <td><%= user.score.round(4) %></td>
-                                        <% end %>
-                                        <% if user.lastActivity == nil %>
-                                            <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
-                                        <% else %>
-                                            <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
-                                            <% end %>
-                                        <% end %>
-                                    </tr>
-                                <% end %>
-                            <% end %>
-                        </tbody>
-                    </table>
-                </center>
-            </div>
-            <button type="button" class="btn btn-large btn-primary" data-toggle="collapse" data-target="#collapsableGroupContainer">View Group Members</button>
-            <br>
-            <br>
-            <div id="messageContainer">
-                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
-                <div class="row">
-                        <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+            <div class="card bg-info text-center">
+                <div class="card-header text-center" data-toggle="collapse" data-target="#collapsableGroupContainer">
+                    <H4>View Group Members</H4>
+                </div>
+                <div id="collapsableGroupContainer" class="collapse">
+                    <div class="card-body justify-content-center data-center text-center">
+                        <table id="groupmembertable" class="table table-hover table-striped table-condensed">
+                            <thead class="thead-info">
+                                <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupmembertable')" href="javascript:void(0);">Member Name</a></th>
+                                <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupmembertable')" href="javascript:void(0);">Member Score</a></th>
+                                <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupmembertable',false,true)" href="javascript:void(0);">Last Activity</a></th>
+                            </thead>
                             <tbody>
-                                <% @messages.each do |msg|%>
-                                    <tr>
-                                        <% if msg.userid == current_user.id %>
-                                            <td class="username">You:</td>
-                                        <% else %>
-                                            <td class="username"><%= msg.userName%></td>
-                                        <% end %>
-                                        <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
-                                    </tr>
+                                <% @users.each do |user| %>
+                                    <% if user.id == current_user.id %>
+                                        <tr class="curgroup">
+                                            <td><%= user.full_name %></td>
+                                            <% if @scores[user.id]==nil %>
+                                                <td>Has done nothing</td>
+                                            <% elsif @scores[user.id]==0%>
+                                                <td>Has done nothing</td>
+                                            <% else %>
+                                                <td><%= user.score.round(4) %></td>
+                                            <% end %>
+                                            <% if user.lastActivity == nil %>
+                                                <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                            <% else %>
+                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <% end %>
+                                            <% end %>
+                                        </tr>
+                                    <% else %>
+                                        <tr>
+                                            <td><%= user.full_name %></td>
+                                            <% if @scores[user.id]==nil %>
+                                                <td>Has done nothing</td>
+                                            <% elsif @scores[user.id]==0%>
+                                                <td>Has done nothing</td>
+                                            <% else %>
+                                                <td><%= user.score.round(4) %></td>
+                                            <% end %>
+                                            <% if user.lastActivity == nil %>
+                                                <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                            <% else %>
+                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <% end %>
+                                            <% end %>
+                                        </tr>
+                                    <% end %>
                                 <% end %>
                             </tbody>
                         </table>
+                    </div>
                 </div>
             </div>
-            <div class="input-group">
-                <input type="text" class="form-control" id="messageInput">
-                <div class="input-group-append gradient-buttons">
-                    <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
+            <div class="card bg-info text-center">
+            <div class="card-header" data-target="#messageCollapseCard" data-toggle="collapse">
+                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
+            </div>
+            <div id="messageCollapseCard" class="collapse">
+                <div id="messageContainer" class="card-body">
+                    <div class="row">
+                            <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+                                <tbody>
+                                    <% @messages.each do |msg|%>
+                                        <tr>
+                                            <% if msg.userid == current_user.id %>
+                                                <td class="username">You:</td>
+                                            <% else %>
+                                                <td class="username"><%= msg.userName%></td>
+                                            <% end %>
+                                            <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="messageInput">
+                        <div class="input-group-append gradient-buttons">
+                            <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <br>
+        </div>
             <br>
         </div>
     </div>

@@ -23,6 +23,19 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <%= csrf_meta_tags %>
+  
+  <script type='text/javascript'>
+    var hasMessages = false;
+    <% if user_signed_in? %>
+      hasMessages = <%= current_user.hasInvite %>;
+    <% end %>
+    $(document).ready(function() {
+      if (hasMessages) {
+        checkForInvites(hasMessages);
+      }
+    });
+  </script>
+  
 </head>
 <% if controller.controller_name == "activity" %>
   <body onload="automateActivityAJAX()" class="bg-secondary">
