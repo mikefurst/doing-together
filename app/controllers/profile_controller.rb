@@ -5,11 +5,12 @@ class ProfileController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        
         @acts=Activity.select { |a| 
-            if current_user.groupid == nil
-                a.userid == current_user.id and ActivityType.find(a.actid).groupid == nil
+            if @user.groupid == nil
+                a.userid == @user.id and ActivityType.find(a.actid).groupid == nil
             else
-                User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
+                User.find(a.userid).groupid == @user.groupid and ActivityType.find(a.actid).groupid == @user.groupid
             end
         }.sort {|a,b| b.created_at <=> a.created_at}
         if not @acts.blank?
@@ -17,10 +18,10 @@ class ProfileController < ApplicationController
         end
         @act = Activity.new
         @act_types = ActivityType.select { |a| 
-            if current_user.groupid == nil
-                a.userid == current_user.id
+            if @user.groupid == nil
+                a.userid == @user.id
             else
-                a.groupid == current_user.groupid and a.verified
+                a.groupid == @user.groupid and a.verified
             end
         }.sort{ |a,b| a[:name]<=>b[:name] }
         

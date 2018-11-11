@@ -11,7 +11,12 @@
         <center><h1> You are not currently in a group!</h1></center>
     <% end %>
     <br>
-    <center><h1>Your Most Recent Activities: </h1></center>
+    
+    
+    <%# THIS SHOWS USERS FOUR MOST RECENT ACTIVITIES %>
+    <center><h1><%= @user.first_name %>'s Most Recent Activities: </h1></center>
+    
+    
             <div class="container col-md-12">
                 
               <table id="activitytable" class="table table-hover table-bordered table-condensed table-sm text-center">
@@ -29,6 +34,8 @@
                     <% @n = 0 %>
                     <% @acts.each do |act| %>
                         <% @n = @n+1 %>
+                        
+                        <% if act.userid == @user.id  %>
                         <% unless @n > 4 %>
                             <% @dsp = "" %>
                         <% else %>
@@ -39,12 +46,15 @@
                         <% else %>
                             <% @cls = "table-info" %>
                         <% end %>
+
                         <%= content_tag :tr, :class => @cls, :id => "act#{act.id}", :style => "display:#{@dsp}" do %>
+                        
                             <td><p class="name">
                                 <%= content_tag :a, :name => "#{act.name}", :href => "javascript:void(0)", :onclick => "getActivity(#{act.id})", :data => {:toggle => "modal", :target => "#viewActivityModal"} do %>
                                     <%= act.name %>
                                 <% end %>
                                 </p></td>
+                                
                             <td>
                                 <%= content_tag :p, :class => "duration", :name => act.duration do %>
                                     <%= act.niceDuration %>
@@ -57,11 +67,12 @@
                             </p></td>
                             <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
                         <% end %>
+                        <% end %>
                     <% end %>
                 </tbody>
               </table>
             </div>
-    
+    <%# THIS SHOWS USERS FOUR MOST RECENT ACTIVITIES ^ %>
     
     
     <% if @user.id == current_user.id %>
