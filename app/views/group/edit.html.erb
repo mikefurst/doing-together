@@ -20,7 +20,7 @@
                                 <% @users.each do |user| %>
                                     <% if user.id == current_user.id %>
                                         <tr class="curgroup">
-                                            <td><%= user.full_name %></td>
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
                                             <td><%= @scores[user.id] %></td>
                                             <% if user.lastActivity == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
@@ -34,7 +34,7 @@
                                         </tr>
                                     <% else %>
                                         <tr>
-                                            <td><%= user.full_name %></td>
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>git
                                             <td><%= @scores[user.id] %></td>
                                             <% if user.lastActivity == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>

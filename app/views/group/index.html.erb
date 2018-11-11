@@ -98,6 +98,7 @@
         </div>
     </div>
 </div>
+<% unless current_user.isAdmin %>
 <div class="gradient-buttons text-center">
     <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#newGroupModal">Create New Group</button>
 </div>
@@ -105,7 +106,7 @@
 
 <div id="newGroupModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-info">
     
           <div class="modal-header">
             <h4 class="modal-title">Create New Group</h4>
@@ -168,3 +169,4 @@
     </div>
   </div>
 </div>
+<% end %>

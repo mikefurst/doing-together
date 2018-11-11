@@ -1,0 +1,43 @@
+<div class="userProfileContainer">
+    <div class="jumbotron bg-info text-center">
+        <H2>User Profile for <%=@user.full_name%></H2>
+    </div>
+    
+    <center><h1>Email: <%= @user.email %></h1></center>
+    <% if @user.id == current_user.id %>
+        <div class="gradient-buttons data-center text-center justify-content-center">
+            <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#editProfileModal">
+                Edit Profile
+            </button>
+        </div>
+        <div class="modal fade" id="editProfileModal">
+            <div class="modal-dialog">
+                <div class="modal-content bg-info justify-content-center data-center text-center">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Your Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <%= label :user, :first_name %>
+                                <%= text_field :user, :first_name, :class => "form-control", :value => current_user.first_name %>
+                            </div>
+                            <div class="form-group">
+                                <%= label :user, :last_name %>
+                                <%= text_field :user, :last_name, :class => "form-control", :value => current_user.last_name %>
+                            </div>
+                            <div class="form-group gradient-buttons">
+                                <button type="button" onclick="updateProfile()" class="btn btn-primary btn-large" data-dismiss="modal">Submit</button>
+                            </div>
+                            <%= hidden_field :user, :userid, :value => current_user.id %>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>
