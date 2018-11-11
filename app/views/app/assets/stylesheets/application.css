@@ -1,0 +1,96 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ 
+ 
+
+  ADDING COMMIT HERE TO MAKE FOR COMMIT CAUSE ERRORS WERE COMMITED ELSEWHERE
+
+ 
+ */
+
+
+body {
+    background-image: url(blue_2.png);
+}
+
+a {
+    color: yellow!important;
+}
+
+
+.buttonpanel{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    
+}
+
+.submitbutton {
+    border-radius: 5px !important;
+    border: 1px solid #77ccff !important;
+    background: lightgray;
+    width: 20%;
+    height: 100%;
+    /*margin-top: 15px; */
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
+}
+
+.title {
+    color: black !important;
+    text-decoration: none;
+}
+.pagetitle {
+    text-align: center;
+    font-size: 30px;
+    padding-top: 50px;
+}
+
+
+.devisecontainer {
+    padding: 25px;
+}
+
+.notice {
+    color: red;
+}
+.alert {
+    color: red;
+}
+
+.userlink {
+    padding: 0px!important;
+    /*color: #6dc2ff;*/
+    font-size: 12px!important;
+    border-radius: 0px!important;
+}
+
+.backitem{
+    position:absolute;
+    bottom:0;
+    left:0;
+    font-size: x-large;
+}
+
+.link, h3{
+    text-align: center;
+    font-size: x-large;
+}
+
+.gradient-buttons .btn {
+background-image: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2) 49%, rgba(0,0,0,0.15) 51%, rgba(0,0,0,0.05));
+background-repeat: repeat-x;
+}

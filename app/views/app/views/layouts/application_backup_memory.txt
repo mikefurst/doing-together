@@ -1,0 +1,147 @@
+<div class="activity_controller">
+    <%if current_user.groupid == nil %>
+        <h1 class="pagetitle">Your Activities</h1>
+
+    <% else %>
+        <h1 class="pagetitle">Activities for <%=@group.name%></h1>
+    <% end %>
+    <br>
+    <div class="activitycontainer">
+        <% if @acts.blank? %>
+            <H2 class="emptyerror">There are no stored activities!</H2>
+            <br>
+            <%if current_user.groupid == nil %>
+                <H3>Add an activity or join a group to see activities here.</H3>
+            <%else%>
+                <H3>Activities will appear here when you or someone in your group adds one.</H3>
+            <%end%>
+            <br>
+            <br>
+            <%= render "shared/links" %>
+        <% else %>
+            <center>
+                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
+                <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
+                    <option>Activity Type</option>
+                    <option>Duration</option>
+                    <option>Performer</option>
+                </select>
+            </center>
+            
+            
+            
+            
+            
+            
+            
+            
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <!-- lolololololololololololololol -->
+            <html lang="en">
+            <head>
+              <title>Bootstrap Example</title>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            </head>
+            <body>
+            
+            <div class="container">
+              <table id="activitytable" class="activitytable">
+                <thead>
+                  <tr>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                    <% @acts.each do |act| %>
+                        <% if act.userid == current_user.id %>
+                            <tr class = "curgroup">
+                        <% else %>
+                            <tr class="activity">
+                        <% end %>
+                            <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
+                            <td><p class="duration"><%= act.duration %></p></td>
+                            <td><p class="user"><%= @users[act.userid] %></p></td>
+                            <td><%= content_tag :p, :id => act.created_at, :class => "timestamp" do %> 
+                                    <%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %> 
+                                <% end %>
+                            </p></td>
+                            <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+              </table>
+            </div>
+            
+            </body>
+            </html>
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            <!-- lolololololololololololololol end -->
+            
+            
+            
+            
+            <!--
+            <table id="activitytable" class="activitytable">
+                <thead>
+                    <tr>
+                        <!--<th><p class="link"><%= link_to "Activity Type", {:action => 'index', :controller => 'activity_type'}%></p></th> -->
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
+                        
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1)" href=javascript:void(0);>Duration (Minutes)</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                        <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                        <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
+                    </tr>
+                </thead>
+                
+                
+                
+                <tbody>
+                    <% @acts.each do |act| %>
+                        <% if act.userid == current_user.id %>
+                            <tr class = "curgroup">
+                        <% else %>
+                            <tr class="activity">
+                        <% end %>
+                            <td><p class="name"><%= link_to @actTypes.find(act.actid).name, {:action => 'show', :id => act.id} %></p></td>
+                            <td><p class="duration"><%= act.duration %></p></td>
+                            <td><p class="user"><%= @users[act.userid] %></p></td>
+                            <td><%= content_tag :p, :id => act.created_at, :class => "timestamp" do %> 
+                                    <%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %> 
+                                <% end %>
+                            </p></td>
+                            <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            -->
+            
+            <br>
+            <%= render "shared/links" %>
+        <% end %>
+    </div>
+</div>

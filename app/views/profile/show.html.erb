@@ -4,6 +4,66 @@
     </div>
     
     <center><h1>Email: <%= @user.email %></h1></center>
+    
+    <% if @user.groupName != nil%>
+        <center><h1> You are in group: <%= @user.groupName %></h1></center>
+    <% else %> 
+        <center><h1> You are not currently in a group!</h1></center>
+    <% end %>
+    <br>
+    <center><h1>Your Most Recent Activities: </h1></center>
+            <div class="container col-md-12">
+                
+              <table id="activitytable" class="table table-hover table-bordered table-condensed table-sm text-center">
+                <thead class="thead-light">
+                  <tr>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(0,true)" href="javascript:void(0);">Activity Type</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(1,false,true)" href=javascript:void(0);>Duration</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByColumn(2)" href=javascript:void(0);>Performer</a></p></th>
+                    <th><p class="link"><a class="UP" onclick="sortActivityTableByTime()" href=javascript:void(0);>Time</a></p></th>
+                    <th><p class="link"><a onclick="sortActivityTableByTime()" href=javascript:void(0);>Date</a></p></th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                    <% @n = 0 %>
+                    <% @acts.each do |act| %>
+                        <% @n = @n+1 %>
+                        <% unless @n > 4 %>
+                            <% @dsp = "" %>
+                        <% else %>
+                            <% @dsp = "none" %>
+                        <% end %>
+                        <% if act.userid == @user.id %>
+                            <% @cls = "table-primary" %>
+                        <% else %>
+                            <% @cls = "table-info" %>
+                        <% end %>
+                        <%= content_tag :tr, :class => @cls, :id => "act#{act.id}", :style => "display:#{@dsp}" do %>
+                            <td><p class="name">
+                                <%= content_tag :a, :name => "#{act.name}", :href => "javascript:void(0)", :onclick => "getActivity(#{act.id})", :data => {:toggle => "modal", :target => "#viewActivityModal"} do %>
+                                    <%= act.name %>
+                                <% end %>
+                                </p></td>
+                            <td>
+                                <%= content_tag :p, :class => "duration", :name => act.duration do %>
+                                    <%= act.niceDuration %>
+                                <% end %>
+                            </td>
+                            <td><p class="user"><%= act.userName %></p></td>
+                            <td><%= content_tag :p, :id => act.created_at, :class => "timestamp" do %> 
+                                    <%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %> 
+                                <% end %>
+                            </p></td>
+                            <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
+                        <% end %>
+                    <% end %>
+                </tbody>
+              </table>
+            </div>
+    
+    
+    
     <% if @user.id == current_user.id %>
         <div class="gradient-buttons data-center text-center justify-content-center">
             <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#editProfileModal">
@@ -41,3 +101,4 @@
         </div>
     <% end %>
 </div>
+

@@ -1,0 +1,25 @@
+// Place all the styles related to the activity controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.searchBar {
+  background-image: url(searchIcon.png);
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #0ad;
+  margin-bottom: 12px;
+}
+.selectBar {
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 12px 10px 12px 20px;
+  border: 1px solid #0ad;
+  margin-bottom: 12px;
+}
+.gradient-buttons .btn {
+background-image: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2) 49%, rgba(0,0,0,0.15) 51%, rgba(0,0,0,0.05));
+background-repeat: repeat-x;
+}

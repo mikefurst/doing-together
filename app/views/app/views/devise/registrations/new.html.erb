@@ -1,0 +1,49 @@
+<div class="justify-content-md-center data-center text-center block-center row">
+  <div class='devisecontainer justify-content-center data-center text-center block-center col-md-6'>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="card bg-info">
+        <div class="card-header">
+          <h2 class='pagetitle'>Sign up</h2>
+        </div>
+        <div class="card-body">
+          <div class="field">
+            <%= f.label :first_name %><br />
+            <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", :size => 50 %>
+          </div>
+          
+          <div class="field">
+            <%= f.label :last_name %><br />
+            <%= f.text_field :last_name, autocomplete: "last_name", :size => 50 %>
+          </div>
+        
+          <div class="field">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autocomplete: "email", :size => 50 %>
+          </div>
+        
+          <div class="field">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", :size => 50 %>
+          </div>
+        
+          <div class="field">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", :size => 50 %>
+          </div>
+          <br>
+          <div class="actions gradient-buttons">
+            <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+          </div>
+        </div>
+        <br>
+        <div class="card-footer">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
