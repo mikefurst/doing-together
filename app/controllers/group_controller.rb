@@ -307,7 +307,7 @@ class GroupController < ApplicationController
         @messageText = params[:message]
         @message = GroupMessage.create(:userid => current_user.id, :groupid => current_user.groupid, :message => @messageText)
         @message.message = @messageText
-        unless @messageText==nil or @messageText=="" or @messageText.length > 140
+        unless @messageText==nil or @messageText=="" or @messageText.length > 140 or @messageText.length <= 0
             @message.save!
         end
     end
@@ -324,6 +324,120 @@ class GroupController < ApplicationController
         else
             render :status => "200", :json => @messages[0].getNewMessageJSON(current_user.id)
             session["last-message"] = @messages[0].timeAsInt
+        end
+    end
+    
+    def verifyUser(email)
+        if email==nil
+            return "Invalid Email Entry"
+        else
+            @user = User.find_for_authentication(:email => email)
+            if @user == nil
+                return "User does not exist"
+            end
+            unless @user.groupid == nil
+                if @user.groupid == current_user.groupid
+                    return "User is already a member of the group"
+                else
+                    return "User is already a member of a group"
+                end
+            end
+        end
+        @invites = GroupInvite.select {|gInv|
+            gInv.groupID == current_user.groupid and gInv.targetID==@user.id
+        }
+        unless @invites.blank?
+            return "User has already been invited"
+        end
+        return "User can be invited"
+    end
+    
+    def verifyUserCanBeAddedToGroup
+        @check = verifyUser(params[:userEmail])
+        render :status => "200", :text => @check
+    end
+    
+    def createNewInvite
+        @check = verifyUser(params[:email])
+        if @check == "User can be invited"
+            @user = User.find_for_authentication(:email => params[:email])
+            @message = GroupInvite.create(:groupID => current_user.groupid, :targetID => @user.id, :message => params[:message])
+            if @message.save
+                render :status => "200", :text => "Success"
+            else
+                render :status => "200", :text => "Failure"
+            end
+        else
+            render :status => "200", :text => @check
+            return
+        end
+    end
+    def getInviteMessage
+        unless user_signed_in?
+            render :status => '200', :text => 'BAD'
+            return
+        else
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            if @invites.blank?
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            unless current_user.groupid == nil
+                @invites.each {|inv|
+                    inv.delete
+                }
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            @invites.sort {|a,b| 
+                a.created_at <=> b.created_at
+            }
+            render :status => '200', :json => @invites[0].makeJSON;
+        end
+    end
+    def rejectInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        if @invite.delete
+            render :status => '200', :text => 'SUCCESS_R'
+        else
+            render :status => '200', :text => 'FAILURE_R'
+        end
+    end
+    def acceptInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @group = Group.find(@invite.groupID)
+        if @group == nil
+            render :status => '200', :text => 'FAILURE_R'
+        end
+        current_user.groupid = @group.id
+        if current_user.save
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            @invites.each {|inv|
+                inv.delete
+            }
+            render :status => '200', :text => 'SUCCESS_A'
+        else
+            render :status => '200', :text => 'FAILURE_R'
         end
     end
 end

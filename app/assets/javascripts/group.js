@@ -244,7 +244,11 @@ loadNewMessage = () => {
 submitMessage = () => {
     let submitInput = document.getElementById("messageInput");
     if (submitInput.value.length > 140) {
-        alert("You cannot send a message with a length exceeding 200 characters.");
+        alert("You cannot send a message with a length exceeding 140 characters.");
+        return;
+    }
+    if (submitInput.value.length <= 0) {
+        alert("You cannot send a blank message.");
         return;
     }
     var xhttp = new XMLHttpRequest();
@@ -289,4 +293,72 @@ createGroup = () => {
         xhttp.setRequestHeader("Content-Type","application/json");
         xhttp.send(JSON.stringify(data));
     }
+};
+
+checkEmail = () => {
+    const email = document.getElementById("userEmail").value;
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(String(email).toLowerCase())) {
+        alert("Invalid Email");
+        document.getElementById("userEmail").style.borderColor="red";
+        document.getElementById("userEmail").style.borderWidth=5;
+        document.getElementById("emailButton").style.borderColor="red";
+        document.getElementById("emailButton").style.borderWidth=5;
+        document.getElementById("createInviteButton").disabled=true;
+        return false;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status=="200") {
+            const rText = this.responseText;
+            if (rText == "User can be invited") {
+                document.getElementById("userEmail").style.borderColor="green";
+                document.getElementById("userEmail").style.borderWidth=5;
+                document.getElementById("emailButton").style.borderColor="green";
+                document.getElementById("emailButton").style.borderWidth=5;
+                document.getElementById("createInviteButton").disabled=false;
+                return true;
+            }
+            else {
+                alert(rText);
+                document.getElementById("userEmail").style.borderColor="red";
+                document.getElementById("userEmail").style.borderWidth=5;
+                document.getElementById("emailButton").style.borderColor="red";
+                document.getElementById("emailButton").style.borderWidth=5;
+                document.getElementById("createInviteButton").disabled=true;
+                return false;
+            }
+        }
+    };
+    xhttp.open("POST","/group/verifyUserCanBeAddedToGroup",true);
+    let data = {};
+    data["userEmail"] = email;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
+createNewInvite = () => {
+    if (!checkEmail()) {
+        if (document.getElementById("createInviteButton").disabled) {
+            return;
+        }
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status=="200") {
+            if (this.responseText=="Success") {
+                alert(document.getElementById("userEmail").value+" has been invited to join the group.")
+                document.getElementById("inviteMessage").value="User,\nCome join our group to engage in activities together.";
+                document.getElementById("userEmail").value="";
+            }
+            else {
+                alert("Error inviting the user to join your group. Please try again later");
+            }
+        }
+    };
+    xhttp.open("POST","/group/createNewInvite",true);
+    let data = {};
+    data["email"] = document.getElementById("userEmail").value;
+    data["message"] = document.getElementById("inviteMessage").value;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
 };

@@ -23,6 +23,19 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <%= csrf_meta_tags %>
+  
+  <script type='text/javascript'>
+    var hasMessages = false;
+    <% if user_signed_in? %>
+      hasMessages = <%= current_user.hasInvite %>;
+    <% end %>
+    $(document).ready(function() {
+      if (hasMessages) {
+        checkForInvites(hasMessages);
+      }
+    });
+  </script>
+  
 </head>
 <% if controller.controller_name == "activity" %>
   <body onload="automateActivityAJAX()" class="bg-secondary">
@@ -97,7 +110,9 @@
       </li>
       <div id="userMenu" class="dropdown-menu bg-info" style="right: 0; left: auto;">
         <%= link_to "View Profile", {:controller => "profile", :action => "show", :id => current_user.id}, :class => "dropdown-item" %>
-        <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
+        <% unless current_user.groupid==nil %>
+          <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
+        <% end %>
         <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item" %>
       </div>
     </ul>

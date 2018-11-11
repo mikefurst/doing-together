@@ -18,7 +18,7 @@
   <% end %>
 <% else %>
   <br>
-  <div class="gradient-buttons text-center"><%= button_to "Back", url_for(:back), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %></div>
+  <div class="gradient-buttons text-center"><%= button_to "Return", {:action => 'index', :controller => controller.controller_name}, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %></div>
   <br>
 <% end %>
 <br>
