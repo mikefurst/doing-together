@@ -3,9 +3,6 @@
         <H2>User Profile for <%=@user.full_name%></H2>
     </div>
     
-        <% if @user.avatar? %>
-            <center><%= image_tag @user.avatar.url, class: "avatar-show" %></center>
-        <% end %>
     <center><h1>Email: <%= @user.email %></h1></center>
     <% if @user.id == current_user.id %>
         <div class="gradient-buttons data-center text-center justify-content-center">
@@ -29,17 +26,6 @@
                             <div class="form-group">
                                 <%= label :user, :last_name %>
                                 <%= text_field :user, :last_name, :class => "form-control", :value => current_user.last_name %>
-                            </div>
-                            <div class="form-group justify-content-center text-center data-center block-center gradient-buttons">
-                                <button type="button" class="btn btn-primary btn-large" data-toggle="collapse" data-target="#file_field_div">Avatar Settings</button>
-                                <div id="file_field_div" class="collapse">
-                                    <%= file_field :user, :avatar, :class => "form-control-file" %>
-                                    <% if @user.avatar? %>
-                                        <%= image_tag @user.avatar.url, class: "avatar-show-remove" %>
-                                        <%= label :user, :remove_avatar %>
-                                        <%= check_box :user, :remove_avatar %>
-                                    <% end %>
-                                </div>
                             </div>
                             <div class="form-group gradient-buttons">
                                 <button type="button" onclick="updateProfile()" class="btn btn-primary btn-large" data-dismiss="modal">Submit</button>

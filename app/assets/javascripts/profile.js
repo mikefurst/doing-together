@@ -4,7 +4,6 @@
 updateProfile = () => {
     const first_name = document.getElementById("user_first_name").value;
     const last_name = document.getElementById("user_last_name").value;
-    const avatar = document.getElementById("user_avatar").value;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status=="200") {
@@ -19,10 +18,6 @@ updateProfile = () => {
     data["user"]={};
     data["user"]["first_name"]=first_name;
     data["user"]["last_name"]=last_name;
-    data["user"]["avatar"]=avatar;
-    if (document.getElementById("user_remove_avatar") != undefined) {
-        data["user"]["remove_avatar"]=document.getElementById("user_remove_avatar").value;
-    }
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 }

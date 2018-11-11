@@ -19,9 +19,6 @@ class ProfileController < ApplicationController
         if @user.last_name != user_params[:last_name]
             @user.last_name = user_params[:last_name]
         end
-        if @user.avatar != user_params[:avatar] and user_params[:avatar] != ""
-            @user.avatar = user_params[:avatar]
-        end
         if @user.save
             render :status => "200", :text => "Success"
         else
@@ -38,6 +35,6 @@ class ProfileController < ApplicationController
     end
     
     def user_params
-        params.require(:user).permit(:first_name, :last_name, :avatar, :remove_avatar)
+        params.require(:user).permit(:first_name, :last_name)
     end
 end

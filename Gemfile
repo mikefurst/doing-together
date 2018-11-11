@@ -60,15 +60,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-  gem 'carrierwave', '~> 1.2', '>= 1.2.3'
-  gem 'mini_magick', '~> 4.9', '>= 4.9.2'
-
 end
 
 group :production do
   #heroku doesn't like sqlite3 so use pg instead
   gem 'pg'
   gem 'rails_12factor'
-  gem 'carrierwave', '~> 1.2', '>= 1.2.3'
-  gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 end
