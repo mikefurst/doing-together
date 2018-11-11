@@ -1,0 +1,33 @@
+<div class="userProfileContainer">
+    <div class="jumbotron bg-info text-center">
+        <H2>User Profile for <%=@user.full_name%></H2>
+    </div>
+    
+        <% if @user.avatar? %>
+            <center><%= image_tag @user.avatar.url, class: "avatar-show" %></center>
+        <% end %>
+    <center><h1>Email: <%= @user.email %></h1></center>
+    <% if @user.id == current_user.id %>
+        <div class="gradient-buttons data-center text-center justify-content-center">
+            <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#editProfileModal">
+                Edit Profile
+            </button>
+        </div>
+        <div class="modal" id="editProfileModal">
+            <div class="modal-dialog">
+                <div class="modal-content bg-info">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <H1>Edit</H1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>
