@@ -69,4 +69,6 @@ group :production do
   #heroku doesn't like sqlite3 so use pg instead
   gem 'pg'
   gem 'rails_12factor'
+  gem 'carrierwave', '~> 1.2', '>= 1.2.3'
+  gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 end

@@ -1,18 +1,31 @@
 class ProfileController < ApplicationController
     before_action :authenticate_user!, only: [:update]
     before_action :check_authorization, only: [:update]
-    before_action :set_user
-  
+    skip_before_action :verify_authenticity_token
 
     def show
+        @user = User.find(params[:id])
+    end
+    
+    def edit
+        @user = User.find(params[:id])
     end
     
     def update
-        if @user.update(user_params)
-            redirect_to @user
+        @user = User.find(params[:id])
+        if @user.first_name != user_params[:first_name]
+            @user.first_name = user_params[:first_name]
+        end
+        if @user.last_name != user_params[:last_name]
+            @user.last_name = user_params[:last_name]
+        end
+        if @user.avatar != user_params[:avatar] and user_params[:avatar] != ""
+            @user.avatar = user_params[:avatar]
+        end
+        if @user.save
+            render :status => "200", :text => "Success"
         else
-            flash.now[:alert] = "Something Went Wrong. Please try again"
-            render :edit
+            render :status => "200", :text => "Failure"
         end
     end
     
@@ -22,10 +35,6 @@ class ProfileController < ApplicationController
         unless current_user.id == params[:id].to_i
             redirect_to root_url
         end
-    end
-    
-    def set_user
-        @user = User.find(params[:id])
     end
     
     def user_params

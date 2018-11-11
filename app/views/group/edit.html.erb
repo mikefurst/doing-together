@@ -34,7 +34,7 @@
                                         </tr>
                                     <% else %>
                                         <tr>
-                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>git
                                             <td><%= @scores[user.id] %></td>
                                             <% if user.lastActivity == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
