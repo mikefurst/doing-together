@@ -5,11 +5,23 @@ class ProfileController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        
+        @acts=Activity.select { |a| 
+            if @user.groupid == nil
+                a.userid == @user.id and ActivityType.find(a.actid).groupid == nil
+            else
+                User.find(a.userid).groupid == @user.groupid and a.groupid == @user.groupid and a.userid == @user.id
+            end
+        }.sort {|a,b| b.created_at <=> a.created_at}[0..3]
+        
     end
     
     def edit
         @user = User.find(params[:id])
     end
+    
+    
+    
     
     def update
         @user = User.find(params[:id])

@@ -1,0 +1,24 @@
+<!-- These links are for inside the controller -->
+<br>
+<% if controller.action_name == "index" %>
+  
+  
+  <!-- These links are to other controllers-->
+  <% if controller.controller_name != nil and controller.controller_name != "activity" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Activity Log", {:action => 'index', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name != "activity_type" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+  <% if controller.controller_name != "group" %>
+    <div class="gradient-buttons text-center"><%= button_to "View Groups", {:action => 'index', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
+    <br>
+  <% end %>
+<% else %>
+  <br>
+  <div class="gradient-buttons text-center"><%= button_to "Back", url_for(:back), :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %></div>
+  <br>
+<% end %>
+<br>

@@ -1,0 +1,74 @@
+<div class="activity_controller">
+    <H1 class='pagetitle'>Register a New Activity Type</H1>
+    <br>
+    <div class="container">
+        <div class='activitytypecontainer'>
+            <% if @actTypes.blank? %>
+                <%if current_user.groupid == nil %>
+                    <p>Join a group or add a new Activity Type to see existing activity types.</p>
+                <% else %>
+                    <p>Your group has no existing Activity Types, add one below.</p>
+                <% end %>
+            <% else %>
+                <H2 class='pagetitle'>Existing Activity Types</H2>
+                <center>
+                    <table class='activitytypetable_existing'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @actTypes.each do |actt| %>
+                                <tr>
+                                    <td><%= actt.name %></td>
+                                    <td><%= actt.score %></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </center>
+            <% end %>
+            <br>
+            <% if current_user.groupid == nil %>
+                <p>
+                    You are currently not a member of any group. 
+                    Any Activity Types you register right now will only be 
+                    available to you while you are not a member of any group.
+                </p>
+            <% else %>
+                <% if current_user.id == @groupAdminID %>
+                    <p>
+                        You are currently the group admin. Any activity types 
+                        you register here will immediately be made available to 
+                        anyone in the group.
+                    </p>
+                <% else %>
+                    <p>
+                        You are not currently the administrator of your group. If 
+                        you register an activity type right now it will not be 
+                        available until the group's administrator approves it.
+                    </p>
+                <% end %>
+            <% end %>
+            <br>
+            <%= form_tag :action => 'create' do %>
+                <div class="form">
+                    <p><label for = "activity_type_name">Enter Name of the Activity Type: </label></p>
+                    <em>(Must be between 5 and 50 characters)</em>
+                    <%= text_field 'activitytypes', 'name', :maxlength => 50, :minlength => 5, :size => 50, :required => true %>
+                </div>
+                <div class="form">
+                    <p><label for = "activity_type_score">Enter Score Modifier for the Activity Type: </label></p>
+                    <%= number_field 'activitytypes', 'score', :step => 'any', :size => 10, :required => true %>
+                </div>
+                <br>
+                <div class="gradient-buttons">
+                    <Button type="submit" class='btn center-block btn-lg btn-primary'>Create New Activity Type</Button>
+                    
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
