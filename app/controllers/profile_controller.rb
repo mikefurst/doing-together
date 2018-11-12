@@ -10,21 +10,9 @@ class ProfileController < ApplicationController
             if @user.groupid == nil
                 a.userid == @user.id and ActivityType.find(a.actid).groupid == nil
             else
-                User.find(a.userid).groupid == @user.groupid and ActivityType.find(a.actid).groupid == @user.groupid
+                User.find(a.userid).groupid == @user.groupid and a.groupid == @user.groupid and a.userid == @user.id
             end
-        }.sort {|a,b| b.created_at <=> a.created_at}
-        if not @acts.blank?
-            session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
-        end
-        @act = Activity.new
-        @act_types = ActivityType.select { |a| 
-            if @user.groupid == nil
-                a.userid == @user.id
-            else
-                a.groupid == @user.groupid and a.verified
-            end
-        }.sort{ |a,b| a[:name]<=>b[:name] }
-        
+        }.sort {|a,b| b.created_at <=> a.created_at}[0..3]
         
     end
     
