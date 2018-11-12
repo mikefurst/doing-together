@@ -9,7 +9,9 @@
             <%= form_for @group, :url => {:action => 'join', :id => @group.id} do |g| %>
                 <p>Enter Group Password to Join: <%= g.password_field 'password'%></p>
                 <br>
-                <button type="submit" class='btn btn-lg btn-primary'>Join Group</button>
+                <div class="gradient-buttons">
+                    <button type="submit" class='btn btn-lg btn-primary'>Join Group</button>
+                </div>
             <% end %>
         </div>
     </div>

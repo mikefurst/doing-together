@@ -75,10 +75,12 @@
                                                 <%= form_for group, :url => {:action => 'join', :id => group.id} do |g| %>
                                                     <p>Enter Group Password to Join: <%= g.password_field 'password', :id => "group_password_#{group.id}"%></p>
                                                     <br>
-                                                    <%= g.submit "Join", :class => "btn btn-lg btn-primary" %>
+                                                    <div class="gradient-buttons">
+                                                        <%= g.submit "Join", :class => "btn btn-lg btn-primary" %>
+                                                    </div>
                                                 <% end %>
                                             </div>
-                                            <div class="modal-footer">
+                                            <div class="modal-footer gradient-buttons">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
@@ -162,7 +164,7 @@
                 </div>
           </div>
     
-          <div class="modal-footer">
+          <div class="modal-footer gradient-buttons">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
 

@@ -59,7 +59,7 @@
                             </tbody>
                         </table>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer gradient-buttons">
                     <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#inviteMemberModal">
                         Invite a Member
                     </button>
@@ -115,7 +115,7 @@
                         </div>
                     <% end %>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer gradient-buttons">
                     <%= button_to "Delete Group", {:controller => 'group', :action =>'delete', :id => @group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
                 </div>
             </div>
@@ -128,7 +128,9 @@
         <div class="modal-content bg-info">
             <div class="modal-header">
                 <H2>Invite a user to join your group</H2>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="gradient-buttons">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
                 <form onsubmit="createNewInvite()">
@@ -158,7 +160,7 @@ Come join our group to engage in activities together. </textarea>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer gradient-buttons">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
