@@ -6,6 +6,7 @@
         <% if @user.id != current_user.id %>
             <%= link_to "Send This Person A Message", new_conversation_path(:user => @user.id) %>
         <% end %>
+        <%= link_to "Check your messages", :controller => :conversations, :action => :index %>
         <div class="card-body">
             <div class="text-center">
                 <h4>Email: <%= @user.email %></h4>
