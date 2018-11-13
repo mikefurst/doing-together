@@ -49,6 +49,13 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :conversations do
     resources :messages
+    
+    collection do
+      get :inbox
+      get :all, action: :index
+      get :sent
+      get :trash
+    end
   end
   #devise_for :users
   
