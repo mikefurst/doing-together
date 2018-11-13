@@ -12,7 +12,7 @@
     <% if not @user%>
     <%#<% if @user.id != current_user.id %>
         <div>
-            <%= select_tag :recipient_id, options_from_collection_for_select(@recipients, :id, :full_name)%>
+            <%= select_tag :recipient_ids, options_from_collection_for_select(@recipients, :id, :full_name), multiple: true %>
         </div>
         
         <div>
@@ -25,7 +25,7 @@
     <% end %>
     <% if @user%>
         <div>
-            <%= hidden_field_tag(:recipient_id, "#{@user.id}") %>
+            <%= hidden_field_tag(:recipient_ids, "#{@user.id}") %>
         </div>
         
         <div>

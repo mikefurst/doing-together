@@ -29,8 +29,8 @@ class ConversationsController < ApplicationController
     end
     
     def create
-        recipient = User.find_by(id: params[:recipient_id])
-        receipt = current_user.send_message(recipient, params[:body], params[:subject])
+        recipients = User.find_by(id: params[:recipient_ids])
+        receipt = current_user.send_message(recipients, params[:body], params[:subject])
         redirect_to conversation_path(receipt.conversation)
     end
 end
