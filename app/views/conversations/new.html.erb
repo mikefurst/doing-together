@@ -1,19 +1,35 @@
 <br>
 <br>
 <h1>New Conversation</h1>
-
 <%= form_tag conversations_path, method: :post do %>
-    <div>
-        <%= select_tag :user_id, options_from_collection_for_select(@recipients, :id, :full_name)%>
-    </div>
-    
-    <div>
-        <%= text_field_tag :subject, nil, placeholder: "Subject" %>
-    </div>
 
-    <div>
-        <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
-    </div>
+    <% if not @user%>
+    <%#<% if @user.id != current_user.id %>
+        <div>
+            <%= select_tag :user_id, options_from_collection_for_select(@recipients, :id, :full_name)%>
+        </div>
+        
+        <div>
+            <%= text_field_tag :subject, nil, placeholder: "Subject" %>
+        </div>
+    
+        <div>
+            <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
+        </div>
+    <% else %>
+        <div>
+            <%= hidden_field_tag(:user_id, "#{@user.id}") %>
+        </div>
+        
+        <div>
+            <%= text_field_tag :subject, nil, placeholder: "Subject" %>
+        </div>
+    
+        <div>
+            <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
+        </div>
+        
+    <% end %>
     
     <%= submit_tag %>
     <% end %>
