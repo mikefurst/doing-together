@@ -26,5 +26,5 @@ Total: <%= @conversations.count %>
         
     </div>
 <% end %>
-
-<center><%= link_to "New Conversation", new_conversation_path %></center>
+<br>
+<center><%= link_to "New Conversation", new_conversation_path, :type => 'submit', :class => 'btn btn-md btn-primary' %></center>

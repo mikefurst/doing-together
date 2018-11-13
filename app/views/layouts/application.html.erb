@@ -113,7 +113,7 @@
         <% unless current_user.groupid==nil %>
           <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
         <% end %>
-        <%= link_to "Messages", {:controller => "conversations", :action => "index"}, :class => "dropdown-item"  %>
+        <%= link_to "Messages (#{current_user.mailbox.conversations.unread(current_user).count})" , {:controller => "conversations", :action => "index"}, :class => "dropdown-item"  %>
         <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item" %>
         
         
