@@ -1,12 +1,18 @@
 <br>
 <br>
+<% if not @user%>
 <h1>New Conversation</h1>
+<% end %>
+<% if @user%>
+<h1>New Conversation with <%=@user.full_name%></h1>
+<% end %>
+
 <%= form_tag conversations_path, method: :post do %>
 
     <% if not @user%>
     <%#<% if @user.id != current_user.id %>
         <div>
-            <%= select_tag :user_id, options_from_collection_for_select(@recipients, :id, :full_name)%>
+            <%= select_tag :recipient_id, options_from_collection_for_select(@recipients, :id, :full_name)%>
         </div>
         
         <div>
@@ -16,9 +22,10 @@
         <div>
             <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
         </div>
-    <% else %>
+    <% end %>
+    <% if @user%>
         <div>
-            <%= hidden_field_tag(:user_id, "#{@user.id}") %>
+            <%= hidden_field_tag(:recipient_id, "#{@user.id}") %>
         </div>
         
         <div>
