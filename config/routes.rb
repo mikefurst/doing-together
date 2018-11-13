@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   #root :to => redirect('/activity/index')
   root 'application#index'
+
   
   get 'activity/index'
   delete 'activity/delete'
@@ -46,6 +47,9 @@ Rails.application.routes.draw do
   
   
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  resources :conversations do
+    resources :messages
+  end
   #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.
