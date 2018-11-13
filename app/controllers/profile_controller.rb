@@ -1,5 +1,5 @@
 class ProfileController < ApplicationController
-    before_action :authenticate_user!, only: [:update]
+    before_action :authenticate_user!
     before_action :check_authorization, only: [:update]
     skip_before_action :verify_authenticity_token
 
