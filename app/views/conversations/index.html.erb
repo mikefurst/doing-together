@@ -2,7 +2,7 @@
 <br>
 <br>
 
-<h1>All Conversations</h1>
+<h1 class="text-center">All Conversations</h1>
 
 <center><hr />
 
@@ -13,7 +13,9 @@ Trash (<%= current_user.mailbox.trash.unread(current_user).count %> )
 
 <hr /></center>
 
-Total: <%= @conversations.count %> 
+<p class="text-center">
+    Total: <%= @conversations.count %> 
+</p>
 
 
 <% @conversations.each do |conversation| %>
@@ -27,4 +29,4 @@ Total: <%= @conversations.count %>
     </div>
 <% end %>
 <br>
-<center><%= link_to "New Conversation", new_conversation_path, :type => 'submit', :class => 'btn btn-md btn-primary' %></center>
+<center class="gradient-buttons"><%= link_to "New Conversation", new_conversation_path, :type => 'submit', :class => 'btn btn-md btn-primary' %></center>

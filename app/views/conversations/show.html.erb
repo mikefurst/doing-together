@@ -1,27 +1,32 @@
-<br>
-<br>
-<h1><%= @conversation.subject %></h1>
-<h4>Participants:</h4>
-<% @conversation.participants.each do |participant| %>
-    <div>  <%= participant.full_name %>  </div>
-<% end %>
+<center>
+    <br>
+    <br>
+    <h1><%= @conversation.subject %></h1>
+    <h4>Participants:</h4>
+    <% @conversation.participants.each do |participant| %>
+        <div>  <strong><%= participant.full_name %></strong>  </div>
+    <% end %>
 
-<hr />
-
-
-<% @conversation.receipts_for(current_user).each do |receipt| %>
-    <div>
-        <div><%= receipt.message.sender.full_name %> commented:</div>
-         <p><%= receipt.message.body %> </p> 
-    </div>
-<% end %>
-
-<hr />
+    <hr />
 
 
-<%= form_tag conversation_messages_path(@conversation), method: :post do %>
-    <div>
-        <%= text_area_tag :body %>
-    </div>
-    <%= submit_tag %>
-<% end %>
+    <% @conversation.receipts_for(current_user).each do |receipt| %>
+        <div>
+            <div><strong><%= receipt.message.sender.full_name %></strong> commented:</div>
+             <p><%= receipt.message.body %> </p> 
+        </div>
+    <% end %>
+
+    <hr />
+
+
+    <%= form_tag conversation_messages_path(@conversation), method: :post do %>
+        <div>
+            <%= text_area_tag :body, nil, placeholder: "What's on your mind?", :required => true %>
+        </div>
+        <br>
+        <div class="gradient-buttons">
+            <Button id="sendMessageButton" type="submit" class='btn center-block btn-lg btn-primary'>Send Message</Button>
+        </div>
+    <% end %>
+</center>

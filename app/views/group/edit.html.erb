@@ -59,7 +59,7 @@
                             </tbody>
                         </table>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer gradient-buttons">
                     <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#inviteMemberModal">
                         Invite a Member
                     </button>
@@ -115,7 +115,7 @@
                         </div>
                     <% end %>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer gradient-buttons">
                     <%= button_to "Delete Group", {:controller => 'group', :action =>'delete', :id => @group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
                 </div>
             </div>

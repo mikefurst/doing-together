@@ -1,42 +1,46 @@
 <br>
 <br>
-<% if not @user%>
-<h1>New Conversation</h1>
-<% end %>
-<% if @user%>
-<h1>New Conversation with <%=@user.full_name%></h1>
-<% end %>
-
-<%= form_tag conversations_path, method: :post do %>
-
+<center>
     <% if not @user%>
-    <%#<% if @user.id != current_user.id %>
-        <div>
-            <%= select_tag :recipient_ids, options_from_collection_for_select(@recipients, :id, :full_name), multiple: true %>
-        </div>
-        
-        <div>
-            <%= text_field_tag :subject, nil, placeholder: "Subject" %>
-        </div>
-    
-        <div>
-            <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
-        </div>
-    <% end %>
+        <h1>New Conversation</h1>
+        <% end %>
     <% if @user%>
-        <div>
-            <%= hidden_field_tag(:recipient_ids, "#{@user.id}") %>
-        </div>
+        <h1>New Conversation with <%=@user.full_name%></h1>
+        <% end %>
+
+    <%= form_tag conversations_path, method: :post do %>
+
+        <% if not @user%>
+        <%#<% if @user.id != current_user.id %>
+            <div>
+                <%= select_tag :recipient_ids, options_from_collection_for_select(@recipients, :id, :full_name), multiple: true, :required => true %>
+            </div>
+            <br>
+            <div>
+                <%= text_field_tag :subject, nil, placeholder: "Subject", :required => true%>
+            </div>  
+            <br>
+            <div>
+                <%= text_area_tag :body, nil, placeholder: "Whats on your mind?", :required => true%>
+            </div>
+            <br>
+        <% end %>
+        <% if @user%>
+            <div>
+                <%= hidden_field_tag(:recipient_ids, "#{@user.id}") %>
+            </div>
         
-        <div>
-            <%= text_field_tag :subject, nil, placeholder: "Subject" %>
-        </div>
+            <div>
+                <%= text_field_tag :subject, nil, placeholder: "Subject" %>
+            </div>
     
-        <div>
-            <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
-        </div>
+            <div>
+                <%= text_area_tag :body, nil, placeholder: "Whats on your mind?" %>
+            </div>
         
-    <% end %>
-    
-    <%= submit_tag %>
-    <% end %>
+        <% end %>
+        <div class="gradient-buttons">
+            <Button id="sendMessageButton" type="submit" class='btn center-block btn-lg btn-primary'>Send Message</Button>
+        </div>
+        <% end %>
+</center>
