@@ -101,6 +101,9 @@ deleteActivity = (actID,activityName,rowI) => {
 };
 
 getFullDuration = (duration) => {
+    if (duration <= 0) {
+        return "User did not do this."
+    }
     const hours = Math.floor(duration / 60);
     const rawMinutes = (duration - (hours*60));
     const minutes = Math.floor(rawMinutes);
@@ -146,6 +149,9 @@ getFullDuration = (duration) => {
 };
 
 editActivity = (optVal,duration,actID,rowActElement,rowActName,rowDurElement) => {
+    if (duration <=0) {
+        alert("You cannot have an activity with a duration less than 0");
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState ==4 && this.status == 200) {
@@ -267,6 +273,8 @@ getActivity = (actID) => {
                     activityDurationInput.setAttribute("class","form-control");
                     activityDurationInput.setAttribute("step","any");
                     activityDurationInput.setAttribute("type","number");
+                    activityDurationInput.setAttribute("min","1");
+                    activityDurationInput.min = 1;
                     activityDurationInput.value = parseInt(rowActDuration,10);
                     div2.appendChild(activityDurationInput);
                     form.appendChild(div2);
@@ -309,6 +317,9 @@ submitNewActivity = () => {
     activitySelect.selectedIndex = 0;
     let activityInput = document.getElementById("activities_duration");
     let activityInputValue = activityInput.value;
+    if (activityInput.value <= 0) {
+        alert("You cannot have an activity with a duration less than 0");
+    }
     activityInput.value = "";
     let userId = document.getElementById("activities_userid");
     let userIdValue = userId.value;

@@ -6,15 +6,15 @@
                 <H3>There are currently no groups.</H3>
             <% else %>
                 <div class="input-group input-group-lg mb-3 justify-content-center">
-                    <input type="text" id="groupSearchInput" class="searchBar bg-info" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
+                    <input type="text" id="groupSearchInput" class="searchBar bg-success" style="color: white; border: 0px;" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
                     <div class="input-group-append">
-                        <select id='groupSearchSelect' class='selectBar bg-info' onchange="groupSearch()">
+                        <select id='groupSearchSelect' class='selectBar bg-success' style="color: white; border: 0px;" onchange="groupSearch()">
                             <option>Group Name</option>
                             <option>Group Description</option>
                             <option>Number of Members</option>
                         </select>
                         <% unless current_user.isAdmin %>
-                        <button type="button"class="btn btn-info" style="height: 50px" data-toggle="modal" data-target="#newGroupModal"><i class="fa fa-plus"></i></button>
+                        <button type="button" class="btn btn-success" style="border: 0px;" data-toggle="modal" data-target="#newGroupModal"><i class="fa fa-plus"></i></button>
                         <% end %>
                     </div>
                 </div>
