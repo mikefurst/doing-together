@@ -7,6 +7,8 @@ class User < ApplicationRecord
          
   acts_as_messageable
          
+  serialize :friends
+  
   validates :first_name,
     presence: true,
     on: :create,

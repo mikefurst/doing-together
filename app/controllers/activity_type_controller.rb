@@ -14,8 +14,8 @@ class ActivityTypeController < ApplicationController
                 else
                     if current_user.id == @groupAdminID
                         act.groupid==current_user.groupid
-                    #else
-                        #act.groupid==current_user.groupid and act.verified
+                    else
+                        act.groupid==current_user.groupid #and act.verified
                     end
                 end
             }.sort{ |a,b| a[:name]<=>b[:name] }
