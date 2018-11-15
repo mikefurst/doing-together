@@ -25,7 +25,10 @@ class ConversationsController < ApplicationController
    
     def new
         @user = User.find_by(id: params[:user])
-        @recipients = User.all - [current_user]
+        @recipients = User.select { |user|
+            user.groupid == current_user.groupid and user.id != current_user.id
+        }
+        #@recipients = User.all - [current_user]
     end
     
     def create
