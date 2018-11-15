@@ -237,6 +237,7 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do	
   #   include Turbolinks::Controller	
   # end	
+  config.sign_out_via = Rails.env.test? ? :get : :delete
   config.omniauth :facebook, "2120004598251262", "b5ef50f2618936eb3fa190afc9357d8a", token_params: { parse: :json }, scope: 'email', info_fields: 'email, first_name, last_name'
   config.omniauth :google_oauth2, "462927855567-p1qnfhdb8gfhk51u6s6evpgafb1es2q0.apps.googleusercontent.com", "2x74ufQvcOqYbvDsjz2Y95bg", { access_type: "offline", approval_prompt: "" }
 end

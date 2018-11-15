@@ -53,6 +53,14 @@ When /^(?:|I )press "([^"]*)"$/ do |button|
   click_button(button)
 end
 
+When /^(?:|I )click "([^"]*)"$/ do |name|
+  find(name).click()
+end
+
+When /^(?:|I )submit "([^"]*)"$/ do |name|
+  find(name).submit()
+end
+
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
@@ -251,4 +259,30 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+Then /^save me the page$/ do
+  save_page
+end
+
+Given /^I am not authenticated$/ do
+  visit('/users/sign_out') # ensure that at least
+end
+
+Given /^I am a new, authenticated user$/ do
+  first_name = 'Test'
+  last_name = 'User'
+  email = 'testing@dotgthr.com'
+  password = 'secretpass'
+  User.new(:first_name => first_name, :last_name => last_name, :email => email, :password => password, :password_confirmation => password).save!
+
+  visit '/users/sign_in'
+  fill_in "user_email", :with => email
+  fill_in "user_password", :with => password
+  find('input[name="LogIn"]').click()
+
+end
+
+Then /^show me the value of "([^"]*)"$/ do |name|
+  puts find(name).value
 end

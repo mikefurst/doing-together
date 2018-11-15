@@ -20,13 +20,13 @@
  
  */
 
-
-body {
-    background-image: url(blue_2.png);
+.white-link {
+    color: white!important;
 }
 
+
 a {
-    color: yellow!important;
+    color: green!important;
 }
 
 
