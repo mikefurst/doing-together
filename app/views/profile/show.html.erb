@@ -24,7 +24,11 @@
                             <h4> <%= @user.full_name %> is in group: <%= @user.groupName %></h4>
                         <% end %>
                     <% else %> 
-                        <h4> You are not currently in a group!</h4>
+                        <% if @user.id == current_user.id %>
+                            <h4> You are not currently in a group.</h4>
+                        <% else %>
+                            <h4> User is not currently in a group.</h4>
+                        <% end %>
                     <% end %>
                 </div>
                 <br>
@@ -65,13 +69,12 @@
                                         <td><p class="timestamp"><%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%a, %m/%d/%y") %></p></td>
                                     <% end %>
                                 <% end %>
-                            <% else %> 
-                                <h4> You are not currently in a group!</h4>
-                            <% end %>
-                        </div>
+                            </tbody>
+                            </table>
                         <br>
                     </div>
-                    <div class="card-footer">
+                <% end %>
+                <div class="card-footer">
                         <% if @user.id == current_user.id %>
                             <div class="gradient-buttons data-center text-center justify-content-center">
                                 <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#editProfileModal">
@@ -111,7 +114,7 @@
                     <% end %>
                 </div>
             </div>
-        </div>
+            </div>
         <div class="col-md-3">&nbsp</div>
     </div>
 </div>
