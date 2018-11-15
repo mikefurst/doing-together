@@ -106,6 +106,13 @@
   </ul>
   <% if user_signed_in? %>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <% if current_user.mailbox.conversations.unread(current_user).count > 0 %>
+          <a class="nav-link white-link" href="/conversations/all"><span class="fa fa-envelope"></span>(<%= current_user.mailbox.conversations.unread(current_user).count%>)</a>
+        <% else %>
+            <a class="nav-link white-link" href="/conversations/all"><span class="fa fa-inbox"></span></a>
+        <% end %>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link white-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" data-target="#userMenu">
           User Menu
