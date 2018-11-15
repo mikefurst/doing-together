@@ -43,6 +43,7 @@ gem 'devise'
 gem 'omniauth', '>= 1.0.0'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
+gem 'mailboxer', '~> 0.15.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -50,7 +51,6 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
 
   gem 'sqlite3'
-  gem 'mailboxer', '~> 0.15.1'
 end
 
 group :test do
