@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:facebook, :google_oauth2]
          
+  acts_as_messageable
+         
   validates :first_name,
     presence: true,
     on: :create,
@@ -22,6 +24,10 @@ class User < ApplicationRecord
     
   def full_name
     return self.first_name << " " << self.last_name
+  end
+  
+  def mailboxer_email(object)
+    nil
   end
   
   def score

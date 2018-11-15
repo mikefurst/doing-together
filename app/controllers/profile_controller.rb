@@ -20,6 +20,10 @@ class ProfileController < ApplicationController
         @user = User.find(params[:id])
     end
     
+    def get_user
+        @user = User.find(params[:id])
+    end
+    
     
     
     

@@ -50,7 +50,7 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
 
   gem 'sqlite3'
-
+  gem 'mailboxer', '~> 0.15.1'
 end
 
 group :test do

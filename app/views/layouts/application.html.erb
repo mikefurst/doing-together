@@ -106,6 +106,9 @@
   </ul>
   <% if user_signed_in? %>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-link">
+        <%= link_to "Messages (#{current_user.mailbox.conversations.unread(current_user).count})" , {:controller => "conversations", :action => "index"}, :class => ""  %>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link white-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" data-target="#userMenu">
           User Menu
