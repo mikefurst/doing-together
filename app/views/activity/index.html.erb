@@ -75,7 +75,7 @@
                                     <%= act.niceDuration %>
                                 <% end %>
                             </td>
-                            <td><p class="user"><%= act.userName %></p></td>
+                            <td><p class="user"><%= link_to act.userName, {:controller => 'profile', :action => 'show', :id => act.userid} %></p></td>
                             <td><%= content_tag :p, :id => act.created_at, :class => "timestamp" do %> 
                                     <%= act.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M") %> 
                                 <% end %>
