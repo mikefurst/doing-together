@@ -3,7 +3,7 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="card bg-info">
         <div class="card-header">
-          <h2 class='pagetitle'>Sign in</h2>
+          <h2 class='pagetitle'>Sign In To Your Account</h2>
         </div>
         <div class="card-body">
           <div class="field">
@@ -25,7 +25,7 @@
           <br>
           <div class="actions gradient-buttons">
             <!-- changed Log In to a button -- :Added by Jake -->
-            <%= button_to "Log In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %>
+            <%= button_to "Log In", new_user_session_path, :method => 'get', :type => 'button', :name => 'LogIn', :class => 'btn btn-lg btn-primary' %>
           </div>
         </div>
         <br>

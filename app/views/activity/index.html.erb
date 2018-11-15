@@ -23,14 +23,15 @@
         <% else %>
             <div id="activityLogContainer">
         <% end %>
-            <div class="input-group mb-3 justify-content-center">
-                <input type="text" id="activitySearchInput" class="searchBar" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
+            <div class="input-group input-group-lg mb-3 justify-content-center">
+                <input type="text" id="activitySearchInput" class="searchBar bg-info" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
                 <div class="input-group-append">
-                    <select id='activitySearchSelect' class='selectBar' onchange="activitySearch()">
+                    <select id='activitySearchSelect' class='selectBar bg-info' onchange="activitySearch()">
                         <option>Activity Type</option>
                         <option>Duration</option>
                         <option>Performer</option>
                     </select>
+                    <button type="button" class="btn btn-info" style="height: 50px" data-toggle="modal" data-target="#newActivityModal"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
             

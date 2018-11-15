@@ -38,16 +38,21 @@
                         <p>Make some below.</p>
                     </center>
                 <% else %>
-                    <center>
-                        <input type='text' id='activityTypeSearchInput' class='searchBar' onkeyup='activityTypeSearch()' placeholder='Search for an entry...' title='Search here'>
-                        <select id='activityTypeSearchSelect' class='selectBar' onchange='activityTypeSearch()'>
-                            <option>Name</option>
-                            <option>Score</option>
-                        </select>
-                    </center>
+                    <div class="input-group input-group-lg mb-3 justify-content-center">
+                        <input type='text' id='activityTypeSearchInput' class='searchBar bg-info' onkeyup='activityTypeSearch()' placeholder='Search for an entry...' title='Search here'>
+                        <div class="input-group-append">
+                            <select id='activityTypeSearchSelect' class='selectBar bg-info' onchange='activityTypeSearch()'>
+                                <option>Name</option>
+                                <option>Score</option>
+                            </select>
+                            <button type="button" class="btn btn-info" style="height: 50px" data-toggle="modal" data-target="#newActivityTypeModal">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
                     <H2 class='pagetitle'>Existing Activity Types</H2>
                         <br>
-                        <table id='activitytypetable' class='table table-hover table-bordered table-condensed'>
+                        <table id='activitytypetable' class='table table-hover table-bordered table-condensed text-center'>
                             <% if @groupAdminID == current_user.id %>
                                 <thead class="thead-light">
                                     <tr>
@@ -101,7 +106,7 @@
         </div>
         <div class="gradient-buttons text-center" data-toggle="modal" data-target="#newActivityTypeModal">
             <button type="button" class="btn center-block btn-lg btn-primary">
-                Register New Acitivty Type
+                Register New Activity Type
             </button>
         </div>
     </div>
