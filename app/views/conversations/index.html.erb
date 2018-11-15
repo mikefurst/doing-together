@@ -29,4 +29,4 @@ Trash (<%= current_user.mailbox.trash.unread(current_user).count %> )
     </div>
 <% end %>
 <br>
-<center class="gradient-buttons"><%= button_to "New Conversation", new_conversation_path, :type => 'submit', :class => 'btn btn-md btn-primary' %></center>
+<center class="gradient-buttons"><%= button_to "New Conversation", new_conversation_path, :type => 'submit', :method => 'get', :class => 'btn btn-md btn-primary' %></center>

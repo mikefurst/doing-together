@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       get :all, action: :index
       get :sent
       get :trash
+      get :new
     end
   end
   #devise_for :users
