@@ -5,13 +5,18 @@
             <% if @groups.blank? %>
                 <H3>There are currently no groups.</H3>
             <% else %>
-                <div class="justify-content-center text-center data-center">
+                <div class="input-group input-group-lg mb-3 justify-content-center">
                     <input type="text" id="groupSearchInput" class="searchBar bg-info" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
-                    <select id='groupSearchSelect' class='selectBar bg-info' onchange="groupSearch()">
-                        <option>Group Name</option>
-                        <option>Group Description</option>
-                        <option>Number of Members</option>
-                    </select>
+                    <div class="input-group-append">
+                        <select id='groupSearchSelect' class='selectBar bg-info' onchange="groupSearch()">
+                            <option>Group Name</option>
+                            <option>Group Description</option>
+                            <option>Number of Members</option>
+                        </select>
+                        <% unless current_user.isAdmin %>
+                        <button type="button"class="btn btn-info" style="height: 50px" data-toggle="modal" data-target="#newGroupModal"><i class="fa fa-plus"></i></button>
+                        <% end %>
+                    </div>
                 </div>
                 <table id="grouptable" class="table table-hover table-bordered table-condensed text-center">
                     <thead class="thead-light">
