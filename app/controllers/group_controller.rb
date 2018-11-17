@@ -11,7 +11,10 @@ class GroupController < ApplicationController
         @templates = {
             :None => "Use no template. This is for groups who want to make all of their own activites.",
             :General_Fitness => "A template for groups who are trying to get fit and healthy. Contains some basic activities for getting healthy.",
-            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. "
+            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. ",
+            :Housework_and_Cleaning => "A template for groups who focused on doing more around the house. Contains basic chores and things you can do around the house. ",
+            :Trying_New_Things => "A template for groups who value trying new things. This includes some activities that are focused around trying new things like learning a language or a new instrument.",
+            :Aerobic_Fitness => "A template for groups who want to be healthy and undergo some intense workouts. Contains some basic activities for basic aerobic activies."
         }
     end
     def new
@@ -113,6 +116,119 @@ class GroupController < ApplicationController
                     {
                         :name => "Reading Magazine Articles",
                         :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Housework_and_Cleaning"
+                activitytypelist = [
+                    {
+                        :name => "Wash Dishes",
+                        :score => 1.4
+                    },
+                    {
+                        :name => "Do the Laundry",
+                        :score => 2.25
+                    },
+                    {
+                        :name => "Mow the Lawn",
+                        :score => 3.6
+                    },
+                    {
+                        :name => "Dust a Room",
+                        :score => 1
+                    },
+                    {
+                        :name => "Vacuum a Room",
+                        :score => 1.05
+                    },
+                    {
+                        :name => "Clean Bathroom",
+                        :score => 2.4
+                    },
+                    {
+                        :name => "Mop a Room",
+                        :score => 1.1
+                    },
+                    {
+                        :name => "Clean Fans",
+                        :score => 1.15
+                    },
+                    {
+                        :name => "Take Out Trash",
+                        :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Trying_New_Things"
+                activitytypelist = [
+                    {
+                        :name => "Practice Foreign Language",
+                        :score => 2
+                    },
+                    {
+                        :name => "Begin Learning New Foreign Language",
+                        :score => 4
+                    },
+                    {
+                        :name => "Practice Instrument",
+                        :score => 2
+                    },
+                    {
+                        :name => "Begin Learning New Instrument",
+                        :score => 4
+                    },
+                    {
+                        :name => "Write Short Story",
+                        :score => 2
+                    },
+                    {
+                        :name => "Write Poetry",
+                        :score => 1
+                    },
+                    {
+                        :name => "Paint a Picture",
+                        :score => 2
+                    },
+                    {
+                        :name => "Sew",
+                        :score => 1.5
+                    },
+                    {
+                        :name => "Practice Singing",
+                        :score => 3
+                    },
+                    {
+                        :name => "Practice Juggling",
+                        :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Aerobic_Fitness"
+                activitytypelist = [
+                    {
+                        :name => "Walking",
+                        :score => 1
+                    },
+                    {
+                        :name => "Slide Aerobics",
+                        :score => 2
+                    },
+                    {
+                        :name => "Step Aerobics",
+                        :score => 3
+                    },
+                    {
+                        :name => "Water Aerobics",
+                        :score => 2.5
+                    },
+                    {
+                        :name => "Jogging",
+                        :score => 1.75
+                    },
+                    {
+                        :name => "Bicycling",
+                        :score => 2.15
+                    },
+                    {
+                        :name => "Swimming",
+                        :score => 2
                     }
                 ]
             end
