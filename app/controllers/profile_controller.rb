@@ -24,8 +24,20 @@ class ProfileController < ApplicationController
         @user = User.find(params[:id])
     end
     
-    
-    
+    def list
+        content = params[:content]
+        if content == nil
+            render :status => "200", :text => "FAILURE"
+            puts "-----------------------------"
+            puts params
+            puts "-----------------------------"
+            return
+        end
+        @users = User.select {|usr|
+            usr.full_name.include? content or usr.email.include? content
+        }
+        render :status => "200", :json => @users.to_json
+    end
     
     def update
         @user = User.find(params[:id])

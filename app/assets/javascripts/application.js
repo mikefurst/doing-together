@@ -108,6 +108,65 @@ checkForInvites = () => {
     xhttp.send();
 };
 
+verifySearchQuery = () => {
+    const content = document.getElementById("searchBarInput").value;
+    if (content.length < 1) {
+        document.getElementById("searchBarButton").disabled=true;
+    }
+    else {
+        document.getElementById("searchBarButton").disabled=false;
+    }
+};
+
+searchUser = () => {
+    const content = document.getElementById("searchBarInput").value;
+    if (content.length < 1) {
+        document.getElementById("searchBarButton").disabled=true;
+        return;
+    }
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const responseText = this.responseText;
+            let div = document.getElementById("userSearchContainer");
+            div.innerHTML="";
+            if (responseText!="FAILURE") {
+                let jsonData = JSON.parse(responseText);
+                for (let i=0; i < jsonData.length; i++) {
+                    const data = jsonData[i];
+                    const id = data.id;
+                    const email = data.email;
+                    const first_name = data.first_name;
+                    const last_name = data.last_name;
+                    let rDiv = document.createElement("div");
+                    rDiv.setAttribute("class","row");
+                    let fDiv = document.createElement("div");
+                    fDiv.setAttribute("class","col-1");
+                    rDiv.appendChild(fDiv);
+                    let contentDiv = document.createElement("div");
+                    contentDiv.setAttribute("class","col-10");
+                    let uSpan = document.createElement("span");
+                    uSpan.setAttribute("class","fa fa-user");
+                    contentDiv.appendChild(uSpan);
+                    let uName = document.createElement("a");
+                    uName.setAttribute("href","/profile/show?id="+id.toString());
+                    uName.setAttribute("class","white-link");
+                    uName.innerHTML="  "+first_name;
+                    contentDiv.appendChild(uName);
+                    rDiv.appendChild(contentDiv);
+                    rDiv.appendChild(fDiv);
+                    div.appendChild(rDiv);
+                }
+            }
+        }
+    }
+    let data={};
+    data["content"]=content;
+    xhttp.open("POST","/profile/list",true);
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
+
 
 window.fbAsyncInit = function() {
     FB.init({

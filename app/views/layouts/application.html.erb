@@ -35,6 +35,12 @@
         });
       <% end %>
     <% end %>
+    $("#navMenu").resize(function () {
+        $('#godown').height($("#navMenu").height() + 10);
+    });
+  
+    if ($("#navMenu").height() > $('#godown').height()) $('#godown').height($("#navMenu").height() + 10);
+  
   </script>
   
 </head>
@@ -141,13 +147,14 @@
     </div>
   <% end %>
 <% end %>
-  <!-- This adds the fgroup png:Added by Jake -->
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-<%= yield %>
-<% if user_signed_in? %>
-  <br>
-  <%= render 'shared/links' %>
-<% end %>
+<div class="godown-60" id="godown">
+    <!-- This adds the fgroup png:Added by Jake -->
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+  <%= yield %>
+  <% if user_signed_in? %>
+    <%= render 'shared/links' %>
+  <% end %>
+</div>
 </body>
 </html>
