@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181115214853) do
+ActiveRecord::Schema.define(version: 20181118011602) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20181115214853) do
     t.string   "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "toJoin"
+    t.integer  "creatorID"
   end
 
   create_table "group_messages", force: :cascade do |t|

@@ -15,10 +15,7 @@
 //= require turbolinks
 //= require_tree .
 
-checkForInvites = (hasMessages) => {
-    if (!hasMessages) {
-        return;
-    }
+checkForInvites = () => {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -31,36 +28,78 @@ checkForInvites = (hasMessages) => {
                 xhttp.open("GET","/group/getInviteMessage",true);
                 xhttp.send();
             }
+            else if (responseText == "SUCCESS_0") {
+                alert("User has successfully been added to the group.");
+                xhttp.open("GET","/group/getInviteMessage",true);
+                xhttp.send();
+            }
+            else if (responseText == "SUCCESS_1") {
+                xhttp.open("GET","/group/getInviteMessage",true);
+                xhttp.send();
+            }
             else if (responseText != "BAD") {
                 const response = JSON.parse(responseText);
                 const id = response.id;
                 const groupId = response.groupId;
                 const groupName = response.groupName;
                 const message = response.message;
-                let joinMessage = "You have been invited to join " + groupName;
-                joinMessage += "\n\n" + message;
-                joinMessage +="\n\nPress OK to join."
-                if (confirm(joinMessage)) {
-                    let data={};
-                    data["groupID"]=groupId;
-                    data["inviteID"]=id;
-                    xhttp.open("POST","/group/acceptInvite",true);
-                    xhttp.setRequestHeader("Content-Type","application/json");
-                    xhttp.send(JSON.stringify(data));
+                const toJoin = response.toJoin;
+                const targetName = response.targetName;
+                const creatorName = response.creatorName;
+                if (toJoin) {
+                    let joinMessage = "You have been invited to join " + groupName;
+                    joinMessage += "\n\nMessage from: "+creatorName;
+                    joinMessage += "\n\n" + message.replace('%username%',targetName);
+                    joinMessage +="\n\nPress OK to join."
+                    if (confirm(joinMessage)) {
+                        let data={};
+                        data["groupID"]=groupId;
+                        data["inviteID"]=id;
+                        xhttp.open("POST","/group/acceptInvite",true);
+                        xhttp.setRequestHeader("Content-Type","application/json");
+                        xhttp.send(JSON.stringify(data));
+                    }
+                    else {
+                        let http = new XMLHttpRequest();
+                        http.onreadystatechange = function() {
+                            if (this.readyState==4 && this.status == 200) {
+                                alert(this.responseText);
+                            }
+                        }
+                        let data={};
+                        data["groupID"]=groupId;
+                        data["inviteID"]=id;
+                        xhttp.open("POST","/group/rejectInvite",true);
+                        xhttp.setRequestHeader("Content-Type","application/json");
+                        xhttp.send(JSON.stringify(data));
+                    }
                 }
                 else {
-                    let http = new XMLHttpRequest();
-                    http.onreadystatechange = function() {
-                        if (this.readyState==4 && this.status == 200) {
-                            alert(this.responseText);
-                        }
+                    let joinMessage = creatorName + " has requested to join your group.\n\nHere is their message:";
+                    joinMessage += "\n\n" + message;
+                    joinMessage +="\n\nPress OK to allow them to join."
+                    if (confirm(joinMessage)) {
+                        let data={};
+                        data["groupID"]=groupId;
+                        data["inviteID"]=id;
+                        xhttp.open("POST","/group/acceptRequest",true);
+                        xhttp.setRequestHeader("Content-Type","application/json");
+                        xhttp.send(JSON.stringify(data));
                     }
-                    let data={};
-                    data["groupID"]=groupId;
-                    data["inviteID"]=id;
-                    xhttp.open("POST","/group/rejectInvite",true);
-                    xhttp.setRequestHeader("Content-Type","application/json");
-                    xhttp.send(JSON.stringify(data));
+                    else {
+                        let http = new XMLHttpRequest();
+                        http.onreadystatechange = function() {
+                            if (this.readyState==4 && this.status == 200) {
+                                alert(this.responseText);
+                            }
+                        }
+                        let data={};
+                        data["groupID"]=groupId;
+                        data["inviteID"]=id;
+                        xhttp.open("POST","/group/rejectRequest",true);
+                        xhttp.setRequestHeader("Content-Type","application/json");
+                        xhttp.send(JSON.stringify(data));
+                    }
                 }
             }
         }

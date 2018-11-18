@@ -127,7 +127,9 @@ class User < ApplicationRecord
   end
   
   def hasInvite
-    return GroupInvite.select{|grpInv| grpInv.targetID = self.id}.length > 0
+    return GroupInvite.select{|grpInv| grpInv.targetID == self.id}.length > 0
   end
-  
+  def pendingInvite(grpId)
+    return GroupInvite.select {|grpInv| grpInv.creatorID==self.id and grpInv.groupID == grpId}.length > 0
+  end
 end
