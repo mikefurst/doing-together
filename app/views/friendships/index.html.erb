@@ -1,0 +1,64 @@
+    <!--  Friend Test Area  --> 
+    
+<center>  
+<br>
+<br>
+<br>
+<H2>Friends of <%=current_user.full_name%></H2>
+
+
+<ul>
+  <% for friendship in current_user.active_friends %>
+    <li>
+      <%=h friendship.full_name %>
+      (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
+
+
+    </li>
+  <% end %>
+</ul>
+
+
+
+
+<h4>Your awaiting friend requests:</h4>
+
+<ul>
+    <% for requested in current_user.requested_friendships %>
+    <li>
+      <%= requested.full_name %>
+      <%= link_to "Accept",  friendship_path(requested), method: "put" %>
+      <%= link_to "Decline", friendship_path(requested), method: :delete %>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Your sent friend requests:</h4>
+
+<ul>
+    <% for pending in current_user.pending_friends %>
+    <li>
+      <%= pending.full_name %>
+      <%= link_to "Cancel friend request", friendship_path(pending), method: :delete %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Add a Friend</h2>
+<ul>
+  <% @users = User.all %>
+  <% @users.each do |user| %>
+		<% unless user == current_user %>
+		        <% unless current_user.pending_friends.include? user %>
+			<li>
+				<%= user.full_name %> |
+				<%= link_to "Add Friend", friendships_path(:friend_id => user), method: :post %>
+			</li>
+			    <% end %>
+		<% end %>
+	<% end %>
+</ul>
+</center> 
+
+    
+    <!--  Friend Test Area  --> 
