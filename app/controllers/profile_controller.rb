@@ -5,6 +5,10 @@ class ProfileController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        if @user.isPrivate and current_user.id != @user.id and @user.groupid != current_user.groupid and @user.groupid != nil
+            redirect_to '/'
+            flash[:alert]="This user has set their profile to private."
+        end
         
         @acts=Activity.select { |a| 
             if @user.groupid == nil
@@ -13,7 +17,6 @@ class ProfileController < ApplicationController
                 User.find(a.userid).groupid == @user.groupid and a.groupid == @user.groupid and a.userid == @user.id
             end
         }.sort {|a,b| b.created_at <=> a.created_at}[0..3]
-        
     end
     
     def edit
@@ -28,13 +31,13 @@ class ProfileController < ApplicationController
         content = params[:content]
         if content == nil
             render :status => "200", :text => "FAILURE"
-            puts "-----------------------------"
-            puts params
-            puts "-----------------------------"
             return
         end
         @users = User.select {|usr|
             usr.full_name.include? content or usr.email.include? content
+        }
+        @users = @users.select {|usr|
+            (usr.isPrivate == nil or usr.isPrivate == false) and usr.id != current_user.id
         }
         render :status => "200", :json => @users.to_json
     end
@@ -47,6 +50,7 @@ class ProfileController < ApplicationController
         if @user.last_name != user_params[:last_name]
             @user.last_name = user_params[:last_name]
         end
+        @user.isPrivate = user_params[:isPrivate]
         if @user.save
             render :status => "200", :text => "Success"
         else
@@ -63,6 +67,6 @@ class ProfileController < ApplicationController
     end
     
     def user_params
-        params.require(:user).permit(:first_name, :last_name)
+        params.require(:user).permit(:first_name, :last_name, :isPrivate)
     end
 end

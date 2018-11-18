@@ -98,6 +98,10 @@
                                                     <%= label :user, :last_name %>
                                                     <%= text_field :user, :last_name, :class => "form-control", :value => current_user.last_name %>
                                                 </div>
+                                                <div class="form-group">
+                                                    <%= check_box :user, :isPrivate, :class => "form-check-input" %>
+                                                    <label for="user_isPrivate">Set Profile to Private</label>
+                                                </div>
                                                 <div class="form-group gradient-buttons">
                                                     <button type="button" onclick="updateProfile()" class="btn btn-primary btn-large" data-dismiss="modal">Submit</button>
                                                 </div>
