@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :active_friends, -> { where(friendships: { accepted: true}) }, :through => :friendships, :source => :friend
   has_many :requested_friendships, -> { where(friendships: { accepted: false}) }, through: :received_friendships, source: :user
   has_many :pending_friends, -> { where(friendships: { accepted: false}) }, :through => :friendships, :source => :friend
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
 	def friends
 	  active_friends | received_friends

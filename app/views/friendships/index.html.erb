@@ -6,13 +6,23 @@
 <br>
 <H2>Friends of <%=current_user.full_name%></H2>
 
-
+<H2>Current Friends</H2>
 <ul>
+    
   <% for friendship in current_user.active_friends %>
     <li>
+      
       <%=h friendship.full_name %>
       (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
 
+    </li>
+  <% end %>
+  
+    <% for friendship in current_user.inverse_friends %>
+    <li>
+      
+      <%=h friendship.full_name %>
+      (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
 
     </li>
   <% end %>
@@ -50,10 +60,14 @@
   <% @users.each do |user| %>
 		<% unless user == current_user %>
 		        <% unless current_user.pending_friends.include? user %>
+		            <% unless current_user.inverse_friends.include? user %>
+		                <% unless user.inverse_friends.include? current_user %>
 			<li>
 				<%= user.full_name %> |
 				<%= link_to "Add Friend", friendships_path(:friend_id => user), method: :post %>
 			</li>
+			            <% end %>
+			        <% end %>
 			    <% end %>
 		<% end %>
 	<% end %>
