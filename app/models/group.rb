@@ -32,4 +32,7 @@ class Group < ApplicationRecord
         return n
     end
     
+    def admin
+        return User.find(self.adminid)
+    end
 end

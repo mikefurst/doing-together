@@ -37,7 +37,9 @@ Rails.application.routes.draw do
   get 'group/getInviteMessage'
   post 'group/rejectInvite'
   post 'group/acceptInvite'
-
+  post 'group/requestNewInvite'
+  post 'group/acceptRequest'
+  post 'group/rejectRequest'
   
   get 'application/index'
   get 'application/privacy_policy'

@@ -28,15 +28,13 @@
   <%= csrf_meta_tags %>
   
   <script type='text/javascript'>
-    var hasMessages = false;
     <% if user_signed_in? %>
-      hasMessages = <%= current_user.hasInvite %>;
+      <% if current_user.hasInvite %>;
+        $(document).ready(function() {
+          checkForInvites();
+        });
+      <% end %>
     <% end %>
-    $(document).ready(function() {
-      if (hasMessages) {
-        checkForInvites(hasMessages);
-      }
-    });
   </script>
   
 </head>

@@ -347,7 +347,7 @@ createNewInvite = () => {
         if (this.readyState == 4 && this.status=="200") {
             if (this.responseText=="Success") {
                 alert(document.getElementById("userEmail").value+" has been invited to join the group.")
-                document.getElementById("inviteMessage").value="User,\nCome join our group to engage in activities together.";
+                document.getElementById("inviteMessage").value="%username%,\nCome join our group to engage in activities together.";
                 document.getElementById("userEmail").value="";
             }
             else {
@@ -359,6 +359,31 @@ createNewInvite = () => {
     let data = {};
     data["email"] = document.getElementById("userEmail").value;
     data["message"] = document.getElementById("inviteMessage").value;
+    xhttp.setRequestHeader("Content-Type","application/json");
+    xhttp.send(JSON.stringify(data));
+};
+
+submitRequestToJoin = (groupId) => {
+    var xhttp = new XMLHttpRequest();
+    if (document.getElementById("joinMessage"+groupId.toString()).value.length <= 0) {
+        alert("You must enter a message with your request to join.");
+        return;
+    }
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status=="200") {
+            if (this.responseText=="Success") {
+                alert("Your request to join has been sent.");
+                window.location.reload();
+            }
+            else {
+                alert("Error Requesting to Join");
+            }
+        }
+    };
+    xhttp.open("POST","/group/requestNewInvite",true);
+    let data = {};
+    data["groupID"] = groupId;
+    data["message"] = document.getElementById("joinMessage"+groupId.toString()).value;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 };
