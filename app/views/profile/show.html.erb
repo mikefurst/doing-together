@@ -8,9 +8,45 @@
                 </div>
             <% unless @user.id == current_user.id %>
                 <%= link_to "Send This Person A Message", new_conversation_path(:user => @user.id) %>
+                <!--  add friend button  --> 
+
+                <!--  add friend button  -->
             <% else %>
                 <%= link_to "Check your messages", :controller => :conversations, :action => :index %>
             <% end %>
+    <!--  Friend Test Area  --> 
+    
+    
+<h2>Friends</h2>
+<ul>
+  <% @users = User.all %>
+  <% @users.each do |user| %>
+      <% unless user.id == current_user.id %>
+    <li>
+        
+			<%= user.full_name %> |
+			<%= link_to "Add Friend", friendships_path(friend_id: user), method: :post %>
+		
+    </li>
+      <% end %>
+    
+  <% end %>
+</ul>
+<ul>
+    <h2>Friend Requests</h2>
+    <% current_user.requested_friendships.each do |request| %>
+    <li>
+      <%= request.full_name %>
+      <%= link_to "Accept",  friendship_path(id: request.id), method: "put" %>
+      <%= link_to "Decline", friendship_path(id: request.id), method: :delete %>
+    </li>
+  <% end %>
+</ul>
+
+
+    
+    
+    <!--  Friend Test Area  --> 
             <div class="card-body">
                 <div class="text-center">
                     <h4>Email: <%= @user.email %></h4>

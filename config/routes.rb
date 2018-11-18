@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   
+  get 'friendships/create'
+
+  get 'friendships/update'
+
+  get 'friendships/destroy'
+
   #root :to => redirect('/activity/index')
   root 'application#index'
 
@@ -60,6 +66,7 @@ Rails.application.routes.draw do
       get :new
     end
   end
+  resources :friendships, only: [:create, :update, :destroy]
   #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.
