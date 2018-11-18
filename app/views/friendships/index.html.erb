@@ -4,6 +4,7 @@
 <br>
 <br>
 <br>
+
 <H2>Friends of <%=current_user.full_name%></H2>
 
 <H2>Current Friends</H2>
@@ -12,7 +13,7 @@
   <% for friendship in current_user.active_friends %>
     <li>
       
-      <%=h friendship.full_name %>
+      <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%>
       (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
 
     </li>
@@ -21,7 +22,7 @@
     <% for friendship in current_user.inverse_friends %>
     <li>
       
-      <%=h friendship.full_name %>
+      <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%>
       (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
 
     </li>
@@ -63,7 +64,7 @@
 		            <% unless current_user.inverse_friends.include? user %>
 		                <% unless user.inverse_friends.include? current_user %>
 			<li>
-				<%= user.full_name %> |
+				<%= link_to "#{user.full_name}", {:controller => "profile", :action => "show", :id => user.id}%> |
 				<%= link_to "Add Friend", friendships_path(:friend_id => user), method: :post %>
 			</li>
 			            <% end %>
