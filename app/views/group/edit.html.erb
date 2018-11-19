@@ -1,4 +1,4 @@
-<div class="group_controller">
+<div class="group_controller text-center justify-content-center">
     <H1 class='pagetitle'>Admin Page for <%= @group.name %>.</H1>
     <br>
     <div class="container">
@@ -45,12 +45,12 @@
                                             <% end %>
                                             <td>
                                                 <div class="gradient-buttons">
-                                                    <%= button_to "Make Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-primary' %>
+                                                    <%= button_to "Make Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.first_name} the admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-sm btn-primary' %>
                                                 </div>
                                             </td>
                                             <td>
                                                <div class="gradient-buttons">
-                                                   <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                                   <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.first_name} from #{@group.name}? This will remove you as group admin."}, :type => 'button', :class => 'btn btn-sm btn-danger' %>
                                                </div> 
                                             </td>
                                         </tr>
@@ -121,6 +121,7 @@
             </div>
         </div>
     </div>
+    <%= link_to "View Group Forum", {:controller => "forum_post", :action => "list"} %>
 </div>
 
 <div id="inviteMemberModal" class="modal fade">

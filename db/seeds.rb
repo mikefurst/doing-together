@@ -110,6 +110,7 @@ group_adjectives = [
 group_nouns = [
     'Runners', 'Athletes', 'Pirates', 'Scholars', 'Students', 'Professionals', 'Coders', 'Astronauts', 'Retirees'
     ]
+    
 activitytypelist = [
 {
     :name => "Walking",

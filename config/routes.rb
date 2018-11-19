@@ -48,6 +48,11 @@ Rails.application.routes.draw do
   post 'profile/update'
   post 'profile/list'
   
+  get 'forum_post/list'
+  get 'forum_post/show'
+  post 'forum_post/create'
+  post 'forum_post/vote'
+  
   
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :conversations do

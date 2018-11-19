@@ -132,4 +132,11 @@ class User < ApplicationRecord
   def pendingInvite(grpId)
     return GroupInvite.select {|grpInv| grpInv.creatorID==self.id and grpInv.groupID == grpId}.length > 0
   end
+  def hasVotedOn(fPostId)
+    @votes = Vote.select {|v|
+      v.postID == fPostId and v.creatorID == self.id
+    }
+    return @votes.first
+  end
+  
 end

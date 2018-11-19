@@ -107,6 +107,23 @@
         <% end %>
       </li>
     <% end %>
+    <% if user_signed_in? %>
+      <% unless current_user.groupid == nil %>
+        <% if controller.controller_name == "forum_post" %>
+          <li class="nav-item active">
+            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+              Forum
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+              Forum
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
   </ul>
   <% if user_signed_in? %>
     <ul class="navbar-nav ml-auto">

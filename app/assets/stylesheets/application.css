@@ -24,6 +24,31 @@
     color: white!important;
 }
 
+.red-link {
+    color: red!important;
+}
+
+.red-link-faded {
+    color: #F6CECE!important;
+}
+
+.black-link {
+    color: black!important;
+}
+
+.green-link {
+    color: green!important;
+}
+.green-link-faded {
+    color: #CEF6CE!important;
+}
+
+.blue-link {
+    color: blue!important;
+}
+.blue-link-faded {
+    color: #00FFFF!important;
+}
 
 a {
     color: green!important;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181118214347) do
+ActiveRecord::Schema.define(version: 20181119040736) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 20181118214347) do
     t.integer "groupid"
     t.integer "userid"
     t.boolean "verified"
+  end
+
+  create_table "forum_posts", force: :cascade do |t|
+    t.integer  "creatorID"
+    t.string   "message"
+    t.integer  "groupID"
+    t.integer  "parentID"
+    t.integer  "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "title"
   end
 
   create_table "group_invites", force: :cascade do |t|
@@ -128,6 +139,14 @@ ActiveRecord::Schema.define(version: 20181118214347) do
     t.boolean  "isPrivate"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "postID"
+    t.integer  "creatorID"
+    t.boolean  "thumbsUp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
