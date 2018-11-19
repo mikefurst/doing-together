@@ -7,10 +7,25 @@
                     <H2>User Profile for <%=@user.full_name%></H2>
                 </div>
             <% unless @user.id == current_user.id %>
-                <%= link_to "Send This Person A Message", new_conversation_path(:user => @user.id) %>
+                <%= link_to "Send Message", new_conversation_path(:user => @user.id) %>
+                <!--  add friend button  -->
+                <% unless current_user.active_friends.include? @user or current_user.inverse_friends.include? @user %>
+                    <%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post %>
+                <!--  add friend button  --> 
+                <% else %>
+                    <!-- ADD DELETE BUTTON -->
+                    <!-- ADD REMOVE PENDING FRIEND BUTTON -->
+                    <!-- link_to "Remove Friend", friendships_path(:friend_id => @user), :method => :delete -->
+                <% end %>
+
+                
             <% else %>
-                <%= link_to "Check your messages", :controller => :conversations, :action => :index %>
+                <%= link_to "Check Messages", :controller => :conversations, :action => :index %>
+                <%= link_to "Check Friends", :controller => :friendships, :action => :index %>
             <% end %>
+            
+                
+
             <div class="card-body">
                 <div class="text-center">
                     <h4>Email: <%= @user.email %></h4>
