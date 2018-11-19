@@ -29,6 +29,12 @@ a {
     color: green!important;
 }
 
+body {
+    padding-top: 65px;
+}
+#godown {
+   height: 60px;
+}
 
 .buttonpanel{
     width: 100%;

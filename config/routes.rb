@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   
   get 'profile/show'
   post 'profile/update'
+  post 'profile/list'
   
   
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

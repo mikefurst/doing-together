@@ -1,26 +1,47 @@
 <!-- These links are for inside the controller -->
 <br>
-<% if controller.action_name == "index" %>
-  <div class='row justify-content-center block-center data-center text-center'>
-  <!-- These links are to other controllers-->
-  <% if controller.controller_name != nil and controller.controller_name != "activity" %>
-    <div class="gradient-buttons text-center d-inline"><%= button_to "View Activity Log", {:action => 'index', :controller => 'activity'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
-    <br>
-  <% end %>
-  <% if controller.controller_name != "activity_type" %>
-    <div class="gradient-buttons text-center d-inline"><%= button_to "View Activity Types", {:action => 'index', :controller => 'activity_type'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
-    <br>
-  <% end %>
-  <% if controller.controller_name != "group" %>
-    <div class="gradient-buttons text-center d-inline"><%= button_to "View Groups", {:action => 'index', :controller => 'group'}, :method => 'get', :type => 'button', :class => 'btn center-block btn-lg btn-primary' %></div>
-    <br>
-  <% end %>
-  </div>
-<% else %>
-  <br>
+<nav class="navbar navbar-expand-sm bg-info navbar-dark fixed-bottom">
+  <% unless controller.action_name == "index" %>
     <% unless controller.controller_name == "profile" %>
-      <div class="gradient-buttons text-center"><%= button_to "Return", {:action => 'index', :controller => controller.controller_name}, :method => 'get', :type => 'button', :class => 'btn btn-lg btn-primary' %></div>
+      <%= button_to "Return", {:action => 'index', :controller => controller.controller_name}, :method => 'get', :type => 'button', :class => 'btn btn-sm btn-outline-secondary' %>
     <% end %>
-  <br>
-<% end %>
-<br>
+  <% end %>
+  <div class="ml-auto">
+    <form class="form-inline">
+      <div class="input-group">
+        <input type="text" onkeyup="verifySearchQuery()" class="form-control rounded" id="searchBarInput" placeholder="Search Users">
+        <div class="input-group-append">
+          <button id="searchBarButton" class="btn btn-success fa fa-search" onclick="searchUser()" type="button" data-toggle="modal" data-target="#userSearchModal" disabled></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</nav>
+
+<div class="modal fade" id="userSearchModal">
+  <div class="modal-dialog">
+    <div class="modal-content bg-info">
+      <div class="modal-header">
+        <h4 class="modal-title">User Search Results</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="userSearchContainer">
+          <div id="sampleDIV" class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+              <span class="fa fa-user"></span>
+              <a href="/profile/show?id=1" class="white-link">Test User Name</a>
+            </div>
+            <div class="col-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
