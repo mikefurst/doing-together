@@ -9,23 +9,22 @@
 
 <H2>Current Friends</H2>
 <ul>
-    
   <% for friendship in current_user.active_friends %>
-    <li>
-      
-      <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%>
-      (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
-
-    </li>
+    <% unless current_user.pending_friends.include? friendship %>
+      <li>
+        <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> is active
+        (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
+      </li>
+    <% end %>
   <% end %>
   
-    <% for friendship in current_user.inverse_friends %>
-    <li>
-      
-      <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%>
-      (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
-
-    </li>
+  <% for friendship in current_user.inverse_friends %>
+    <% unless current_user.requested_friendships.include? friendship %>
+      <li>
+        <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> is inverse
+        (<%= link_to "Remove", friendship_path(friendship), method: :delete %>)
+      </li>
+    <% end %>  
   <% end %>
 </ul>
 
