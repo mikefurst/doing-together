@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   
+  get 'friendships/create'
+
+  get 'friendships/update'
+
+  get 'friendships/destroy'
+  
+  get 'friendships/index'
+
   #root :to => redirect('/activity/index')
   root 'application#index'
 
@@ -57,6 +65,7 @@ Rails.application.routes.draw do
   
   
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  resources :friendships, only: [:create, :update, :destroy]
   resources :conversations do
     resources :messages
     
@@ -68,6 +77,7 @@ Rails.application.routes.draw do
       get :new
     end
   end
+
   #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.

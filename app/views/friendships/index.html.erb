@@ -1,0 +1,91 @@
+    <!--  Friend Test Area  --> 
+    
+<center>  
+<br>
+<br>
+<br>
+
+<H1>Friends of <%=current_user.full_name%></H1>
+
+<H2>Current Friends:</H2>
+<ul>
+  <% if current_user.active_friends.empty? and current_user.inverse_friends.empty? %>
+    No Friends :(
+  <% else %>
+    <% for friendship in current_user.active_friends %>
+      <% unless current_user.pending_friends.include? friendship %>
+        <li>
+          <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
+          <%= link_to "Remove", friendship_path(friendship), method: :delete %>
+        </li>
+      <% end %>
+    <% end %>
+  
+    <% for friendship in current_user.inverse_friends %>
+      <% unless current_user.requested_friendships.include? friendship %>
+        <li>
+          <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
+          <%= link_to "Remove", friendship_path(friendship), method: :delete %>
+        </li>
+      <% end %>  
+    <% end %>
+  <% end %>
+</ul>
+
+
+<br>
+
+
+<h4>Your awaiting friend requests:</h4>
+
+<ul>
+    <% if current_user.requested_friendships.empty? %>
+      No Pending Friendships
+    <% else %>
+      <% for requested in current_user.requested_friendships %>
+        <li>
+          <%= requested.full_name %> | 
+          <%= link_to "Accept",  friendship_path(requested), method: "put" %> | 
+          <%= link_to "Decline", friendship_path(requested), method: :delete %>
+        </li>
+      <% end %>
+    <% end %>      
+</ul>
+<br>
+<h4>Your sent friend requests:</h4>
+
+<ul>
+    <% if current_user.pending_friends.empty? %>
+      No Outgoing Requests
+    <% else %>
+      <% for pending in current_user.pending_friends %>
+        <li>
+          <%= pending.full_name %> | 
+          <%= link_to "Cancel friend request", friendship_path(pending), method: :delete %>
+        </li>
+      <% end %>
+    <% end %>
+</ul>
+<br>
+<h1>Add a Friend</h1>
+<ul>
+  <% @users = User.all %>
+  <% @users.each do |user| %>
+		<% unless user == current_user %>
+		        <% unless current_user.pending_friends.include? user %>
+		            <% unless current_user.inverse_friends.include? user %>
+		                <% unless user.inverse_friends.include? current_user %>
+			<li>
+				<%= link_to "#{user.full_name}", {:controller => "profile", :action => "show", :id => user.id}%> |
+				<%= link_to "Add Friend", friendships_path(:friend_id => user), method: :post %>
+			</li>
+			            <% end %>
+			        <% end %>
+			    <% end %>
+		<% end %>
+	<% end %>
+</ul>
+</center> 
+
+    
+    <!--  Friend Test Area  --> 
