@@ -16,6 +16,10 @@ class ForumPostController < ApplicationController
         }
     end
     def show
+        if params[:id]==nil
+            redirect_to :action => 'list', :controller => 'forum_post'
+            return
+        end
         @post = ForumPost.find(params[:id])
         unless @post.parentID == nil
             redirect_to :action => 'show', :controller => 'forum_post', :id => @fp.getOTP.id
