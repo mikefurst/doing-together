@@ -107,6 +107,23 @@
         <% end %>
       </li>
     <% end %>
+    <% if user_signed_in? %>
+      <% unless current_user.groupid == nil %>
+        <% if controller.controller_name == "forum_post" %>
+          <li class="nav-item active">
+            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+              Forum
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+              Forum
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
   </ul>
   <% if user_signed_in? %>
     <ul class="navbar-nav ml-auto">
@@ -127,6 +144,7 @@
         <% unless current_user.groupid==nil %>
           <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item white-link" %>
         <% end %>
+        <%= link_to "View Friends", {:controller => :friendships, :action => :index}, :class => "dropdown-item white-link" %>
         <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item white-link" %>
       </div>
     </ul>

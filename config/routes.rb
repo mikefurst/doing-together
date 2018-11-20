@@ -56,6 +56,13 @@ Rails.application.routes.draw do
   post 'profile/update'
   post 'profile/list'
   
+  get 'forum_post/list'
+  get 'forum_post/show'
+  post 'forum_post/create'
+  post 'forum_post/postReply'
+  post 'forum_post/vote'
+  delete 'forum_post/delete'
+  
   
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :friendships, only: [:create, :update, :destroy]

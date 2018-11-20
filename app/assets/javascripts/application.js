@@ -132,6 +132,11 @@ searchUser = () => {
             div.innerHTML="";
             if (responseText!="FAILURE") {
                 let jsonData = JSON.parse(responseText);
+                if (jsonData.length < 1) {
+                    let notice = document.createElement("h4");
+                    notice.innerHTML = "No Users Found";
+                    div.appendChild(notice);
+                }
                 for (let i=0; i < jsonData.length; i++) {
                     const data = jsonData[i];
                     const id = data.id;

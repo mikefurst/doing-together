@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
 	def friends
-	  active_friends | received_friends
+	  active_friends | received_friendships
 	end
 
 	def pending
@@ -152,9 +152,11 @@ class User < ApplicationRecord
   def pendingInvite(grpId)
     return GroupInvite.select {|grpInv| grpInv.creatorID==self.id and grpInv.groupID == grpId}.length > 0
   end
+  def hasVotedOn(fPostId)
+    @votes = Vote.select {|v|
+      v.postID == fPostId and v.creatorID == self.id
+    }
+    return @votes.first
+  end
   
-  
-
-	
-
 end
