@@ -7,9 +7,11 @@ class ProfileController < ApplicationController
         @user = User.find(params[:id])
         if @user.isPrivate and current_user.id != @user.id 
             if @user.groupid != current_user.groupid or @usr.groupid == nil
-                flash[:alert]="This user has set their profile to private."
-                redirect_to '/'
-                return
+                unless @user.friends.include? current_user
+                    flash[:alert]="This user has set their profile to private."
+                    redirect_to '/'
+                    return
+                end
             end
         end
         

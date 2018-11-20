@@ -4,7 +4,7 @@
 updateProfile = () => {
     const first_name = document.getElementById("user_first_name").value;
     const last_name = document.getElementById("user_last_name").value;
-    const isPrivate = document.getElementById("user_isPrivate").value;
+    const isPrivate = document.getElementById("user_isPrivate").checked;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status=="200") {

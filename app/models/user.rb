@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
 	def friends
-	  active_friends | received_friends
+	  active_friends | received_friendships
 	end
 
 	def pending

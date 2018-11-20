@@ -39,6 +39,14 @@ ActiveRecord::Schema.define(version: 20181119040736) do
     t.string   "title"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.boolean  "accepted",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "group_invites", force: :cascade do |t|
     t.integer  "groupID"
     t.integer  "targetID"
@@ -135,6 +143,7 @@ ActiveRecord::Schema.define(version: 20181119040736) do
     t.integer  "expires_at"
     t.boolean  "expires"
     t.string   "refresh_token"
+    t.integer  "friends"
     t.boolean  "isPrivate"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
