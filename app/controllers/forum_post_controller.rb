@@ -21,6 +21,7 @@ class ForumPostController < ApplicationController
             return
         end
         @post = ForumPost.find(params[:id])
+        @post.calculateRating
         unless @post.parentID == nil
             redirect_to :action => 'show', :controller => 'forum_post', :id => @fp.getOTP.id
         end
