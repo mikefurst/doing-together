@@ -5,6 +5,9 @@
     <% unless controller.controller_name == "profile" or  controller.controller_name == "forum_post"%>
       <%= button_to "Return", {:action => 'index', :controller => controller.controller_name}, :method => 'get', :type => 'button', :class => 'btn btn-sm btn-outline-secondary' %>
     <% end %>
+    <% if controller.controller_name == "forum_post"%>
+      <%= button_to "Return", {:action => 'list', :controller => controller.controller_name}, :method => 'get', :type => 'button', :class => 'btn btn-sm btn-outline-secondary' %>
+    <% end %>
   <% end %>
   <div class="ml-auto">
     <form class="form-inline">

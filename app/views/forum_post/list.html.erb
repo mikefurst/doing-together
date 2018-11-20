@@ -37,11 +37,11 @@
                         <div class="col-6 justify-content-center text-center">
                             <%= link_to fp.title, {:action => 'show', :controller => 'forum_post', :id => fp.id} %>
                         </div>
-                        <div class="col-2 justify-content-right">
+                        <div class="col-2 justify-content-right text-right">
                             <% @user = fp.getUser %>
                             <%= link_to @user.full_name, {:action => 'show', :controller => 'profile', :id => @user.id} %>
                         </div>
-                        <div class="col-1">
+                        <div class="col-1 text-right">
                             <a href=<%="#collapse#{fp.id}"%> data-toggle="collapse" class=""><span class="fa fa-chevron-down"></span></a>
                         </div>
                     </div>

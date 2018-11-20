@@ -5,9 +5,12 @@ class ProfileController < ApplicationController
 
     def show
         @user = User.find(params[:id])
-        if @user.isPrivate and current_user.id != @user.id and @user.groupid != current_user.groupid and @user.groupid != nil
-            redirect_to '/'
-            flash[:alert]="This user has set their profile to private."
+        if @user.isPrivate and current_user.id != @user.id 
+            if @user.groupid != current_user.groupid or @usr.groupid == nil
+                flash[:alert]="This user has set their profile to private."
+                redirect_to '/'
+                return
+            end
         end
         
         @acts=Activity.select { |a| 
