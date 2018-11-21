@@ -46,11 +46,11 @@ class ActivityController < ApplicationController
         params.require(:activities).permit("actid","duration","userid")
     end
     def create
-        if act_params.duration <= 0
+        if act_params[:duration] <= 0
             return false
-        elsif act_params.userid != current_user.id
+        elsif act_params[:userid] != current_user.id
             return false
-        elsif act_params.actid.groupid != current_user.groupid
+        elsif ActivityType.find(act_param[:actid]).groupid != current_user.groupid
             return false
         end
         @act = Activity.create(act_params)
