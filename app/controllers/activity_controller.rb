@@ -50,7 +50,7 @@ class ActivityController < ApplicationController
             return false
         elsif act_params[:userid].to_i != current_user.id
             return false
-        elsif ActivityType.find(act_param[:actid].to_i).groupid != current_user.groupid
+        elsif ActivityType.find(act_params[:actid].to_i).groupid != current_user.groupid
             return false
         end
         @act = Activity.create(act_params)
