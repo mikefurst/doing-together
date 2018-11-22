@@ -13,21 +13,17 @@
     No Friends :(
   <% else %>
     <% for friendship in current_user.active_friends %>
-      <% unless current_user.pending_friends.include? friendship %>
-        <li>
-          <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
-          <%= link_to "Remove", friendship_path(friendship), method: :delete %>
-        </li>
-      <% end %>
+      <li>
+        <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
+        <%= link_to "Remove", friendship_path(friendship), method: :delete %>
+      </li>
     <% end %>
   
     <% for friendship in current_user.inverse_friends %>
-      <% unless current_user.requested_friendships.include? friendship %>
-        <li>
-          <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
-          <%= link_to "Remove", friendship_path(friendship), method: :delete %>
-        </li>
-      <% end %>  
+      <li>
+        <%= link_to "#{friendship.full_name}", {:controller => "profile", :action => "show", :id => friendship.id}%> | 
+        <%= link_to "Remove", friendship_path(friendship), method: :delete %>
+      </li>
     <% end %>
   <% end %>
 </ul>
