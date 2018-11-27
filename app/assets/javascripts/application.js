@@ -150,22 +150,24 @@ searchUser = () => {
                     let hasSentRequest = false; //did the user send a request to this person
                     let hasRequestRecieved = false; //did the user recieve a request from this person
                     let hasRequestApproved = false; //did the request get approved
-                    let friendID = -1;
-                    for (let k=0; k < friends.length; k++) {
-                        let friendInfo = friends[k].friends;
-                        friendID = friendInfo;
-                        for (let x=0; x < friendInfo.length; x++) {
-                            const user_id = friendInfo[x].user_id;
-                            const friend_id = friendInfo[x].friend_id;
-                            const accepted = friendInfo[x].accepted;
-                            if (user_id == curUSRID) {
-                                hasSentRequest = true;
-                            }
-                            if (friend_id == curUSRID) {
-                                hasRequestRecieved = true;
-                            }
-                            if (accepted && (friend_id==curUSRID || user_id==curUSRID)) {
-                                hasRequestApproved = true;
+                    if (friends != undefined) {
+                        for (let k=0; k < friends.length; k++) {
+                            let friendInfo = friends[k].friends;
+                            if (friendInfo != undefined) {
+                                for (let x=0; x < friendInfo.length; x++) {
+                                    const user_id = friendInfo[x].user_id;
+                                    const friend_id = friendInfo[x].friend_id;
+                                    const accepted = friendInfo[x].accepted;
+                                    if (user_id == curUSRID) {
+                                        hasSentRequest = true;
+                                    }
+                                    if (friend_id == curUSRID) {
+                                        hasRequestRecieved = true;
+                                    }
+                                    if (accepted && (friend_id==curUSRID || user_id==curUSRID)) {
+                                        hasRequestApproved = true;
+                                    }
+                                }
                             }
                         }
                     }
