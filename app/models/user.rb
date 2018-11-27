@@ -166,4 +166,9 @@ class User < ApplicationRecord
       return false
     end
   end
+  
+  def group
+    return Group.find(self.groupid)
+  end
+  
 end

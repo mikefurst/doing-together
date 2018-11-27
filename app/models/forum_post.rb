@@ -24,6 +24,9 @@ class ForumPost < ApplicationRecord
             return ForumPost.find(self.parentID).getOTP
         end
     end
+    def isOTP
+        return self.getOTP.id == self.id
+    end
     def isAChildOf(parentID)
         if self.parentID == nil
             return false

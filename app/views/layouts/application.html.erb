@@ -110,18 +110,14 @@
     <% end %>
     <% if user_signed_in? %>
       <% unless current_user.groupid == nil %>
+        <% @class = "nav-item" %>
         <% if controller.controller_name == "forum_post" %>
-          <li class="nav-item active">
-            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
-              Forum
-            <% end %>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
-              Forum
-            <% end %>
-          </li>
+          <% @class += " active" %>
+        <% end %>
+        <%= content_tag :li, :class => @class do %>
+          <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+          Forum
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
