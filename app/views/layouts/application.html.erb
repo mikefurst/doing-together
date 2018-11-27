@@ -29,6 +29,7 @@
   
   <script type='text/javascript'>
     <% if user_signed_in? %>
+      const curUSRID = <%=current_user.id %>;
       <% if current_user.hasInvite %>;
         $(document).ready(function() {
           checkForInvites();

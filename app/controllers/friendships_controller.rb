@@ -1,4 +1,6 @@
 class FriendshipsController < ApplicationController
+  before_action :authenticate_user!
+	skip_before_action :verify_authenticity_token
 	
   def create
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
@@ -12,7 +14,7 @@ class FriendshipsController < ApplicationController
   end
 
   def update
-    @friendship = Friendship.where(friend_id: [current_user, params[:id]], user_id: [current_user, params[:id]]).first
+    @friendship = Friendship.where(friend_id: [current_user.id, params[:id]], user_id: [current_user.id, params[:id]]).first
     @friendship.update(accepted: true)
     if @friendship.save
       redirect_to :back, notice: "Friend request accepted."
@@ -22,7 +24,8 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @friendship = Friendship.where(friend_id: [current_user, params[:id]]).where(user_id: [current_user, params[:id]]).last
+    @friendship = Friendship.where(friend_id: [current_user.id, params[:id]]).where(user_id: [current_user.id, params[:id]]).last
+    puts @friendship
     @friendship.destroy
     flash[:notice] = "Friend request declined."
     redirect_to :back

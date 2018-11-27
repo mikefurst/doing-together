@@ -40,7 +40,7 @@
     <% else %>
       <% for requested in current_user.requested_friendships %>
         <li>
-          <%= requested.full_name %> | 
+          <%= link_to "#{requested.full_name}", {:controller => "profile", :action => "show", :id => requested.id}%> | 
           <%= link_to "Accept",  friendship_path(requested), method: "put" %> | 
           <%= link_to "Decline", friendship_path(requested), method: :delete %>
         </li>
@@ -56,31 +56,15 @@
     <% else %>
       <% for pending in current_user.pending_friends %>
         <li>
-          <%= pending.full_name %> | 
+          <%= link_to "#{pending.full_name}", {:controller => "profile", :action => "show", :id => pending.id}%> |  | 
           <%= link_to "Cancel friend request", friendship_path(pending), method: :delete %>
         </li>
       <% end %>
     <% end %>
 </ul>
 <br>
-<h1>Add a Friend</h1>
-<ul>
-  <% @users = User.all %>
-  <% @users.each do |user| %>
-		<% unless user == current_user %>
-		        <% unless current_user.pending_friends.include? user %>
-		            <% unless current_user.inverse_friends.include? user %>
-		                <% unless user.inverse_friends.include? current_user %>
-			<li>
-				<%= link_to "#{user.full_name}", {:controller => "profile", :action => "show", :id => user.id}%> |
-				<%= link_to "Add Friend", friendships_path(:friend_id => user), method: :post %>
-			</li>
-			            <% end %>
-			        <% end %>
-			    <% end %>
-		<% end %>
-	<% end %>
-</ul>
+<h2>Add a Friend</h2>
+<p>You can add a friend by searching for a person in the people search bar at the bottom of the page.</p>
 </center> 
 
     

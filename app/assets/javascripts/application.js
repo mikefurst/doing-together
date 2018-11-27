@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
+/*global curUSRID */
 checkForInvites = () => {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -130,7 +130,10 @@ searchUser = () => {
             const responseText = this.responseText;
             let div = document.getElementById("userSearchContainer");
             div.innerHTML="";
-            if (responseText!="FAILURE") {
+            if (responseText=="FAILURE") {
+                div.innerHTML="Could Not Find Matching User"
+            }
+            else {
                 let jsonData = JSON.parse(responseText);
                 if (jsonData.length < 1) {
                     let notice = document.createElement("h4");
@@ -140,26 +143,73 @@ searchUser = () => {
                 for (let i=0; i < jsonData.length; i++) {
                     const data = jsonData[i];
                     const id = data.id;
-                    const email = data.email;
+                    //const email = data.email;
                     const first_name = data.first_name;
-                    const last_name = data.last_name;
+                    //const last_name = data.last_name;
+                    const friends = data.friends;
+                    let hasSentRequest = false; //did the user send a request to this person
+                    let hasRequestRecieved = false; //did the user recieve a request from this person
+                    let hasRequestApproved = false; //did the request get approved
+                    let friendID = -1;
+                    for (let k=0; k < friends.length; k++) {
+                        let friendInfo = friends[k].friends;
+                        friendID = friendInfo;
+                        for (let x=0; x < friendInfo.length; x++) {
+                            const user_id = friendInfo[x].user_id;
+                            const friend_id = friendInfo[x].friend_id;
+                            const accepted = friendInfo[x].accepted;
+                            if (user_id == curUSRID) {
+                                hasSentRequest = true;
+                            }
+                            if (friend_id == curUSRID) {
+                                hasRequestRecieved = true;
+                            }
+                            if (accepted && (friend_id==curUSRID || user_id==curUSRID)) {
+                                hasRequestApproved = true;
+                            }
+                        }
+                    }
                     let rDiv = document.createElement("div");
                     rDiv.setAttribute("class","row");
                     let fDiv = document.createElement("div");
-                    fDiv.setAttribute("class","col-1");
-                    rDiv.appendChild(fDiv);
-                    let contentDiv = document.createElement("div");
-                    contentDiv.setAttribute("class","col-10");
+                    fDiv.setAttribute("class","col-2 text-center");
                     let uSpan = document.createElement("span");
                     uSpan.setAttribute("class","fa fa-user");
-                    contentDiv.appendChild(uSpan);
+                    fDiv.appendChild(uSpan);
+                    rDiv.appendChild(fDiv);
+                    let contentDiv = document.createElement("div");
+                    contentDiv.setAttribute("class","col-5 text-left");
                     let uName = document.createElement("a");
                     uName.setAttribute("href","/profile/show?id="+id.toString());
                     uName.setAttribute("class","white-link");
                     uName.innerHTML="  "+first_name;
                     contentDiv.appendChild(uName);
                     rDiv.appendChild(contentDiv);
-                    rDiv.appendChild(fDiv);
+                    let addDiv = document.createElement("div");
+                    addDiv.setAttribute("class","col-4 text-right");
+                    let uAdd = document.createElement("a");
+                    uAdd.setAttribute("class","white-link");
+                    if (hasRequestApproved) {
+                        uAdd.setAttribute("href","/friendships/destroy?id="+id.toString());
+                        uAdd.innerHTML="Remove Friend";
+                    }
+                    else if (hasSentRequest) {
+                        uAdd.setAttribute("href","/friendships/destroy?id="+id.toString());
+                        uAdd.innerHTML="Cancel Request";
+                    }
+                    else if (hasRequestRecieved) {
+                        uAdd.setAttribute("href","/friendships/update?id="+id.toString());
+                        uAdd.innerHTML="Approve Request";
+                    }
+                    else {
+                        uAdd.setAttribute("href","/friendships/create?friend_id="+id.toString());
+                        uAdd.innerHTML="Add Friend";
+                    }
+                    addDiv.appendChild(uAdd);
+                    rDiv.appendChild(addDiv);
+                    let endDiv = document.createElement("div");
+                    endDiv.setAttribute("class","col-2 text-center");
+                    rDiv.appendChild(endDiv);
                     div.appendChild(rDiv);
                 }
             }

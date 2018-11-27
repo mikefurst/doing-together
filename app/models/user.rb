@@ -159,4 +159,11 @@ class User < ApplicationRecord
     return @votes.first
   end
   
+  def isFriend(userID)
+    if self.friends.include? User.find(userID) or self.pending_friends.include? User.find(userID)
+      return true
+    else
+      return false
+    end
+  end
 end

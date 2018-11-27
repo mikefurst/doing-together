@@ -42,8 +42,12 @@ class ProfileController < ApplicationController
             usr.full_name.include? content or usr.email.include? content
         }
         @users = @users.select {|usr|
-            (usr.isPrivate == nil or usr.isPrivate == false) and usr.id != current_user.id
+            (usr.id != current_user.id) and ((usr.isFriend(current_user)) or (usr.groupid == current_user.groupid) or (usr.isPrivate == nil or usr.isPrivate == false))
         }
+        if @users.blank?
+            render :status => "200", :text => "FAILURE"
+            return
+        end
         render :status => "200", :json => @users.to_json
     end
     
