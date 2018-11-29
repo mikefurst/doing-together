@@ -25,6 +25,10 @@ class ForumPostController < ApplicationController
         unless @post.parentID == nil
             redirect_to :action => 'show', :controller => 'forum_post', :id => @fp.getOTP.id
         end
+        if @post.groupID != current_user.groupID
+            redirect_to :action => 'list', :controller => 'forum_post'
+            return
+        end
         @posts = ForumPost.select {|fp|
             fp.id != @post.id and fp.getOTP.id == @post.id
         }
