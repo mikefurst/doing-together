@@ -42,7 +42,13 @@ class ForumPost < ApplicationRecord
         if 20*depth > 100
             @d = 100
         end
-        el = "<div class=\"bg-secondary\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        if (depth % 2 == 1)
+            el = "<div class=\"bg-secondary\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        elsif depth == 0
+            el = "<div class=\"bg-white\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        else
+            el = "<div class=\"bg-light\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        end
         el += "<div class=\"row\">"
         el += "<div class=\"col-2\">"
         el += "<div class=\"text-center\">"
@@ -53,7 +59,11 @@ class ForumPost < ApplicationRecord
             el += "<a href=\"javascript:void(0)\" id=\"thumbsUp#{self.id}\" class=\"fa fa-thumbs-up green-link-faded\" onclick=\"vote(#{self.id},true)\"></a>"
         end
         el += "</div>"
-        el += "<div class=\"d-inline-block\" style=\"padding-left: 20px; padding-right: 20px;\">"
+        if(depth % 2 == 1)
+            el += "<div class=\"d-inline-block text-light\" style=\"padding-left: 20px; padding-right: 20px;\">"
+        else
+            el += "<div class=\"d-inline-block\" style=\"padding-left: 20px; padding-right: 20px;\">"
+        end
         self.calculateRating
         el += "<span id=\"fpScore#{self.id}\">#{self.rating}</span>"
         el += "</div>"
@@ -66,7 +76,11 @@ class ForumPost < ApplicationRecord
         el += "</div>"
         el += "</div>"
         el += "</div>"
-        el += "<div class=\"col-10\">"
+        if(depth % 2 == 1)
+            el += "<div class=\"col-10 text-light\">"
+        else
+            el += "<div class=\"col-10\">"
+        end
         el += "<p>#{self.message}</p>"
         el += "</div>"
         el += "</div>"
