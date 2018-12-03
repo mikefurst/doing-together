@@ -42,7 +42,11 @@ class ForumPost < ApplicationRecord
         if 20*depth > 100
             @d = 100
         end
-        el = "<div class=\"bg-secondary\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        if (depth != 0)
+            el = "<div class=\"bg-secondary\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        else
+            el = "<div class=\"bg-muted\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+        end
         el += "<div class=\"row\">"
         el += "<div class=\"col-2\">"
         el += "<div class=\"text-center\">"

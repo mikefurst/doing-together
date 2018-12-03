@@ -46,6 +46,8 @@
             </div>
         </div>
     </div>
+    
+    <!-- all top level posts get put here, each one recursively defines the HTML for itself and all of its children -->
     <% @posts.each do |post| %>
         <% if post.parentID == @post.id %>
             <%= post.getElementContainer(current_user,0).html_safe %>
@@ -72,7 +74,7 @@
                     </div>
                 <% end %>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer gradient-buttons">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
