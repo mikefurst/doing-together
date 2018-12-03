@@ -96,7 +96,7 @@ class ForumPostController < ApplicationController
         @otp = @post.getOTP
         if @post.creatorID == current_user.id
             flash[:alert] = 'Forum Post Deleted'
-            ForumPost.all.each {|post|
+            ForumPost.all.reverse.each {|post|
                 if post.isAChildOf(@post.id)
                     post.delete
                 end
