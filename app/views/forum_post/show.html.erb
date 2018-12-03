@@ -1,0 +1,82 @@
+<div class="forum_post_container">
+    <div class="jumbotron bg-muted">
+        <div class="row">
+            <div class="col-2 justify-content-left">
+                <div class="row">
+                    <% @vote = current_user.hasVotedOn(@post.id) %>
+                    <% unless @vote==nil or @vote.thumbsUp==false %>
+                        <%= content_tag :a, :href => "javascript:void(0)", :id => "thumbsUp#{@post.id}", :class => "fa fa-thumbs-up green-link", :onclick => "vote(#{@post.id},true)", :style => "font-size: 30px" do %>
+                        <% end %>
+                    <% else %>
+                        <%= content_tag :a, :href => "javascript:void(0)", :id => "thumbsUp#{@post.id}", :class => "fa fa-thumbs-up green-link-faded", :onclick => "vote(#{@post.id},true)", :style => "font-size: 30px" do %>
+                        <% end %>
+                    <% end %>
+                    &nbsp&nbsp&nbsp&nbsp
+                    <%= content_tag :p, :id => "fpScore#{@post.id}", :style => "font-size: 30px" do %><%= @post.rating %><% end %>
+                    &nbsp&nbsp&nbsp&nbsp
+                    <% unless @vote==nil or @vote.thumbsUp %>
+                        <%= content_tag :a, :href => "javascript:void(0)", :id => "thumbsDown#{@post.id}", :class => "fa fa-thumbs-down red-link", :onclick => "vote(#{@post.id},false)", :style => "font-size: 30px" do %>
+                        <% end %>
+                    <% else %>
+                        <%= content_tag :a, :href => "javascript:void(0)", :id => "thumbsDown#{@post.id}", :class => "fa fa-thumbs-down red-link-faded", :onclick => "vote(#{@post.id},false)", :style => "font-size: 30px" do %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+            <div class="col-7 justify-content-center text-center">
+                <%= link_to @post.title, {:action => "show", :controller => "forum_post", :id => @post.id}, :style => "font-size: 30px" %>
+            </div>
+            <div class="col-3 justify-content-right text-right">
+                <% @user = @post.getUser %>
+                <%= link_to @user.full_name, {:action => "show", :controller => "profile", :id => @user.id}, :style => "font-size: 30px" %>
+            </div>
+        </div>
+        <br>
+        <H4><%=@post.message%></H4>
+        <div class="row">
+            <div class="col-6">
+                <% if @post.creatorID == current_user.id %>
+                    <%= link_to 'Delete This Post', {:controller => 'forum_post', :action => 'delete', :id => @post.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete this post?"}, :class => "red-link" %>
+                <% end %>
+            </div>
+            <div class="col-6 justify-content-right text-right">
+                <%= content_tag :a, :href => "#addNewPostModal", :class => "blue-link", :onclick => "changeHiddenParentID(#{@post.id})", :data => {:toggle => "modal"} do %>
+                    Post a Reply
+                <% end %>
+            </div>
+        </div>
+    </div>
+    
+    <!-- all top level posts get put here, each one recursively defines the HTML for itself and all of its children -->
+    <% @posts.each do |post| %>
+        <% if post.parentID == @post.id %>
+            <%= post.getElementContainer(current_user,0).html_safe %>
+        <% end %>
+    <% end %>
+    <br>
+    
+</div>
+<div id="addNewPostModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content bg-info">
+            <div class="modal-header">
+                <H2>Post A Reply</H2>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <%= form_tag :action => 'postReply' do %>
+                    <div class="form-group">
+                        <%= text_area 'forum_post', 'message', :class => "form-control rounded", :minlength => '5', :placeholder => 'Reply Content', :required => 'true' %>
+                    </div>
+                    <%= hidden_field 'forum_post', 'parentID', :value => @post.id %>
+                    <div class="form-group justify-content-center text-center gradient-buttons">
+                        <button type="submit" class='btn center-block btn-primary'>Post Reply</button>
+                    </div>
+                <% end %>
+            </div>
+            <div class="modal-footer gradient-buttons">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

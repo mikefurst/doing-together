@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
   
+  get 'friendships/create'
+
+  get 'friendships/update'
+
+  get 'friendships/destroy'
+  
+  get 'friendships/index'
+
   #root :to => redirect('/activity/index')
   root 'application#index'
+
   
   get 'activity/index'
   delete 'activity/delete'
@@ -31,11 +40,44 @@ Rails.application.routes.draw do
   patch 'group/makeadmin'
   post 'group/submitmessage'
   get 'group/getNewMessage'
+  post 'group/verifyUserCanBeAddedToGroup'
+  post 'group/createNewInvite'
+  get 'group/getInviteMessage'
+  post 'group/rejectInvite'
+  post 'group/acceptInvite'
+  post 'group/requestNewInvite'
+  post 'group/acceptRequest'
+  post 'group/rejectRequest'
   
   get 'application/index'
   get 'application/privacy_policy'
   
+  get 'profile/show'
+  post 'profile/update'
+  post 'profile/list'
+  
+  get 'forum_post/list'
+  get 'forum_post/show'
+  post 'forum_post/create'
+  post 'forum_post/postReply'
+  post 'forum_post/vote'
+  delete 'forum_post/delete'
+  
+  
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  resources :friendships, only: [:create, :update, :destroy]
+  resources :conversations do
+    resources :messages
+    
+    collection do
+      get :inbox
+      get :all, action: :index
+      get :sent
+      get :trash
+      get :new
+    end
+  end
+
   #devise_for :users
   
   # The priority is based upon order of creation: first created -> highest priority.

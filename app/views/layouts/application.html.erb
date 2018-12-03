@@ -7,6 +7,9 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   
+  <!-- For glyphicons -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   
@@ -23,15 +26,33 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   <%= csrf_meta_tags %>
+  
+  <script type='text/javascript'>
+    <% if user_signed_in? %>
+      const curUSRID = <%=current_user.id %>;
+      <% if current_user.hasInvite %>;
+        $(document).ready(function() {
+          checkForInvites();
+        });
+      <% end %>
+    <% end %>
+    $("#navMenu").resize(function () {
+        $('#godown').height($("#navMenu").height() + 10);
+    });
+  
+    if ($("#navMenu").height() > $('#godown').height()) $('#godown').height($("#navMenu").height() + 10);
+  
+  </script>
+  
 </head>
 <% if controller.controller_name == "activity" %>
-  <body onload="automateActivityAJAX()" class="bg-secondary">
+  <body onload="automateActivityAJAX()" class="bg-light">
 <% elsif controller.controller_name == "group" and controller.action_name == "index" %>
-  <body onload="groupIndexPageOnLoad()" class="bg-secondary">
+  <body onload="groupIndexPageOnLoad()" class="bg-light">
 <% elsif controller.controller_name == "group" and (controller.action_name == "view" or controller.action_name == "edit") %>
-  <body onload="registerGroupMessagingActivity()" class="bg-secondary">
+  <body onload="registerGroupMessagingActivity()" class="bg-light">
 <% else %>
-  <body class="bg-secondary">
+  <body class="bg-light">
 <% end %>
 <% if controller.controller_name == "application" or controller.controller_name == "" %>
   <% @sty = "margin-bottom: 0px;" %>
@@ -44,9 +65,9 @@
   </a>
   <ul class="navbar-nav mr-auto">
     <% if user_signed_in? %>
-      <% @navLinkClass = "nav-link" %>
+      <% @navLinkClass = "nav-link white-link" %>
     <% else %>
-      <% @navLinkClass = "nav-link disabled" %>
+      <% @navLinkClass = "nav-link white-link disabled" %>
     <% end %>
     <% if controller.controller_name == "activity" %>
       <li class="nav-item active">
@@ -87,39 +108,68 @@
         <% end %>
       </li>
     <% end %>
+    <% if user_signed_in? %>
+      <% unless current_user.groupid == nil %>
+        <% @class = "nav-item" %>
+        <% if controller.controller_name == "forum_post" %>
+          <% @class += " active" %>
+        <% end %>
+        <%= content_tag :li, :class => @class do %>
+          <%= content_tag :a, :class => @navLinkClass, :href => "/forum_post/list" do %>
+          Forum
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </ul>
   <% if user_signed_in? %>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <% if current_user.mailbox.conversations.unread(current_user).count > 0 %>
+          <a class="nav-link white-link" style="font-size: 24px;" href="/conversations/all"><span class="fa fa-envelope"></span>(<%= current_user.mailbox.conversations.unread(current_user).count%>)</a>
+        <% else %>
+            <a class="nav-link white-link" style="font-size: 24px;" href="/conversations/all"><span class="fa fa-inbox"></span></a>
+        <% end %>
+      </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" data-target="#userMenu">
-          User Menu
+        <a class="nav-link white-link dropdown-toggle" style="font-size: 24px;" href="#" id="navbardrop" data-toggle="dropdown" data-target="#userMenu">
+          <span class="fa fa-user"></span>
         </a>
       </li>
       <div id="userMenu" class="dropdown-menu bg-info" style="right: 0; left: auto;">
-        <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item" %>
-        <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item" %>
+        <%= link_to "View Profile", {:controller => "profile", :action => "show", :id => current_user.id}, :class => "dropdown-item white-link" %>
+        <% unless current_user.groupid==nil %>
+          <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item white-link" %>
+        <% end %>
+        <%= link_to "View Friends", {:controller => :friendships, :action => :index}, :class => "dropdown-item white-link" %>
+        <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item white-link" %>
       </div>
     </ul>
   <% else %>
     <div class="gradient-buttons">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
-        </li>
-        <li class="nav-item">
-          <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
-        </li>
+        <% unless controller.controller_name == "sessions" and controller.action_name == "new" %>
+          <li class="nav-item">
+            <%= button_to "Sign In", new_user_session_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
+          </li>
+        <% end %>
+        <% unless controller.controller_name == "registrations" and controller.action_name == "new" %>
+          <li class="nav-item">
+            <%= button_to "Sign Up", new_user_registration_path, :method => 'get', :type => 'button', :class => 'btn btn-md btn-primary' %>
+          </li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 <% end %>
-  <!-- This adds the fgroup png:Added by Jake -->
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-<%= yield %>
-<% if user_signed_in? %>
-  <br>
-  <%= render 'shared/links' %>
-<% end %>
+<div class="godown-60" id="godown">
+    <!-- This adds the fgroup png:Added by Jake -->
+    <p class="notice text-center"><%= notice %></p>
+    <p class="alert text-center"><%= alert %></p>
+  <%= yield %>
+  <% if user_signed_in? %>
+    <%= render 'shared/links' %>
+  <% end %>
+</div>
 </body>
 </html>

@@ -1,0 +1,32 @@
+
+<br>
+<br>
+
+<h1 class="text-center">All Conversations</h1>
+
+<center><hr />
+
+Inbox (<%= current_user.mailbox.inbox.unread(current_user).count %> ) |
+All Conversations (<%= current_user.mailbox.conversations.unread(current_user).count %> ) |
+Sent (<%= current_user.mailbox.sentbox.unread(current_user).count %> ) |
+Trash (<%= current_user.mailbox.trash.unread(current_user).count %> )
+
+<hr /></center>
+
+<p class="text-center">
+    Total: <%= @conversations.count %> 
+</p>
+
+
+<% @conversations.each do |conversation| %>
+    <div>
+        <% if conversation.is_unread?(current_user) %>
+            <strong><center><%= link_to conversation.subject, conversation_path(conversation) %></center></strong>
+        <% else %>
+            <center><%= link_to conversation.subject, conversation_path(conversation) %></center>
+        <% end %>
+        
+    </div>
+<% end %>
+<br>
+<center class="gradient-buttons"><%= button_to "New Conversation", new_conversation_path, :type => 'submit', :method => 'get', :class => 'btn btn-md btn-primary' %></center>

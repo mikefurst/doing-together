@@ -32,4 +32,14 @@ class Group < ApplicationRecord
         return n
     end
     
+    def admin
+        return User.find(self.adminid)
+    end
+    
+    def lastFivePosts
+        @posts = ForumPost.select {|fp|
+            (fp.groupID == self.id) and (fp.isOTP)
+        }.sort {|a,b| b.created_at <=> a.created_at }[0..4]
+    end
+    
 end

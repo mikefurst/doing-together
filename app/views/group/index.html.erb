@@ -5,13 +5,18 @@
             <% if @groups.blank? %>
                 <H3>There are currently no groups.</H3>
             <% else %>
-                <div class="justify-content-center text-center data-center">
-                    <input type="text" id="groupSearchInput" class="searchBar" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
-                    <select id='groupSearchSelect' class='selectBar' onchange="groupSearch()">
-                        <option>Group Name</option>
-                        <option>Group Description</option>
-                        <option>Number of Members</option>
-                    </select>
+                <div class="input-group input-group-lg mb-3 justify-content-center">
+                    <input type="text" id="groupSearchInput" class="searchBar bg-success" style="color: white; border: 0px;" onkeyup="groupSearch()" placeholder="Search for a group..." title="Search here">
+                    <div class="input-group-append">
+                        <select id='groupSearchSelect' class='selectBar bg-success' style="color: white; border: 0px;" onchange="groupSearch()">
+                            <option>Group Name</option>
+                            <option>Group Description</option>
+                            <option>Number of Members</option>
+                        </select>
+                        <% unless current_user.isAdmin %>
+                        <button type="button" class="btn btn-success" style="border: 0px;" data-toggle="modal" data-target="#newGroupModal"><i class="fa fa-plus"></i></button>
+                        <% end %>
+                    </div>
                 </div>
                 <table id="grouptable" class="table table-hover table-bordered table-condensed text-center">
                     <thead class="thead-light">
@@ -31,14 +36,18 @@
                                         <td class="text"><%= group.description %></td>
                                         <td><%= group.numMembers %></td>
                                         <td>
-                                            <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                            <div class="gradient-buttons">
+                                                <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                            </div>
                                         </td>
                                     <% else %>
                                         <td class="name"><%= link_to group.name, {:action => 'view', :id => group.id} %></td>
                                         <td><%= group.description %></td>
                                         <td><%= group.numMembers %></td>
                                         <td>
-                                            <%= button_to "Leave", {:controller => 'group', :action =>'leave', :id => group.id}, :method => 'patch', :data => {:confirm => "Are you sure you want to leave #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                            <div class="gradient-buttons">
+                                                <%= button_to "Leave", {:controller => 'group', :action =>'leave', :id => group.id}, :method => 'patch', :data => {:confirm => "Are you sure you want to leave #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                            </div>
                                         </td>
                                     <% end %>
                                 </tr>
@@ -49,28 +58,70 @@
                                     <td><%= group.numMembers %></td>
                                     <td>
                                         <% if current_user.isAdmin %>
-                                            <%= button_tag "Join", :class =>"btn btn-lg btn-primary", :type => 'button', :data => {:toggle => "modal", :target => "#joinModal#{group.id}"}, :disabled => true%>
+                                            <div class="gradient-buttons">
+                                                <%= button_tag "Join", :class =>"btn btn-lg btn-success", :type => 'button', :disabled => true %>
+                                            </div>
+                                        <% elsif current_user.pendingInvite(group.id) %>
+                                            <div class="gradient-buttons">
+                                                <%= button_tag "Join", :class =>"btn btn-lg btn-success", :type => 'button', :disabled => true %>
+                                            </div>
                                         <% else %>
-                                            <%= button_tag "Join", :class =>"btn btn-lg btn-primary", :type => 'button', :data => {:toggle => "modal", :target => "#joinModal#{group.id}"} %>
+                                            <div class="gradient-buttons">
+                                                <%= button_tag "Join", :class =>"btn btn-lg btn-success", :type => 'button', :data => {:toggle => "modal", :target => "#joinModal#{group.id}"} %>
+                                            </div>
                                         <% end %>
                                     </td>
                                 </tr>
                                 <%= content_tag :div, :class => "modal fade", :id => "joinModal#{group.id}" do %>
                                     <div class="modal-dialog">
-                                        <div class="modal-content">
+                                        <div class="modal-content bg-info">
                                             <div class="modal-header">
                                                 <h4 class="modal-title">Join Group: <%= group.name %></h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
                                                 <H3><%= group.description %></H3>
-                                                <%= form_for group, :url => {:action => 'join', :id => group.id} do |g| %>
-                                                    <p>Enter Group Password to Join: <%= g.password_field 'password', :id => "group_password_#{group.id}"%></p>
+                                                <br>
+                                                <p>If you know the password, you can 
+                                                    <%= content_tag :a, :href => "#joinPasswordCollapse#{group.id}", :class => "white-link", :data => {:toggle => "collapse"} do %>
+                                                        enter it to join
+                                                    <% end %>
+                                                .</p>
+                                                <p>If you do not know the password, you can 
+                                                    <%= content_tag :a, :href => "#joinMessageCollapse#{group.id}", :class => "white-link", :data => {:toggle => "collapse"} do %>
+                                                        request to join
+                                                    <% end %>
+                                                .</p>
+                                                <%= content_tag :div, :id => "joinPasswordCollapse#{group.id}", :class => "collapse" do %>
                                                     <br>
-                                                    <button type="submit" class='btn btn-lg btn-primary'>Join Group</button>
+                                                    <br>
+                                                    <div class="card bg-info justify-content-center">
+                                                        <div class="card-body justify-content-center text-center data-center block-center">
+                                                            <%= form_for group, :url => {:action => 'join', :id => group.id} do |g| %>
+                                                                <div class="input-group w-100">
+                                                                    <%= g.password_field 'password', :class => "form-control", :placeholder => "Enter Group Password to Join", :id => "group_password_#{group.id}", :required => 'true'%>
+                                                                    <div class="input-group-append gradient-buttons">
+                                                                        <%= g.submit "Join", :class => "btn form-control btn-primary" %>
+                                                                    </div>
+                                                                </div>
+                                                            <% end %>
+                                                        </div>
+                                                    </div>
+                                                <% end %>
+                                                <%= content_tag :div, :id => "joinMessageCollapse#{group.id}", :class => "collapse" do %>
+                                                    <br>
+                                                    <br>
+                                                    <div class="card bg-info justify-content-center">
+                                                        <div class="card-body justify-content-center text-center data-center block-center">
+                                                            <%= content_tag :form, :name => "#{group.id}" do %>
+                                                                <%= content_tag :textarea, :id => "joinMessage#{group.id}", :class => "form-control", :placeholder => "Enter a message for the group administrator so they know why to let you in." do %><% end %>
+                                                                <button type="button" onclick="submitRequestToJoin(<%= group.id %>)" class="btn form-control btn-primary">Request To Join</button>
+                                                            <% end %>
+                                                        </div>
+                                                    </div>
                                                 <% end %>
                                             </div>
-                                            <div class="modal-footer">
+                                            <div class="modal-footer gradient-buttons">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
@@ -90,6 +141,7 @@
         </div>
     </div>
 </div>
+<% unless current_user.isAdmin %>
 <div class="gradient-buttons text-center">
     <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#newGroupModal">Create New Group</button>
 </div>
@@ -97,7 +149,7 @@
 
 <div id="newGroupModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-info">
     
           <div class="modal-header">
             <h4 class="modal-title">Create New Group</h4>
@@ -153,10 +205,11 @@
                 </div>
           </div>
     
-          <div class="modal-footer">
+          <div class="modal-footer gradient-buttons">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
 
     </div>
   </div>
 </div>
+<% end %>

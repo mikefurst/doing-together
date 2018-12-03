@@ -1,109 +1,169 @@
-<div class="group_controller">
+<div class="group_controller text-center justify-content-center">
     <H1 class='pagetitle'>Admin Page for <%= @group.name %>.</H1>
     <br>
     <div class="container">
-        <div class='groupcontainer'>
-            <div id="collapsableGroupContainer" class="collapse">
-                <H2 class='pagetitle'>Edit Group</H2>
-                <br>
-                <center>
-                    <table id="groupAdminTable" class="table table-hover table-bordered table-condensed">
-                        <thead class="thead-light">
-                            <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupAdminTable')" href="javascript:void(0);">Member Name</a></th>
-                            <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupAdminTable')" href="javascript:void(0);">Member Score</a></th>
-                            <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupAdminTable',false,true)" href="javascript:void(0);">Last Activity</a></th>
-                            <th>            </th>
-                            <th>            </th>
-                        </thead>
-                        <tbody>
-                            <% @users.each do |user| %>
-                                <% if user.id == current_user.id %>
-                                    <tr class="curgroup">
-                                        <td><%= user.full_name %></td>
-                                        <td><%= @scores[user.id] %></td>
-                                        <% if user.lastActivity == nil %>
-                                            <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
-                                        <% else %>
-                                            <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
-                                            <% end %>
-                                        <% end %>
-                                        <td>You are already the group admin</td>
-                                        <td></td>
-                                    </tr>
-                                <% else %>
-                                    <tr>
-                                        <td><%= user.full_name %></td>
-                                        <td><%= @scores[user.id] %></td>
-                                        <% if user.lastActivity == nil %>
-                                            <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
-                                        <% else %>
-                                            <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
-                                            <% end %>
-                                        <% end %>
-                                        <td>
-                                            <div class="gradient-buttons">
-                                                <%= button_to "Make Group Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.full_name} the admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-primary' %>
-                                            </div>
-                                        </td>
-                                        <td>
-                                           <div class="gradient-buttons">
-                                               <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.full_name} from #{@group.name}? This will remove you as group admin."}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
-                                           </div> 
-                                        </td>
-                                    </tr>
-                                <% end %>
-                            <% end %>
-                        </tbody>
-                    </table>
-                </center>
+        <div class="card bg-info text-center">
+            <div class="card-header" data-target="#collapsableGroupContainer" data-toggle="collapse" >
+                <H4>View and Edit Group Members</H4>
             </div>
-            <button type="button" class="btn btn-large btn-primary" data-toggle="collapse" data-target="#collapsableGroupContainer">View Group Members</button>
-            <br>
-            <br>
-            <br>
-            <div id="messageContainer">
-                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
-                <div class="row">
-                        <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+            <div id="collapsableGroupContainer" class="collapse">
+                <div class="card-body justifiy-content-center">
+                    <table id="groupAdminTable" class="table table-hover table-striped table-condensed">
+                            <thead class="thead-info">
+                                <th><a class="UP" onclick="sortGroupTableByColumn(0,'groupAdminTable')" href="javascript:void(0);">Member Name</a></th>
+                                <th><a class="UP" onclick="sortGroupTableByColumn(1,'groupAdminTable')" href="javascript:void(0);">Member Score</a></th>
+                                <th><a class="UP" onclick="sortGroupTableByColumn(2,'groupAdminTable',false,true)" href="javascript:void(0);">Last Activity</a></th>
+                                <th>            </th>
+                                <th>            </th>
+                            </thead>
                             <tbody>
-                                <% @messages.each do |msg|%>
-                                    <tr>
-                                        <% if msg.userid == current_user.id %>
-                                            <td class="username">You:</td>
-                                        <% else %>
-                                            <td class="username"><%= msg.userName%></td>
-                                        <% end %>
-                                        <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
-                                    </tr>
+                                <% @users.each do |user| %>
+                                    <% if user.id == current_user.id %>
+                                        <tr class="curgroup">
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
+                                            <td><%= @scores[user.id] %></td>
+                                            <% if user.lastActivity == nil %>
+                                                <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                            <% else %>
+                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <% end %>
+                                            <% end %>
+                                            <td>You are already the group admin</td>
+                                            <td></td>
+                                        </tr>
+                                    <% else %>
+                                        <tr>
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
+                                            <td><%= @scores[user.id] %></td>
+                                            <% if user.lastActivity == nil %>
+                                                <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                            <% else %>
+                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
+                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <% end %>
+                                            <% end %>
+                                            <td>
+                                                <div class="gradient-buttons">
+                                                    <%= button_to "Make Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.first_name} the admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-sm btn-primary' %>
+                                                </div>
+                                            </td>
+                                            <td>
+                                               <div class="gradient-buttons">
+                                                   <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.first_name} from #{@group.name}? This will remove you as group admin."}, :type => 'button', :class => 'btn btn-sm btn-danger' %>
+                                               </div> 
+                                            </td>
+                                        </tr>
+                                    <% end %>
                                 <% end %>
                             </tbody>
                         </table>
                 </div>
-            </div>
-            <div class="input-group">
-                <input type="text" class="form-control" id="messageInput">
-                <div class="input-group-append gradient-buttons">
-                    <button type="button" class="btn btn-md btn-primary" onclick="submitMessage()">Submit Message</button>
+                <div class="card-footer gradient-buttons">
+                    <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#inviteMemberModal">
+                        Invite a Member
+                    </button>
                 </div>
             </div>
-            <br>
-            <br>
-            <br>
-            <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
-                <p>Group Name: <%= g.text_field 'name', :value => @group.name, :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %></p>
-                <p>Group Description: <%= g.text_field 'description', :value => @group.description, :maxlength => @maximumDescriptionLength, :minlength => @minimumDescriptionLength, :size => 50, :required => true %></p>
-                <p>Group Password (Leave blank if you do not wish to change): <%= g.password_field 'password', :size => 50%></p>
-                <br>
-                <div class = "gradient-buttons">
-                    <button type="submit" class='btn btn-lg btn-primary'>Submit Changes</button>
+        </div>
+        <div class="card bg-info text-center">
+            <div class="card-header" data-target="#messageCollapseCard" data-toggle="collapse">
+                <H4 class="justify-content-center">Messages for <%= @group.name %></H4>
+            </div>
+            <div id="messageCollapseCard" class="collapse">
+                <div id="messageContainer" class="card-body">
+                    <div class="row">
+                            <table id="messageTable" class="table table-striped table-hover table-borderless table-sm">
+                                <tbody>
+                                    <% @messages.each do |msg|%>
+                                        <tr>
+                                            <% if msg.userid == current_user.id %>
+                                                <td class="username">You:</td>
+                                            <% else %>
+                                                <td class="username"><%= msg.userName%></td>
+                                            <% end %>
+                                            <td class="message col-sm-10 text-sm-left"><%= msg.message %></td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                    </div>
                 </div>
-            <% end %>
-            <br>
-            <p class='delete'>
-                <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => @group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
-            </p>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="messageInput">
+                        <div class="input-group-append gradient-buttons">
+                            <button type="button" id="messageSubmit" class="btn btn-md btn-light" onclick="submitMessage()">Submit Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-info text-center">
+            <div class="card-header" data-target="#collapseEditCard" data-toggle="collapse">
+                <H4>Edit Settings For <%= @group.name %></H4>
+            </div>
+            <div id="collapseEditCard" class="collapse">
+                <div class="card-body">
+                    <%= form_for @group, :url => {:action => 'update', :id => @group.id} do |g| %>
+                        <p>Group Name: <%= g.text_field 'name', :value => @group.name, :maxlength => @maximumNameLength, :minlength => @minimumNameLength, :size => 50, :required => true %></p>
+                        <p>Group Description: <%= g.text_field 'description', :value => @group.description, :maxlength => @maximumDescriptionLength, :minlength => @minimumDescriptionLength, :size => 50, :required => true %></p>
+                        <p>Group Password (Leave blank if you do not wish to change): <%= g.password_field 'password', :size => 50%></p>
+                        <br>
+                        <div class = "gradient-buttons">
+                            <button type="submit" class='btn btn-lg btn-primary'>Submit Changes</button>
+                        </div>
+                    <% end %>
+                </div>
+                <div class="card-footer gradient-buttons">
+                    <%= button_to "Delete Group", {:controller => 'group', :action =>'delete', :id => @group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{@group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%= link_to "View Group Forum", {:controller => "forum_post", :action => "list"} %>
+</div>
+
+<div id="inviteMemberModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-info">
+            <div class="modal-header">
+                <H2>Invite a user to join your group</H2>
+                <div class="gradient-buttons">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="createNewInvite()">
+                    <div class="form-group">
+                        <label for="userEmail">
+                            Enter email address of user you would like to invite
+                        </label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="userEmail">
+                            <div class="input-group-append gradient-buttons">
+                                <button type="button" class="btn btn-light" onclick="checkEmail()" id="emailButton">
+                                    Check Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inviteMessage">
+                            Message for the user
+                        </label>
+                        <textarea class="form-control" rows="5" id="inviteMessage">
+%username%,
+Come join our group to engage in activities together. </textarea>
+                    </div>
+                    <div class="form-group gradient-buttons justify-content-center block-center text-center data-center">
+                        <button id="createInviteButton" type="button" data-dismiss="modal" onclick="createNewInvite()" class="btn btn-primary" disabled>Send Invite</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer gradient-buttons">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

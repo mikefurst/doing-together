@@ -5,6 +5,30 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:facebook, :google_oauth2]
          
+         
+	has_many :friendships,   dependent: :destroy
+	has_many :received_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
+
+  has_many :passive_friends, -> { where(friendships: { accepted: true}) }, through: :received_friendships, source: :user
+  has_many :active_friends, -> { where(friendships: { accepted: true}) }, :through => :friendships, :source => :friend
+  has_many :requested_friendships, -> { where(friendships: { accepted: false}) }, through: :received_friendships, source: :user
+  has_many :pending_friends, -> { where(friendships: { accepted: false}) }, :through => :friendships, :source => :friend
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, -> { where(friendships: { accepted: true}) }, :through => :inverse_friendships, :source => :user
+
+	def friends
+	  active_friends | received_friendships
+	end
+
+	def pending
+		pending_friends | requested_friendships
+	end
+
+         
+  acts_as_messageable
+         
+  serialize :friends
+  
   validates :first_name,
     presence: true,
     on: :create,
@@ -22,6 +46,10 @@ class User < ApplicationRecord
     
   def full_name
     return self.first_name << " " << self.last_name
+  end
+  
+  def mailboxer_email(object)
+    nil
   end
   
   def score
@@ -106,7 +134,7 @@ class User < ApplicationRecord
       password = Devise.friendly_token[0,20]
       user = User.create(:first_name => data[:first_name], :last_name => data[:last_name], :email => data["email"],
       :password => password, :password_confirmation => password)
-      end
+    end
     return user
   end
   
@@ -116,6 +144,31 @@ class User < ApplicationRecord
         user.email = data["email"] if user.email.blank?
       end
     end
+  end
+  
+  def hasInvite
+    return GroupInvite.select{|grpInv| grpInv.targetID == self.id}.length > 0
+  end
+  def pendingInvite(grpId)
+    return GroupInvite.select {|grpInv| grpInv.creatorID==self.id and grpInv.groupID == grpId}.length > 0
+  end
+  def hasVotedOn(fPostId)
+    @votes = Vote.select {|v|
+      v.postID == fPostId and v.creatorID == self.id
+    }
+    return @votes.first
+  end
+  
+  def isFriend(userID)
+    if self.friends.include? User.find(userID) or self.pending_friends.include? User.find(userID)
+      return true
+    else
+      return false
+    end
+  end
+  
+  def group
+    return Group.find(self.groupid)
   end
   
 end

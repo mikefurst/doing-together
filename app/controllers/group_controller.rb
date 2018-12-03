@@ -11,7 +11,10 @@ class GroupController < ApplicationController
         @templates = {
             :None => "Use no template. This is for groups who want to make all of their own activites.",
             :General_Fitness => "A template for groups who are trying to get fit and healthy. Contains some basic activities for getting healthy.",
-            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. "
+            :Reading => "A template for groups who are trying to read more. This includes some activities that are scored based on how long one reads, to be more reader friendly. ",
+            :Housework_and_Cleaning => "A template for groups who focused on doing more around the house. Contains basic chores and things you can do around the house. ",
+            :Trying_New_Things => "A template for groups who value trying new things. This includes some activities that are focused around trying new things like learning a language or a new instrument.",
+            :Aerobic_Fitness => "A template for groups who want to be healthy and undergo some intense workouts. Contains some basic activities for basic aerobic activies."
         }
     end
     def new
@@ -113,6 +116,119 @@ class GroupController < ApplicationController
                     {
                         :name => "Reading Magazine Articles",
                         :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Housework_and_Cleaning"
+                activitytypelist = [
+                    {
+                        :name => "Wash Dishes",
+                        :score => 1.4
+                    },
+                    {
+                        :name => "Do the Laundry",
+                        :score => 2.25
+                    },
+                    {
+                        :name => "Mow the Lawn",
+                        :score => 3.6
+                    },
+                    {
+                        :name => "Dust a Room",
+                        :score => 1
+                    },
+                    {
+                        :name => "Vacuum a Room",
+                        :score => 1.05
+                    },
+                    {
+                        :name => "Clean Bathroom",
+                        :score => 2.4
+                    },
+                    {
+                        :name => "Mop a Room",
+                        :score => 1.1
+                    },
+                    {
+                        :name => "Clean Fans",
+                        :score => 1.15
+                    },
+                    {
+                        :name => "Take Out Trash",
+                        :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Trying_New_Things"
+                activitytypelist = [
+                    {
+                        :name => "Practice Foreign Language",
+                        :score => 2
+                    },
+                    {
+                        :name => "Begin Learning New Foreign Language",
+                        :score => 4
+                    },
+                    {
+                        :name => "Practice Instrument",
+                        :score => 2
+                    },
+                    {
+                        :name => "Begin Learning New Instrument",
+                        :score => 4
+                    },
+                    {
+                        :name => "Write Short Story",
+                        :score => 2
+                    },
+                    {
+                        :name => "Write Poetry",
+                        :score => 1
+                    },
+                    {
+                        :name => "Paint a Picture",
+                        :score => 2
+                    },
+                    {
+                        :name => "Sew",
+                        :score => 1.5
+                    },
+                    {
+                        :name => "Practice Singing",
+                        :score => 3
+                    },
+                    {
+                        :name => "Practice Juggling",
+                        :score => 1
+                    }
+                ]
+            elsif group_params[:template] == "Aerobic_Fitness"
+                activitytypelist = [
+                    {
+                        :name => "Walking",
+                        :score => 1
+                    },
+                    {
+                        :name => "Slide Aerobics",
+                        :score => 2
+                    },
+                    {
+                        :name => "Step Aerobics",
+                        :score => 3
+                    },
+                    {
+                        :name => "Water Aerobics",
+                        :score => 2.5
+                    },
+                    {
+                        :name => "Jogging",
+                        :score => 1.75
+                    },
+                    {
+                        :name => "Bicycling",
+                        :score => 2.15
+                    },
+                    {
+                        :name => "Swimming",
+                        :score => 2
                     }
                 ]
             end
@@ -307,7 +423,7 @@ class GroupController < ApplicationController
         @messageText = params[:message]
         @message = GroupMessage.create(:userid => current_user.id, :groupid => current_user.groupid, :message => @messageText)
         @message.message = @messageText
-        unless @messageText==nil or @messageText=="" or @messageText.length > 140
+        unless @messageText==nil or @messageText=="" or @messageText.length > 140 or @messageText.length <= 0
             @message.save!
         end
     end
@@ -324,6 +440,190 @@ class GroupController < ApplicationController
         else
             render :status => "200", :json => @messages[0].getNewMessageJSON(current_user.id)
             session["last-message"] = @messages[0].timeAsInt
+        end
+    end
+    
+    def verifyUser(email)
+        if email==nil
+            return "Invalid Email Entry"
+        else
+            @user = User.find_for_authentication(:email => email)
+            if @user == nil
+                return "User does not exist"
+            end
+            unless @user.groupid == nil
+                if @user.groupid == current_user.groupid
+                    return "User is already a member of the group"
+                else
+                    return "User is already a member of a group"
+                end
+            end
+        end
+        @invites = GroupInvite.select {|gInv|
+            gInv.groupID == current_user.groupid and gInv.targetID==@user.id
+        }
+        unless @invites.blank?
+            return "User has already been invited"
+        end
+        return "User can be invited"
+    end
+    
+    def verifyUserCanBeAddedToGroup
+        @check = verifyUser(params[:userEmail])
+        render :status => "200", :text => @check
+    end
+    
+    def requestNewInvite
+        unless params[:groupID] == nil or params[:message] == nil or params[:message].length < 1
+            @group = Group.find(params[:groupID])
+            @message = GroupInvite.create(:groupID => params[:groupID], :targetID => @group.adminid, :message => params[:message], :toJoin => false, :creatorID => current_user.id)
+            if @message.save
+                render :status => "200", :text => "Success"
+            else
+                render :status => "200", :text => "Failure"
+            end
+        else
+            render :status => "200", :text => "Failure"
+            return
+        end
+    end
+    
+    def createNewInvite
+        unless current_user.isAdmin or params[:email]==nil or params[:message] == nil or params[:message].length < 1
+            render :status => "200", :text => "Failure"
+            return
+        end
+        @check = verifyUser(params[:email])
+        if @check == "User can be invited"
+            @user = User.find_for_authentication(:email => params[:email])
+            @message = GroupInvite.create(:groupID => current_user.groupid, :targetID => @user.id, :message => params[:message], :toJoin => true, :creatorID => current_user.id)
+            if @message.save
+                render :status => "200", :text => "Success"
+            else
+                render :status => "200", :text => "Failure"
+            end
+        else
+            render :status => "200", :text => @check
+            return
+        end
+    end
+    def getInviteMessage
+        unless user_signed_in?
+            render :status => '200', :text => 'BAD'
+            return
+        else
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            if @invites.blank?
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            unless current_user.groupid == nil or current_user.isAdmin
+                @invites.each {|inv|
+                    inv.delete
+                }
+                render :status => '200', :text => 'BAD'
+                return
+            end
+            if current_user.isAdmin
+                @invites.each {|inv|
+                    if inv.toJoin 
+                        inv.delete
+                    end
+                }
+            end
+            @invites.sort {|a,b| 
+                a.created_at <=> b.created_at
+            }
+            render :status => '200', :json => @invites[0].makeJSON;
+        end
+    end
+    def rejectInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        if @invite.delete
+            render :status => '200', :text => 'SUCCESS_R'
+        else
+            render :status => '200', :text => 'FAILURE_R'
+        end
+    end
+    def acceptInvite
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_R'
+            return
+        end
+        @group = Group.find(@invite.groupID)
+        if @group == nil
+            render :status => '200', :text => 'FAILURE_R'
+        end
+        current_user.groupid = @group.id
+        if current_user.save
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.targetID == current_user.id
+            }
+            @invites.each {|inv|
+                inv.delete
+            }
+            render :status => '200', :text => 'SUCCESS_A'
+        else
+            render :status => '200', :text => 'FAILURE_R'
+        end
+    end
+    def acceptRequest
+         if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_0'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_0'
+            return
+        end
+        @group = Group.find(@invite.groupID)
+        if @group == nil
+            render :status => '200', :text => 'FAILURE_0'
+        end
+        @user = User.find(@invite.creatorID)
+        @user.groupid = @group.id
+        if @user.save
+            @invites = GroupInvite.select{ |grpInv|
+                grpInv.creatorID == @user.id or grpInv.targetID == @user.id
+            }
+            @invites.each {|inv|
+                inv.delete
+            }
+            render :status => '200', :text => 'SUCCESS_0'
+        else
+            render :status => '200', :text => 'FAILURE_0'
+        end
+    end
+    def rejectRequest
+        if params[:inviteID] == nil
+            render :status => '200', :text => 'FAILURE_1'
+            return
+        end
+        @invite = GroupInvite.find(params[:inviteID])
+        if @invite == nil
+            render :status => '200', :text => 'FAILURE_1'
+            return
+        end
+        if @invite.delete
+            render :status => '200', :text => 'SUCCESS_1'
+        else
+            render :status => '200', :text => 'FAILURE_1'
         end
     end
 end
