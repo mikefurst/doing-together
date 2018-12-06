@@ -9,12 +9,15 @@
             <% unless @user.id == current_user.id %>
                 <%= link_to "Send Message", new_conversation_path(:user => @user.id) %>
                 <!--  add friend button  -->
-                <% unless current_user.active_friends.include? @user or current_user.inverse_friends.include? @user %>
+                <% unless current_user.active_friends.include? @user or current_user.inverse_friends.include? @user or current_user.requested_friendships.include? @user or current_user.pending_friends.include? @user%>
                     <%= link_to "Add Friend", friendships_path(:friend_id => @user), :method => :post %>
                 <!--  add friend button  --> 
                 <% else %>
                     <!-- ADD DELETE BUTTON -->
                     <!-- ADD REMOVE PENDING FRIEND BUTTON -->
+                    <% if current_user.requested_friendships.include? @user or current_user.pending_friends.include? @user %>
+                        Pending Friend Request
+                    <% end %>
                     <!-- link_to "Remove Friend", friendships_path(:friend_id => @user), :method => :delete -->
                 <% end %>
 
