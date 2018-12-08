@@ -38,7 +38,7 @@ class ProfileController < ApplicationController
             render :status => "200", :text => "FAILURE"
             return
         end
-        usr.downcase
+
         @users = User.select {|usr|
             usr.full_name.downcase.include? content or usr.email.include? content
         }
