@@ -142,6 +142,13 @@
                                     <% @act_types.each do |actType| %>
                                         <%= content_tag :option, :name => actType.name, :value => actType.id, :class => "activityOption" do%>
                                             <%= actType.name %>
+                                            
+                                            <%= form_for([post, post.comments.build]) do |f| %>
+                                                  <p>
+                                                    <%= f.text_area :body, :placeholder => "New comment", size: "15x1" %><%= f.submit id: 'create_comment'%>
+                                                  </p>
+                                            <% end %>
+                                            
                                         <% end %>
                                     <% end %>
                                 </select>
