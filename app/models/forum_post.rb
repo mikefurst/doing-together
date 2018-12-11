@@ -16,6 +16,20 @@ class ForumPost < ApplicationRecord
         self.rating = votes
         self.save
     end
+    
+    def RatingColor
+        if(self.rating == 0)
+           return "<span id=\"fpScore#{self.id}\">#{self.rating}</span>"
+        end
+        if(self.rating > 0)
+            return "<span id=\"fpScore#{self.id}\" class=\"green-link\">#{self.rating}</span>"
+        end
+        if(self.rating < 0)
+            return "<span id=\"fpScore#{self.id}\" class=\"red-link\">#{self.rating}</span>"
+        end
+        
+        
+    end
     def getOTP
         #Get one-true-parent
         if self.parentID == nil
@@ -55,12 +69,15 @@ class ForumPost < ApplicationRecord
         el += "<div class=\"d-inline-block\">"
         unless @vote==nil or @vote.thumbsUp==false
             el += "<a href=\"javascript:void(0)\" id=\"thumbsUp#{self.id}\" class=\"fa fa-thumbs-up green-link\" onclick=\"vote(#{self.id},true)\"></a>"
+            
         else
             el += "<a href=\"javascript:void(0)\" id=\"thumbsUp#{self.id}\" class=\"fa fa-thumbs-up green-link-faded\" onclick=\"vote(#{self.id},true)\"></a>"
+            
         end
         el += "</div>"
         if(depth % 2 == 1)
-            el += "<div class=\"d-inline-block text-light\" style=\"padding-left: 20px; padding-right: 20px;\">"
+            #this is the secondary thumb color
+            el += "<div class=\"d-inline-block text-dark\" style=\"padding-left: 20px; padding-right: 20px;\">"
         else
             el += "<div class=\"d-inline-block\" style=\"padding-left: 20px; padding-right: 20px;\">"
         end
@@ -70,9 +87,12 @@ class ForumPost < ApplicationRecord
         el += "<div class=\"d-inline-block\">"
         unless @vote==nil or @vote.thumbsUp
             el += "<a href=\"javascript:void(0)\" id=\"thumbsDown#{self.id}\" class=\"fa fa-thumbs-down red-link\" onclick=\"vote(#{self.id},false)\"></a>"
+            
         else
             el += "<a href=\"javascript:void(0)\" id=\"thumbsDown#{self.id}\" class=\"fa fa-thumbs-down red-link-faded\" onclick=\"vote(#{self.id},false)\"></a>"
+        
         end
+        
         el += "</div>"
         el += "</div>"
         el += "</div>"
