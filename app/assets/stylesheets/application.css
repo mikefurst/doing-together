@@ -24,12 +24,28 @@
     color: white!important;
 }
 
+.bg-reply-color {
+  background-color: #cce6ff;
+}
+
+.bg-search-color {
+  background-color: #e62e00;
+}
+
+::placeholder {
+  color: white;
+  opacity: 2; 
+}
+
+
+
+
 .red-link {
     color: red!important;
 }
 
 .red-link-faded {
-    color: #F6CECE!important;
+    color: #ff6666!important;
 }
 
 .black-link {
@@ -40,7 +56,7 @@
     color: green!important;
 }
 .green-link-faded {
-    color: #CEF6CE!important;
+    color: #5cd65c!important;
 }
 
 .blue-link {
