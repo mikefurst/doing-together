@@ -43,7 +43,7 @@ class ForumPost < ApplicationRecord
             @d = 100
         end
         if (depth % 2 == 1)
-            el = "<div class=\"bg-secondary\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+            el = "<div class=\"bg-reply-color\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
         elsif depth == 0
             el = "<div class=\"bg-white\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
         else

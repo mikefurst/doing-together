@@ -24,6 +24,11 @@
     color: white!important;
 }
 
+.bg-reply-color {
+  background-color: #809fff;
+}
+
+
 .red-link {
     color: red!important;
 }
