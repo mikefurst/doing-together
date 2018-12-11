@@ -43,6 +43,7 @@
                 <%= content_tag :a, :href => "#addNewPostModal", :class => "blue-link", :onclick => "changeHiddenParentID(#{@post.id})", :data => {:toggle => "modal"} do %>
                     Post a Reply
                 <% end %>
+                
             </div>
         </div>
     </div>
@@ -53,6 +54,7 @@
             <%= post.getElementContainer(current_user,0).html_safe %>
         <% end %>
     <% end %>
+    
     <br>
     
 </div>
@@ -71,6 +73,7 @@
                     <%= hidden_field 'forum_post', 'parentID', :value => @post.id %>
                     <div class="form-group justify-content-center text-center gradient-buttons">
                         <button type="submit" class='btn center-block btn-primary'>Post Reply</button>
+                        
                     </div>
                 <% end %>
             </div>

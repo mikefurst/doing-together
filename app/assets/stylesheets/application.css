@@ -25,8 +25,19 @@
 }
 
 .bg-reply-color {
-  background-color: #809fff;
+  background-color: #e6faff;
 }
+
+.bg-search-color {
+  background-color: #e62e00;
+}
+
+::placeholder {
+  color: white;
+  opacity: 2; 
+}
+
+
 
 
 .red-link {

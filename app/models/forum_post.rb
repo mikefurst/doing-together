@@ -78,6 +78,7 @@ class ForumPost < ApplicationRecord
         el += "</div>"
         if(depth % 2 == 1)
             el += "<div class=\"col-10 text-light\">"
+            
         else
             el += "<div class=\"col-10\">"
         end
@@ -94,6 +95,7 @@ class ForumPost < ApplicationRecord
         el += "<a href=\"#addNewPostModal\" class=\"blue-link\" onclick=\"changeHiddenParentID(#{self.id})\" data-toggle=\"modal\">Reply</a>"
         el += "</div>"
         el += "</div>"
+        
         ForumPost.all.each {|post|
             if post.parentID==self.id
                 el += post.getElementContainer(user, depth+1)
