@@ -47,7 +47,7 @@ class ForumPost < ApplicationRecord
         elsif depth == 0
             el = "<div class=\"bg-white\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
         else
-            el = "<div class=\"bg-light\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
+            el = "<div class=\"bg-white\" style=\"padding-left: #{@d}px; padding-right: #{@d}px;\">"
         end
         el += "<div class=\"row\">"
         el += "<div class=\"col-2\">"
@@ -77,7 +77,7 @@ class ForumPost < ApplicationRecord
         el += "</div>"
         el += "</div>"
         if(depth % 2 == 1)
-            el += "<div class=\"col-10 text-light\">"
+            el += "<div class=\"col-10 text-dark\">"
             
         else
             el += "<div class=\"col-10\">"
