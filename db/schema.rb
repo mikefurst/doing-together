@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181119040736) do
+ActiveRecord::Schema.define(version: 20181206174748) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -26,6 +26,20 @@ ActiveRecord::Schema.define(version: 20181119040736) do
     t.integer "groupid"
     t.integer "userid"
     t.boolean "verified"
+  end
+
+  create_table "creat_groups", force: :cascade do |t|
+    t.string   "author"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "create_groups", force: :cascade do |t|
+    t.string   "author"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "forum_posts", force: :cascade do |t|
@@ -124,6 +138,28 @@ ActiveRecord::Schema.define(version: 20181119040736) do
     t.string   "message_id"
     t.index ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
     t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "author"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_taggings_on_post_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

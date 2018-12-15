@@ -38,8 +38,9 @@ class ProfileController < ApplicationController
             render :status => "200", :text => "FAILURE"
             return
         end
+
         @users = User.select {|usr|
-            usr.full_name.include? content or usr.email.include? content
+            usr.full_name.downcase.include? content or usr.email.include? content
         }
         @users = @users.select {|usr|
             (usr.id != current_user.id) and ((usr.isFriend(current_user)) or (usr.groupid == current_user.groupid) or (usr.isPrivate == nil or usr.isPrivate == false))
