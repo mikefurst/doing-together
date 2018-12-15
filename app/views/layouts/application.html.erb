@@ -35,9 +35,9 @@
 <% elsif controller.controller_name == "group" and controller.action_name == "index" %>
   <body onload="groupIndexPageOnLoad()" class="bg-light">
 <% elsif controller.controller_name == "group" and (controller.action_name == "view" or controller.action_name == "edit") %>
-  <body onload="registerGroupMessagingActivity()" class="bg-light">
+  <body onload="registerGroupMessagingActivity()" class="bg-light" style="padding-bottom: 65px;">
 <% else %>
-  <body class="bg-light">
+  <body class="bg-light" style="padding-bottom: 65px;">
 <% end %>
 <% if controller.controller_name == "application" or controller.controller_name == "" %>
   <% @sty = "margin-bottom: 0px;" %>
