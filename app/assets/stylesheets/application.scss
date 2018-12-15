@@ -13,12 +13,12 @@
  *= require_tree .
  *= require_self
  
- 
-
-  ADDING COMMIT HERE TO MAKE FOR COMMIT CAUSE ERRORS WERE COMMITED ELSEWHERE
-
+ *# sourceMappingURL=
  
  */
+@import "bootstrap";
+
+
 
 .white-link {
     color: white!important;
@@ -31,6 +31,7 @@
 .bg-search-color {
   background-color: #e62e00;
 }
+
 
 ::placeholder {
   color: white;

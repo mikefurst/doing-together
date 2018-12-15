@@ -24,14 +24,16 @@
             <div id="activityLogContainer">
         <% end %>
             <div class="input-group input-group-lg mb-3 justify-content-center">
-                <input type="text" id="activitySearchInput" class="searchBar bg-success" style="color: white; border: 0px;" onkeyup="activitySearch()" placeholder="Search for an entry..." title="Search here">
+                <input type="text" id="activitySearchInput" class="rounded bg-success" style="color: white; border: 0px;" onkeyup="activitySearch()" placeholder=" Search for an entry    " title="Search here">
                 <div class="input-group-append">
-                    <select id='activitySearchSelect' class='selectBar bg-success' style="color: white; border: 0px;" onchange="activitySearch()">
+                    &nbsp
+                    <select id='activitySearchSelect' class='rounded bg-success' style="color: white; border: 0px;border-radius: 0 !important;" onchange="activitySearch()">
                         <option>Activity Type</option>
                         <option>Duration</option>
                         <option>Performer</option>
                     </select>
-                    <button type="button" class="btn btn-success" style="border: 0px;" data-toggle="modal" data-target="#newActivityModal"><i class="fa fa-plus"></i></button>
+                    &nbsp
+                    <button type="button" class="btn rounded btn-success " style="border: 0px;" data-toggle="modal" data-target="#newActivityModal"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
             
