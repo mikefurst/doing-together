@@ -51,6 +51,7 @@ class ForumPost < ApplicationRecord
         end
     end
     def getElementContainer(user, depth=0)
+        self.calculateRating
         @vote = user.hasVotedOn(self.id)
         @d = 20*depth
         if 20*depth > 100
@@ -97,22 +98,30 @@ class ForumPost < ApplicationRecord
         el += "</div>"
         el += "</div>"
         if(depth % 2 == 1)
-            el += "<div class=\"col-10 text-dark\">"
+            el += "<div class=\"col-8 text-dark\">"
             
         else
-            el += "<div class=\"col-10\">"
+            el += "<div class=\"col-8\">"
         end
         el += "<p>#{self.message}</p>"
+        el += "</div>"
+        if(depth % 2 == 1)
+            el += "<div class=\"col-2 text-dark text-right\">"
+            
+        else
+            el += "<div class=\"col-2 text-right\">"
+        end
+        el += "<a href=\"/profile/show?id=#{self.getUser().id}\">#{self.getUser().full_name}&nbsp&nbsp</a>"
         el += "</div>"
         el += "</div>"
         el += "<div class=\"row\">"
         el += "<div class=\"col-6 text-left\">"
         if user.id == self.creatorID
-            el += "<a class=\"red-link\" href=\"\\forum_post\\delete?id=#{self.id}\" data-confirm=\"Are you sure you want to delete this post?\" data-method=\"delete\" rel=\"nofollow\">Delete</a>"
+            el += "<a class=\"red-link\" href=\"\\forum_post\\delete?id=#{self.id}\" data-confirm=\"Are you sure you want to delete this post?\" data-method=\"delete\" rel=\"nofollow\">Delete&nbsp&nbsp</a>"
         end
         el += "</div>"
         el += "<div class=\"col-6 text-right\">"
-        el += "<a href=\"#addNewPostModal\" class=\"blue-link\" onclick=\"changeHiddenParentID(#{self.id})\" data-toggle=\"modal\">Reply</a>"
+        el += "<a href=\"#addNewPostModal\" class=\"blue-link\" onclick=\"changeHiddenParentID(#{self.id})\" data-toggle=\"modal\">Reply&nbsp&nbsp</a>"
         el += "</div>"
         el += "</div>"
         
