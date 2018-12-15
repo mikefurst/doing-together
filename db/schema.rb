@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20181206174748) do
     t.integer  "expires_at"
     t.boolean  "expires"
     t.string   "refresh_token"
+    t.integer  "friends"
     t.boolean  "isPrivate"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
