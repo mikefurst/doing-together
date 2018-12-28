@@ -1,5 +1,5 @@
 class Activity < ActiveRecord::Base
-    after_create :registerToActToGroup
+    after_create :registerToActToGroup, :registerToActToUser
     
     def groupid
         return ActivityType.find(self.actid).groupid
@@ -84,6 +84,10 @@ class Activity < ActiveRecord::Base
     private
         def registerToActToGroup()
             @acttog = ActivityToGroup.create(:actid => self.id, :groupid => self.groupid)
+            return
+        end
+        def registerToActToUser()
+            @actotou = ActivityToUser.create(:actid => self.id, :userid => self.userid)
             return
         end
 end

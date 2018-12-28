@@ -9,6 +9,8 @@ class ActivityType < ActiveRecord::Base
         presence: true,
         on: :create,
         allow_nil: false
+    
+    after_create :registerToActivityTypetoGroup, :registerToActivityTypetoUser
         
     def getActivityTypeJSON(current_user)
         return {
@@ -20,4 +22,12 @@ class ActivityType < ActiveRecord::Base
             :selfOwned => (current_user.groupid==nil and self.userid == current_user.id)
         }
     end
+    
+    private
+        def registerToActivityTypetoGroup()
+            ActivityTypeToGroup.create(:actid => self.id, :groupid => self.groupid)
+        end
+        def registerToActivityTypetoUser()
+            ActivityTypeToUser.create(:actid => self.id, :userid => self.userid)
+        end
 end

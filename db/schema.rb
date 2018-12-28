@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181228164954) do
+ActiveRecord::Schema.define(version: 20181228201611) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -23,6 +23,21 @@ ActiveRecord::Schema.define(version: 20181228164954) do
   create_table "activity_to_groups", force: :cascade do |t|
     t.integer "actid"
     t.integer "groupid"
+  end
+
+  create_table "activity_to_users", force: :cascade do |t|
+    t.integer "actid"
+    t.integer "userid"
+  end
+
+  create_table "activity_type_to_groups", force: :cascade do |t|
+    t.integer "actid"
+    t.integer "groupid"
+  end
+
+  create_table "activity_type_to_users", force: :cascade do |t|
+    t.integer "actid"
+    t.integer "userid"
   end
 
   create_table "activity_types", force: :cascade do |t|

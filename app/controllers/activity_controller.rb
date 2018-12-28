@@ -2,32 +2,59 @@
 class ActivityController < ApplicationController
     before_action :authenticate_user!
     skip_before_action :verify_authenticity_token
-
+    
     def index
-        if current_user.groupid==nil
-            @group=nil
+        if current_user.groupid == nil
+            @a2u = ActivityToUser.select { |a|
+                a.userid == current_user.id
+            }
+            @acts = Array.new
+            @a2u.each {|a|
+                act = a.getActivity()
+                if act.groupid == nil
+                    @acts.push(act)
+                end
+            }
+            @acts.sort {|a,b| b.created_at <=> a.created_at}
+            if not @acts.blank?
+                session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
+            end
+            @at2u = ActivityTypeToUser.select {|a|
+                a.userid == current_user.id
+            }
+            @act_types = Array.new
+            @at2u.each {|a|
+                act = a.getActivityType()
+                if act.groupid == nil
+                    @act_types.push(act)
+                end
+            } 
+            @act_types.sort{ |a,b| a[:name]<=>b[:name] }
         else
-            @group = Group.find(current_user.groupid)
+            @group = current_user.group
+            @a2g = ActivityToGroup.select {|a|
+                a.groupid == @group.id
+            }
+            @acts = Array.new
+            @a2g.each { |a|
+                act = a.getActivity()
+                @acts.push(act)
+            }
+            @acts.sort {|a,b| b.created_at <=> a.created_at}
+            if not @acts.blank?
+                session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
+            end
+            @at2g = ActivityTypeToGroup.select {|a|
+                a.groupid == @group.id
+            }
+            @act_types = Array.new
+            @at2g.each {|a|
+                act = a.getActivityType()
+                @act_types.push(act)
+            } 
+            @act_types.sort{ |a,b| a[:name]<=>b[:name] }
         end
         
-        @acts=Activity.select { |a| 
-            if current_user.groupid == nil
-                a.userid == current_user.id and ActivityType.find(a.actid).groupid == nil
-            else
-                User.find(a.userid).groupid == current_user.groupid and ActivityType.find(a.actid).groupid == current_user.groupid
-            end
-        }.sort {|a,b| b.created_at <=> a.created_at}
-        if not @acts.blank?
-            session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
-        end
-        @act = Activity.new
-        @act_types = ActivityType.select { |a| 
-            if current_user.groupid == nil
-                a.userid == current_user.id
-            else
-                a.groupid == current_user.groupid and a.verified
-            end
-        }.sort{ |a,b| a[:name]<=>b[:name] }
     end
     
     def new
