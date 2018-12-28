@@ -166,15 +166,14 @@ activitytypelist = [
     }
     r = rand(100..200)
     (1..r).each {
-        @act = Activity.create()
-        while @act.actid == nil
-            @act.actid = actids[rand(0..(actids.length-1))]
+        while @actid == nil
+            @actid = actids[rand(0..(actids.length-1))]
         end
-        while @act.userid == nil
-            @act.userid = userids[rand(0..(userids.length-1))]
+        while @userid == nil
+            @userid = userids[rand(0..(userids.length-1))]
         end
-        @act.duration = rand(100..3000)/100.0
-        @act.save!
+        @duration = rand(100..3000)/100.0
+        @act = Activity.create(:actid => @actid, :userid => @userid, :duration => @duration)
     }
 }
 #Create some empty users to test adding a member to a group

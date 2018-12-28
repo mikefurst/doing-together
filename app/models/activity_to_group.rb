@@ -1,0 +1,2 @@
+class ActivityToGroup < ApplicationRecord
+end

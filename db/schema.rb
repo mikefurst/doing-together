@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181206174748) do
+ActiveRecord::Schema.define(version: 20181228164954) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -18,6 +18,11 @@ ActiveRecord::Schema.define(version: 20181206174748) do
     t.integer  "userid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "activity_to_groups", force: :cascade do |t|
+    t.integer "actid"
+    t.integer "groupid"
   end
 
   create_table "activity_types", force: :cascade do |t|
@@ -179,7 +184,6 @@ ActiveRecord::Schema.define(version: 20181206174748) do
     t.integer  "expires_at"
     t.boolean  "expires"
     t.string   "refresh_token"
-    t.integer  "friends"
     t.boolean  "isPrivate"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
