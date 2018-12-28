@@ -139,6 +139,9 @@ submitNewActivityType = () => {
     data["activitytypes"]={};
     data["activitytypes"]["name"]=actTypeName;
     data["activitytypes"]["score"]=actTypeMod;
+    data["activity_type"]={};
+    data["activity_type"]["name"]=actTypeName;
+    data["activity_type"]["score"]=actTypeMod;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 };

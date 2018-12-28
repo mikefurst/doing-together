@@ -15,7 +15,7 @@ class ActivityController < ApplicationController
                     @acts.push(act)
                 end
             }
-            @acts.sort {|a,b| b.created_at <=> a.created_at}
+            @acts.sort = @acts.sort {|a,b| b.created_at <=> a.created_at}
             if not @acts.blank?
                 session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
             end
@@ -29,7 +29,7 @@ class ActivityController < ApplicationController
                     @act_types.push(act)
                 end
             } 
-            @act_types.sort{ |a,b| a[:name]<=>b[:name] }
+            @act_types = @act_types.sort{ |a,b| a[:name]<=>b[:name] }
         else
             @group = current_user.group
             @a2g = ActivityToGroup.select {|a|
@@ -40,7 +40,7 @@ class ActivityController < ApplicationController
                 act = a.getActivity()
                 @acts.push(act)
             }
-            @acts.sort {|a,b| b.created_at <=> a.created_at}
+            @acts.sort = @acts.sort {|a,b| b.created_at <=> a.created_at}
             if not @acts.blank?
                 session["last_load_timestamp"]=@acts[0].created_at.strftime("%s")
             end
@@ -52,7 +52,7 @@ class ActivityController < ApplicationController
                 act = a.getActivityType()
                 @act_types.push(act)
             } 
-            @act_types.sort{ |a,b| a[:name]<=>b[:name] }
+            @act_types = @act_types.sort{ |a,b| a[:name]<=>b[:name] }
         end
         
     end

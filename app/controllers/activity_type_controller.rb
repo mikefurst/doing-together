@@ -5,20 +5,29 @@ class ActivityTypeController < ApplicationController
     def index
         if current_user.groupid == nil
             @groupAdminID=nil
+            @acts = ActivityTypeToUser.select { |a|
+                a.userid == current_user.id
+            }
         else
             @groupAdminID = Group.find(current_user.groupid).adminid
+            @acts = ActivityTypeToGroup.select { |a|
+                a.groupid == current_user.groupid
+            }
         end
-        @actTypes = ActivityType.select { |act|
-                if current_user.groupid==nil
-                    act.userid==current_user.id
-                else
-                    if current_user.id == @groupAdminID
-                        act.groupid==current_user.groupid
-                    else
-                        act.groupid==current_user.groupid #and act.verified
-                    end
-                end
-            }.sort{ |a,b| a[:name]<=>b[:name] }
+        @actTypes = Array.new
+        @acts.each {|a|
+            acts = a.getActivityType()
+            if current_user.groupid == nil
+                @actTypes.push(acts)
+            elsif current_user.id == @groupAdminID
+                @actTypes.push(acts)
+            elsif act.userid == current_user.id
+                @actTypes.push(acts)
+            elsif act.verified
+                @actTypes.push(acts)
+            end
+        }
+        @actTypes = @actTypes.sort{ |a,b| a[:name]<=>b[:name] }
     end
     
     def new
@@ -75,12 +84,9 @@ class ActivityTypeController < ApplicationController
                 end
             end
         }
-        @actType = ActivityType.create(acttype_params)
+        @actType = ActivityType.create(:name => acttype_params[:name], :score => acttype_param[:score], :userid => current_user.id, :groupid => current_user.groupid)
         
-        if current_user.groupid==nil
-            @actType.userid=current_user.id
-        else
-            @actType.groupid=current_user.groupid
+        unless current_user.groupid==nil
             if Group.find(current_user.groupid).adminid==current_user.id
                 @actType.verified=true
             else
