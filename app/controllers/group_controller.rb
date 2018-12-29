@@ -53,8 +53,10 @@ class GroupController < ApplicationController
         @group.adminid = current_user.id
         if @group.save!
             flash[:alert] = "You have created and been added to group " << group_params[:name]
-            current_user.groupid = @group.id
-            current_user.save!
+            @g2a = GroupToAdmin.create(:groupid => @group.id, :userid => current_user.id)
+            @g2a.save!
+            @u2g = UserToGroup.create(:userid => current_user.id, :groupid => @group.id)
+            @u2g.save!
             
             if group_params[:template] == "General_Fitness"
                 activitytypelist = [
@@ -358,20 +360,12 @@ class GroupController < ApplicationController
     end
     def join
         @group = Group.find(params[:id])
-        unless current_user.groupid==nil
-            @curGroup = Group.find(current_user.groupid)
-            if @curGroup.adminid==current_user.id
-                flash[:alert]="You cannot join another group while you are still the admin of " << @curGroup.name << "."
-                redirect_to :action => 'index'
-                return
-            end
-        end
         if @group.password == join_params[:password]
-            current_user.groupid = @group.id
-            if current_user.save!
-                if @group.adminid == nil
-                    @group.adminid = current_user.id
-                    @group.save!
+            @u2g = UserToGroup.create(:userid => current_user.id, :groupid => @group.id)
+            if @u2g.save!
+                if @group.getAdmins.length <= 0
+                    @g2a = GroupToAdmin.create(:groupid => @group.id, :userid => current_user.id)
+                    @g2a.save
                 end
                 flash[:alert]="You have now joined the group: " << @group.name << "."
             else
@@ -386,8 +380,13 @@ class GroupController < ApplicationController
         end
     end
     def leave
-        current_user.groupid=nil
-        current_user.save!
+        @id = params[:id]
+        @u2g = UserToGroup.select {|u|
+            u.groupid == @id and u.userid == current_user.id
+        }
+        @u2g.each {|u|
+            u.delete!
+        }
         flash[:alert]="You have left the group."
         redirect_to :action => 'index'
     end

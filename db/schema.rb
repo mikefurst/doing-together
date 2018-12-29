@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181228201611) do
+ActiveRecord::Schema.define(version: 20181229230452) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "actid"
@@ -99,11 +99,17 @@ ActiveRecord::Schema.define(version: 20181228201611) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "group_to_admins", force: :cascade do |t|
+    t.integer  "groupid"
+    t.integer  "userid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "groups", force: :cascade do |t|
-    t.string  "name"
-    t.string  "description"
-    t.string  "password_hash"
-    t.integer "adminid"
+    t.string "name"
+    t.string "description"
+    t.string "password_hash"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
@@ -182,6 +188,13 @@ ActiveRecord::Schema.define(version: 20181228201611) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_to_groups", force: :cascade do |t|
+    t.integer  "userid"
+    t.integer  "groupid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -192,7 +205,6 @@ ActiveRecord::Schema.define(version: 20181228201611) do
     t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "groupid"
     t.string   "provider"
     t.string   "uid"
     t.string   "token"

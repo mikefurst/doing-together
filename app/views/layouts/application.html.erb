@@ -94,7 +94,7 @@
       </li>
     <% end %>
     <% if user_signed_in? %>
-      <% unless current_user.groupid == nil %>
+      <% unless current_user.getGroups().length <= 0 %>
         <% @class = "nav-item" %>
         <% if controller.controller_name == "forum_post" %>
           <% @class += " active" %>
@@ -123,8 +123,8 @@
       </li>
       <div id="userMenu" class="dropdown-menu bg-info" style="right: 0; left: auto;">
         <%= link_to "View Profile", {:controller => "profile", :action => "show", :id => current_user.id}, :class => "dropdown-item white-link" %>
-        <% unless current_user.groupid==nil %>
-          <%= link_to "View #{current_user.groupName}", {:controller => "group", :action => "view", :id => current_user.groupid}, :class => "dropdown-item white-link" %>
+        <% current_user.getGroups().each do |grp| %>
+          <%= link_to "View #{grp.name}", {:controller => "group", :action => "view", :id => grp.id}, :class => "dropdown-item white-link" %>
         <% end %>
         <%= link_to "View Friends", {:controller => :friendships, :action => :index}, :class => "dropdown-item white-link" %>
         <%= link_to "Sign Out", destroy_user_session_path, :method => 'delete', :class => "dropdown-item white-link" %>

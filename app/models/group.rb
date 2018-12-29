@@ -23,17 +23,17 @@ class Group < ApplicationRecord
     end
     
     def numMembers
-        n = 0
-        User.all.each {|user|
-            if user.groupid == self.id
-                n += 1
-            end
+        @u2g = UserToGroup.select {|u|
+            u.groupid == self.id
         }
-        return n
+        return @u2g.length
     end
     
-    def admin
-        return User.find(self.adminid)
+    def getAdmins()
+        @g2a = GroupToAdmin.select {|g|
+            g.groupid == self.id
+        }
+        return @g2a
     end
     
     def lastFivePosts

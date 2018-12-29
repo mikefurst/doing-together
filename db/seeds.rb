@@ -153,8 +153,9 @@ activitytypelist = [
         end
         email = first_name[0] << last_name << rand(11..1111).to_s()<< "@dotgthr.com"
         @user = User.create(:first_name => first_name, :last_name => last_name, :email => email, :password => 'Password')
-        @user.groupid = @group.id
         @user.save!
+        @u2g = UserToGroup.create(:userid => @user.id, :groupid => @group.id)
+        @u2g.save!
         userids.push(@user.id)
     }
     activitytypelist.each { |atype|

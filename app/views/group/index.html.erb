@@ -15,9 +15,7 @@
                             <option>Number of Members</option>
                         </select>
                         &nbsp
-                        <% unless current_user.isAdmin %>
                         <button type="button" class="btn rounded btn-success" style="border: 0px;" data-toggle="modal" data-target="#newGroupModal"><i class="fa fa-plus"></i></button>
-                        <% end %>
                     </div>
                 </div>
                 <table id="grouptable" class="table table-hover table-bordered table-condensed text-center">
@@ -31,9 +29,9 @@
                     </thead>
                     <tbody class="justify-content-center text-center">
                         <% @groups.each do |group| %>
-                            <% if group.id == current_user.groupid %>
+                            <% if current_user.inGroup(group.id) %>
                                 <tr class="curgroup">
-                                    <% if group.adminid == current_user.id %>
+                                    <% if current_user.isAdmin(group.id) %>
                                         <td class="name"><%= link_to group.name, {:action => 'edit', :id => group.id} %></td>
                                         <td class="text"><%= group.description %></td>
                                         <td><%= group.numMembers %></td>
@@ -59,11 +57,7 @@
                                     <td><%= group.description %></td>
                                     <td><%= group.numMembers %></td>
                                     <td>
-                                        <% if current_user.isAdmin %>
-                                            <div class="gradient-buttons">
-                                                <%= button_tag "Join", :class =>"btn btn-lg btn-success", :type => 'button', :disabled => true %>
-                                            </div>
-                                        <% elsif current_user.pendingInvite(group.id) %>
+                                        <% if current_user.pendingInvite(group.id) %>
                                             <div class="gradient-buttons">
                                                 <%= button_tag "Join", :class =>"btn btn-lg btn-success", :type => 'button', :disabled => true %>
                                             </div>
@@ -143,7 +137,8 @@
         </div>
     </div>
 </div>
-<% unless current_user.isAdmin %>
+
+
 <div class="gradient-buttons text-center">
     <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#newGroupModal">Create New Group</button>
 </div>
@@ -214,4 +209,3 @@
     </div>
   </div>
 </div>
-<% end %>

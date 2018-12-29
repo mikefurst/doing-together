@@ -52,65 +52,7 @@ class User < ApplicationRecord
     nil
   end
   
-  def score
-    @score=0
-    Activity.all.each { |act|
-      if act.userid==self.id
-        if self.groupid==nil
-          if ActivityType.find(act.actid).userid==self.id
-            @score += act.duration * ActivityType.find(act.actid).score
-          end
-        elsif self.groupid==ActivityType.find(act.actid).groupid
-          @score += act.duration * ActivityType.find(act.actid).score
-        end
-      end
-    }
-    return @score.round(4)
-  end
   
-  def lastActivity
-    @act = nil
-    
-    @acts = Activity.all.select { |ac|
-      ac.userid == self.id
-    }
-    
-    if @acts.blank?
-      return nil
-    end
-    
-    if self.groupid == nil
-      @acts = @acts.select { |ac|
-        ac.groupid == nil
-      }
-    else
-      @acts = @acts.select { |ac|
-        ac.groupid == self.groupid
-      }
-    end
-    
-    if @acts.blank?
-      return nil
-    end
-    
-    @acts = @acts.sort { |a,b| b.created_at <=> a.created_at}
-    @act = @acts[0]
-    return @act
-  end
-  
-  def groupName
-    if self.groupid==nil
-      return nil
-    else
-      return Group.find(self.groupid).name
-    end
-  end
-  def isAdmin
-    if self.groupid==nil
-      return false
-    end
-    return Group.find(self.groupid).adminid == self.id
-  end
   
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -167,8 +109,75 @@ class User < ApplicationRecord
     end
   end
   
-  def group
-    return Group.find(self.groupid)
+  def getGroups()
+    @u2g = UserToGroup.select {|u|
+      u.userid == self.id
+    }
+    @grps = Array.new
+    @u2g.each {|u|
+      @grps.push(u.getGroup())
+    }
+    return @grps
+  end
+  def inGroup(groupid)
+    UserToGroup.all.each {|u|
+      if u.userid == self.id and u.groupid == groupid
+        return true
+      end
+    }
+    return false
+  end
+  def score(grpid)
+    @score=0
+    
+    @a2u = ActivityToUser.select {|a|
+      a.userid == self.id
+    }
+    @acts = Array.new
+    @a2u.each {|a|
+      act = a.getActivity()
+      if act.groupid == grpid
+        acts.push(act)
+      end
+    }
+    @acts.each {|act|
+      scr = ActivityType.find(act.actid).score
+      @score += act.duration * scr
+    }
+    return @score.round(4)
   end
   
+  def lastActivity(grpid)
+    @a2u = ActivityToUser.select {|a|
+      a.userid == self.id
+    }
+    if @a2u.blank?
+      return nil
+    end
+    @acts = Array.new
+    @a2u.each {|a|
+      act = a.getActivity()
+      if act.groupid == grpid
+        acts.push(act)
+      end
+    }
+    @acts = @acts.sort { |a,b| b.created_at <=> a.created_at}
+    @act = @acts[0]
+    return @act
+  end
+  
+  def getGroupNames
+    @grps = self.getGroups()
+    @names = Array.new
+    @grps.each { |g|
+      @names.push(g.name)
+    }
+    return @names
+  end
+  def isAdmin(groupid)
+    @g2a = GroupToAdmin.select {|grp|
+      g.groupid == groupid and g.userid == self.id
+    }
+    return @g2a.length >= 1
+  end
 end
