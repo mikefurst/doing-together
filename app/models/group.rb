@@ -36,6 +36,19 @@ class Group < ApplicationRecord
         return @g2a
     end
     
+    def checkAdmins()
+        @g2a = GroupToAdmin.select {|g|
+            g.groupid == self.id
+        }
+        if @g2a.length <= 0
+            user = UserToGroup.select {|g|
+                g.groupid == self.id
+            }.sort{|a,b| a.created_at <=> b.created_at}[0]
+            @g = GroupToAdmin.create(:groupid => self.id, :userid => user.userid)
+            @g.save!
+        end
+    end
+    
     def lastFivePosts
         @posts = ForumPost.select {|fp|
             (fp.groupID == self.id) and (fp.isOTP)

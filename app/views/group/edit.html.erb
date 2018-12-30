@@ -22,35 +22,49 @@
                                         <tr class="curgroup">
                                             <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
                                             <td><%= @scores[user.id] %></td>
-                                            <% if user.lastActivity == nil %>
+                                            <% if user.lastActivity(@group.id) == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
                                             <% else %>
-                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <%= content_tag :td, :id =>user.lastActivity(@group.id).created_at do %>
+                                                    <%= user.lastActivity(@group.id).name %> at <%= user.lastActivity(@group.id).created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
                                                 <% end %>
                                             <% end %>
-                                            <td>You are already the group admin</td>
+                                            <td>You are a group administrator</td>
+                                            <td></td>
+                                        </tr>
+                                    <% elsif user.isAdmin(@group.id) %>
+                                        <tr class="curgroup">
+                                            <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
+                                            <td><%= @scores[user.id] %></td>
+                                            <% if user.lastActivity(@group.id) == nil %>
+                                                <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
+                                            <% else %>
+                                                <%= content_tag :td, :id =>user.lastActivity(@group.id).created_at do %>
+                                                    <%= user.lastActivity(@group.id).name %> at <%= user.lastActivity(@group.id).created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <% end %>
+                                            <% end %>
+                                            <td><%= user.full_name %> is a group administrator</td>
                                             <td></td>
                                         </tr>
                                     <% else %>
                                         <tr>
                                             <td><%= link_to user.full_name, {:controller => 'profile', :action => 'show', :id => user.id} %></td>
                                             <td><%= @scores[user.id] %></td>
-                                            <% if user.lastActivity == nil %>
+                                            <% if user.lastActivity(@group.id) == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
                                             <% else %>
-                                                <%= content_tag :td, :id =>user.lastActivity.created_at do %>
-                                                    <%= user.lastActivity.name %> at <%= user.lastActivity.created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
+                                                <%= content_tag :td, :id =>user.lastActivity(@group.id).created_at do %>
+                                                    <%= user.lastActivity(@group.id).name %> at <%= user.lastActivity(@group.id).created_at.in_time_zone("Central Time (US & Canada)").strftime("%H:%M on %a, %m/%d/%y")%>
                                                 <% end %>
                                             <% end %>
                                             <td>
                                                 <div class="gradient-buttons">
-                                                    <%= button_to "Make Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.first_name} the admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-sm btn-primary' %>
+                                                    <%= button_to "Make Admin", {:action => 'makeadmin', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to make #{user.first_name} an admin of #{@group.name}?"}, :type => 'button', :class => 'btn btn-sm btn-primary' %>
                                                 </div>
                                             </td>
                                             <td>
                                                <div class="gradient-buttons">
-                                                   <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.first_name} from #{@group.name}? This will remove you as group admin."}, :type => 'button', :class => 'btn btn-sm btn-danger' %>
+                                                   <%= button_to "Kick", {:action => 'kick', :id => @group.id, :uid => user.id}, :method => 'patch', data: {:confirm => "Are you sure you want to kick #{user.first_name} from #{@group.name}?"}, :type => 'button', :class => 'btn btn-sm btn-danger' %>
                                                </div> 
                                             </td>
                                         </tr>

@@ -250,18 +250,20 @@ class GroupController < ApplicationController
     end
     def edit
         @group = Group.find(params[:id])
-        unless current_user.id == @group.adminid
-            @admin = User.find(@group.adminid)
-            flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.full_name << "."
+        unless current_user.isAdmin(@group.id)
+            flash[:alert] = "You do not have access to edit this group. Please contact your group administrators."
             redirect_to :action => 'view', :id => params[:id]
             return
         end
-        @users = User.all.select { |u|
-            u.groupid == @group.id
+        @users = Array.new
+        UserToGroup.all.each { |u|
+            if u.groupid == @group.id
+                @users.push(u.getUser())
+            end
         }
         @scores = {}
         @users.each { |u| 
-            @scores[u.id] = u.score
+            @scores[u.id] = u.score(@group.id)
         }
         @messages = GroupMessage.select { |g|
             g.groupid == current_user.groupid
@@ -276,20 +278,23 @@ class GroupController < ApplicationController
     end
     def view
         @group = Group.find(params[:id])
-        if current_user.id == @group.adminid
+        if current_user.isAdmin(@group.id)
             redirect_to :action => 'edit', :id => params[:id]
             return
         end
-        unless current_user.groupid == @group.id
+        unless current_user.inGroup(@group.id)
             flash[:alert] = "You do not have access to this group. Please join it first."
             redirect_to :action => 'index'
         end
-        @users = User.all.select { |u|
-            u.groupid == @group.id
+        @users = Array.new
+        @u2g = UserToGroup.all.each { |u|
+            if u.groupID == @group.id
+                @users.push(u.getUser())
+            end
         }
         @scores = {}
         @users.each { |u| 
-            @scores[u.id] = u.score
+            @scores[u.id] = u.score(@group.id)
         }
         @messages = GroupMessage.select { |g|
             g.groupid == current_user.groupid
@@ -303,9 +308,9 @@ class GroupController < ApplicationController
     end
     def update
         @group = Group.find(params[:id])
-        unless current_user.groupid == @group.id
-            flash[:alert] = "You do not have access to this group. Please join it first."
-            redirect_to :action => 'index'
+        unless current_user.isAdmin(@group.id)
+            flash[:alert] = "You do not have access to edit this group."
+            redirect_to :action => 'view', :id => @group.id
         end
         @group.name=group_param[:name]
         @group.description=group_param[:description]
@@ -313,7 +318,7 @@ class GroupController < ApplicationController
             @group.password=group_param[:password]
         end
         @group.save!
-        redirect_to :action => 'index'
+        redirect_to :action => 'edit', :id => @group.id
         return
     end
     def delete
@@ -324,10 +329,14 @@ class GroupController < ApplicationController
             redirect_to :action => 'index'
             return
         else
-            User.all.each { |u|
-                if u.groupid==@group.id
-                    u.groupid=nil
-                    u.save!
+            UserToGroup.all.each {|u|
+                if u.groupid == @group.id
+                    u.delete!
+                end
+            }
+            ActivityTypeToGroup.all.each {|act|
+                if act.groupid == @group.id
+                    act.delete!
                 end
             }
             ActivityType.all.each {|act|
@@ -381,18 +390,31 @@ class GroupController < ApplicationController
     end
     def leave
         @id = params[:id]
-        @u2g = UserToGroup.select {|u|
-            u.groupid == @id and u.userid == current_user.id
+        UserToGroup.all.each {|u|
+            if u.groupid == @id and u.userid == current_user.id
+                u.delete
+            end
         }
-        @u2g.each {|u|
-            u.delete!
+        GroupToAdmin.all.each {|g|
+            if g.groupid == @id and g.userid == current_user.id
+                g.delete!
+            end
         }
+        ActivityToGroup.all.each {|act|
+            if act.groupid == @id
+                a = act.getActivity()
+                if a.userid == current_user.id
+                    a.delete
+                end
+            end
+        }
+        Group.find(@id).checkAdmins()
         flash[:alert]="You have left the group."
         redirect_to :action => 'index'
     end
     def kick
         @group = Group.find(params[:id])
-        unless current_user.id == @group.adminid
+        unless current_user.isAdmin(@group.id)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.first_name << " " << @admin.last_name << "."
             redirect_to :action => 'index'
         end
@@ -403,20 +425,20 @@ class GroupController < ApplicationController
     end
     def makeadmin
         @group = Group.find(params[:id])
-        unless current_user.id == @group.adminid
+        unless current_user.isAdmin(@group.id)
             flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.first_name << " " << @admin.last_name << "."
             redirect_to :action => 'index'
             return
         end
         @user = User.find(params[:uid])
         unless @user==nil
-            @group.adminid = @user.id
-            @group.save!
+            @g2a = GroupToAdmin.create(:groupid => @group.id, :userid => @user.id)
+            @g2a.save!
         else
             flash[:alert] = "Invalid User!"
             redirect_to :action => 'edit', :id => params[:id]
         end
-        redirect_to :action => 'view', :id => params[:id]
+        redirect_to :action => 'edit', :id => params[:id]
     end
     def submitmessage
         @messageText = params[:message]

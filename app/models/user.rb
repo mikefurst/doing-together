@@ -137,7 +137,7 @@ class User < ApplicationRecord
     @a2u.each {|a|
       act = a.getActivity()
       if act.groupid == grpid
-        acts.push(act)
+        @acts.push(act)
       end
     }
     @acts.each {|act|
@@ -158,7 +158,7 @@ class User < ApplicationRecord
     @a2u.each {|a|
       act = a.getActivity()
       if act.groupid == grpid
-        acts.push(act)
+        @acts.push(act)
       end
     }
     @acts = @acts.sort { |a,b| b.created_at <=> a.created_at}
@@ -176,7 +176,7 @@ class User < ApplicationRecord
   end
   def isAdmin(groupid)
     @g2a = GroupToAdmin.select {|grp|
-      g.groupid == groupid and g.userid == self.id
+      grp.groupid == groupid and grp.userid == self.id
     }
     return @g2a.length >= 1
   end
