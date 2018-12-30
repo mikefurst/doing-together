@@ -30,10 +30,21 @@ class Group < ApplicationRecord
     end
     
     def getAdmins()
+        @admins = Array.new
+        GroupToAdmin.all.each {|g|
+            if g.groupid == self.id
+                @admins.push(g.getUser())
+            end
+        }
+        return @admins
+    end
+    
+    def getOwner()
+        checkAdmins()
         @g2a = GroupToAdmin.select {|g|
             g.groupid == self.id
         }
-        return @g2a
+        return @g2a.sort{|a,b| a.created_at <=> b.created_at}[0]
     end
     
     def checkAdmins()

@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   patch 'group/kick'
   patch 'group/makeadmin'
   post 'group/submitmessage'
-  get 'group/getNewMessage'
+  post 'group/getNewMessage'
   post 'group/verifyUserCanBeAddedToGroup'
   post 'group/createNewInvite'
   get 'group/getInviteMessage'

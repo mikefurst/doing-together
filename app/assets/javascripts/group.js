@@ -1,3 +1,11 @@
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
 groupIndexPageOnLoad = () => {
     setGroupTableRows(1,25);
 }
@@ -237,7 +245,9 @@ loadNewMessage = () => {
             
         }
     };
-    xhttp.open("GET","/group/getNewMessage",true);
+    xhttp.open("POST","/group/getNewMessage",true);
+    let data = {};
+    data["id"] = getUrlVars()["id"];
     xhttp.send();
 };
 
@@ -256,6 +266,7 @@ submitMessage = () => {
     xhttp.open("POST","/group/submitmessage",true);
     let data = {};
     data["message"]=submitInput.value;
+    data["id"]=getUrlVars()["id"];;
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
     submitInput.value="";
@@ -333,6 +344,7 @@ checkEmail = () => {
     xhttp.open("POST","/group/verifyUserCanBeAddedToGroup",true);
     let data = {};
     data["userEmail"] = email;
+    data["id"] = getUrlVars()["id"];
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 };
@@ -359,6 +371,7 @@ createNewInvite = () => {
     let data = {};
     data["email"] = document.getElementById("userEmail").value;
     data["message"] = document.getElementById("inviteMessage").value;
+    data["id"] = getUrlVars()["id"];
     xhttp.setRequestHeader("Content-Type","application/json");
     xhttp.send(JSON.stringify(data));
 };

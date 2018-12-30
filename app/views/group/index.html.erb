@@ -37,7 +37,7 @@
                                         <td><%= group.numMembers %></td>
                                         <td>
                                             <div class="gradient-buttons">
-                                                <%= button_to "Delete", {:controller => 'group', :action =>'delete', :id => group.id}, :method => 'delete', :data => {:confirm => "Are you sure you want to delete #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
+                                                <%= button_to "Leave", {:controller => 'group', :action =>'leave', :id => group.id}, :method => 'patch', :data => {:confirm => "Are you sure you want to leave #{group.name}?"}, :type => 'button', :class => 'btn btn-lg btn-danger' %>
                                             </div>
                                         </td>
                                     <% else %>

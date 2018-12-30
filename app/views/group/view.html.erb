@@ -25,7 +25,7 @@
                                             <% elsif @scores[user.id]==0%>
                                                 <td>Has done nothing</td>
                                             <% else %>
-                                                <td><%= user.score.round(4) %></td>
+                                                <td><%= user.score(@group.id).round(4) %></td>
                                             <% end %>
                                             <% if user.lastActivity(@group.id) == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
@@ -43,9 +43,9 @@
                                             <% elsif @scores[user.id]==0%>
                                                 <td>Has done nothing</td>
                                             <% else %>
-                                                <td><%= user.score.round(4) %></td>
+                                                <td><%= user.score(@group.id).round(4) %></td>
                                             <% end %>
-                                            <% if user.lastActivity == nil %>
+                                            <% if user.lastActivity(@group.id) == nil %>
                                                 <td id="1e100000"><%= user.full_name %> has not yet participated.</td>
                                             <% else %>
                                                 <%= content_tag :td, :id =>user.lastActivity(@group.id).created_at do %>

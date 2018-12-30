@@ -50,7 +50,6 @@ class GroupController < ApplicationController
             return
         end
         @group.password=group_params[:password]
-        @group.adminid = current_user.id
         if @group.save!
             flash[:alert] = "You have created and been added to group " << group_params[:name]
             @g2a = GroupToAdmin.create(:groupid => @group.id, :userid => current_user.id)
@@ -288,7 +287,7 @@ class GroupController < ApplicationController
         end
         @users = Array.new
         @u2g = UserToGroup.all.each { |u|
-            if u.groupID == @group.id
+            if u.groupid == @group.id
                 @users.push(u.getUser())
             end
         }
@@ -297,7 +296,7 @@ class GroupController < ApplicationController
             @scores[u.id] = u.score(@group.id)
         }
         @messages = GroupMessage.select { |g|
-            g.groupid == current_user.groupid
+            g.groupid == @group.id
         }.sort {|a,b| a.timeAsInt <=> b.timeAsInt}
         unless @messages.blank?
             session["last-message"] = @messages.last.timeAsInt
@@ -323,9 +322,8 @@ class GroupController < ApplicationController
     end
     def delete
         @group = Group.find(params[:id])
-        unless current_user.id == @group.adminid
-            @admin = User.find(@group.adminid)
-            flash[:alert] = "You do not have access to edit this group. Please contact your group administrator, " << @admin.first_name << " " << @admin.last_name << "."
+        unless current_user.isAdmin(@group.id)
+            flash[:alert] = "You do not have access to edit this group. Please contact your group administrators."
             redirect_to :action => 'index'
             return
         else
@@ -336,17 +334,8 @@ class GroupController < ApplicationController
             }
             ActivityTypeToGroup.all.each {|act|
                 if act.groupid == @group.id
+                    act.getActivity().delete!
                     act.delete!
-                end
-            }
-            ActivityType.all.each {|act|
-                if act.groupid==@group.id
-                    Activity.all.each {|a|
-                        if a.actid == act.id
-                            a.destroy
-                        end
-                    }
-                    act.destroy
                 end
             }
             @group.destroy
@@ -389,26 +378,26 @@ class GroupController < ApplicationController
         end
     end
     def leave
-        @id = params[:id]
+        @group = Group.find(params[:id])
         UserToGroup.all.each {|u|
-            if u.groupid == @id and u.userid == current_user.id
-                u.delete
+            if u.groupid == @group.id and u.userid == current_user.id
+                u.destroy!
             end
         }
         GroupToAdmin.all.each {|g|
-            if g.groupid == @id and g.userid == current_user.id
-                g.delete!
+            if g.groupid == @group.id and g.userid == current_user.id
+                g.destroy!
             end
         }
         ActivityToGroup.all.each {|act|
-            if act.groupid == @id
+            if act.groupid == @group.id
                 a = act.getActivity()
                 if a.userid == current_user.id
                     a.delete
                 end
             end
         }
-        Group.find(@id).checkAdmins()
+        @group.checkAdmins()
         flash[:alert]="You have left the group."
         redirect_to :action => 'index'
     end
@@ -419,8 +408,16 @@ class GroupController < ApplicationController
             redirect_to :action => 'index'
         end
         @user = User.find(params[:uid])
-        @user.groupid = nil
-        @user.save!
+        UserToGroup.all.each {|u|
+            if u.groupid == @group.id and u.userid == @user.id
+                u.delete
+            end
+        }
+        GroupToAdmin.all.each {|g|
+            if g.groupid == @group.id and g.userid == @user.id
+                g.delete!
+            end
+        }
         redirect_to :action => 'edit', :id => params[:id]
     end
     def makeadmin
@@ -442,18 +439,20 @@ class GroupController < ApplicationController
     end
     def submitmessage
         @messageText = params[:message]
-        @message = GroupMessage.create(:userid => current_user.id, :groupid => current_user.groupid, :message => @messageText)
+        @id = params[:id]
+        @message = GroupMessage.create(:userid => current_user.id, :groupid => @id, :message => @messageText)
         @message.message = @messageText
         unless @messageText==nil or @messageText=="" or @messageText.length > 140 or @messageText.length <= 0
             @message.save!
         end
     end
     def getNewMessage
+        @id = params[:id]
         @messages = GroupMessage.select {|msg|
             if session["last-message"]==nil
-                msg.groupid == current_user.groupid
+                msg.groupid == @id
             else
-                msg.groupid == current_user.groupid and session["last-message"] < msg.timeAsInt
+                msg.groupid == @id and session["last-message"] < msg.timeAsInt
             end
         }.sort {|a,b| a.timeAsInt <=> b.timeAsInt }
         if @messages.blank?
@@ -464,7 +463,7 @@ class GroupController < ApplicationController
         end
     end
     
-    def verifyUser(email)
+    def verifyUser(email,groupid)
         if email==nil
             return "Invalid Email Entry"
         else
@@ -472,16 +471,12 @@ class GroupController < ApplicationController
             if @user == nil
                 return "User does not exist"
             end
-            unless @user.groupid == nil
-                if @user.groupid == current_user.groupid
-                    return "User is already a member of the group"
-                else
-                    return "User is already a member of a group"
-                end
+            if @user.inGroup(groupid)
+                return "User is already a member of the group"
             end
         end
         @invites = GroupInvite.select {|gInv|
-            gInv.groupID == current_user.groupid and gInv.targetID==@user.id
+            gInv.groupID == groupid and gInv.targetID==@user.id
         }
         unless @invites.blank?
             return "User has already been invited"
@@ -490,14 +485,14 @@ class GroupController < ApplicationController
     end
     
     def verifyUserCanBeAddedToGroup
-        @check = verifyUser(params[:userEmail])
+        @check = verifyUser(params[:userEmail], params[:id])
         render :status => "200", :text => @check
     end
     
     def requestNewInvite
         unless params[:groupID] == nil or params[:message] == nil or params[:message].length < 1
             @group = Group.find(params[:groupID])
-            @message = GroupInvite.create(:groupID => params[:groupID], :targetID => @group.adminid, :message => params[:message], :toJoin => false, :creatorID => current_user.id)
+            @message = GroupInvite.create(:groupID => params[:groupID], :targetID => @group.getOwner(), :message => params[:message], :toJoin => false, :creatorID => current_user.id)
             if @message.save
                 render :status => "200", :text => "Success"
             else
@@ -510,14 +505,15 @@ class GroupController < ApplicationController
     end
     
     def createNewInvite
-        unless current_user.isAdmin or params[:email]==nil or params[:message] == nil or params[:message].length < 1
+        @group = Group.find(params[:id])
+        unless current_user.isAdmin(@group.id) or params[:email]==nil or params[:message] == nil or params[:message].length < 1
             render :status => "200", :text => "Failure"
             return
         end
-        @check = verifyUser(params[:email])
+        @check = verifyUser(params[:email],params[:id])
         if @check == "User can be invited"
             @user = User.find_for_authentication(:email => params[:email])
-            @message = GroupInvite.create(:groupID => current_user.groupid, :targetID => @user.id, :message => params[:message], :toJoin => true, :creatorID => current_user.id)
+            @message = GroupInvite.create(:groupID => @group.id, :targetID => @user.id, :message => params[:message], :toJoin => true, :creatorID => current_user.id)
             if @message.save
                 render :status => "200", :text => "Success"
             else
@@ -540,20 +536,11 @@ class GroupController < ApplicationController
                 render :status => '200', :text => 'BAD'
                 return
             end
-            unless current_user.groupid == nil or current_user.isAdmin
-                @invites.each {|inv|
-                    inv.delete
-                }
-                render :status => '200', :text => 'BAD'
-                return
-            end
-            if current_user.isAdmin
-                @invites.each {|inv|
-                    if inv.toJoin 
-                        inv.delete
-                    end
-                }
-            end
+            @invites.each {|inv|
+                if current_user.inGroup(inv.groupID)
+                    inv.delete!
+                end
+            }
             @invites.sort {|a,b| 
                 a.created_at <=> b.created_at
             }
@@ -589,22 +576,17 @@ class GroupController < ApplicationController
         @group = Group.find(@invite.groupID)
         if @group == nil
             render :status => '200', :text => 'FAILURE_R'
+            return
         end
-        current_user.groupid = @group.id
-        if current_user.save
-            @invites = GroupInvite.select{ |grpInv|
-                grpInv.targetID == current_user.id
-            }
-            @invites.each {|inv|
-                inv.delete
-            }
+        @u2g = UserToGroup.create(:groupid => @group.id, :userid => current_user.id)
+        if @u2g.save
             render :status => '200', :text => 'SUCCESS_A'
         else
             render :status => '200', :text => 'FAILURE_R'
         end
     end
     def acceptRequest
-         if params[:inviteID] == nil
+        if params[:inviteID] == nil
             render :status => '200', :text => 'FAILURE_0'
             return
         end
@@ -618,14 +600,8 @@ class GroupController < ApplicationController
             render :status => '200', :text => 'FAILURE_0'
         end
         @user = User.find(@invite.creatorID)
-        @user.groupid = @group.id
-        if @user.save
-            @invites = GroupInvite.select{ |grpInv|
-                grpInv.creatorID == @user.id or grpInv.targetID == @user.id
-            }
-            @invites.each {|inv|
-                inv.delete
-            }
+        @u2g = UserToGroup.create(:userid => @user.id, :groupid => @group.id)
+        if @u2g.save
             render :status => '200', :text => 'SUCCESS_0'
         else
             render :status => '200', :text => 'FAILURE_0'
